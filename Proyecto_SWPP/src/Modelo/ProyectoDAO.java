@@ -12,9 +12,10 @@ import java.util.List;
 /**
  * Clave del programa: SWPP                                                         
  * Autor: @author olver
- * Fecha: 
- * Version: 
  * Descripción: descripción clara de lo que hace el programa
+ * Fecha: 09/06/2020
+ * Version: 1.0
+ * Descripción: 
  */
 public interface ProyectoDAO {
     /**
@@ -24,6 +25,6 @@ public interface ProyectoDAO {
      */
     public boolean create(Proyecto proyecto);
     public List<Proyecto> readAll();
-    
+    public Proyecto read();
     
 }
