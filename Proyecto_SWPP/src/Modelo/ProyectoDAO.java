@@ -13,8 +13,7 @@ import java.util.List;
  * Clave del programa: SWPP                                                         
  * Autor: @author olver
  * Fecha: 09/06/2020
- * Version: 1.0
- * Descripción: 
+ * Descripción: Interfaz que ofrece una base para una clase de acceso a base de datos
  */
 public interface ProyectoDAO {
     /**
@@ -25,5 +24,8 @@ public interface ProyectoDAO {
     public boolean create(Proyecto proyecto);
     public List<Proyecto> readAll();
     public Proyecto read();
+    public boolean update();
+    public boolean delete(ProyectoVO proyecto);
+    public boolean delete(int idProyecto);
     
 }
