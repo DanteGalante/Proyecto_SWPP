@@ -2,11 +2,15 @@ package Controlador;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBD {
+    
+    public static String driver = "com.mysql.jdbc.Driver";
+    public static String port = "3306";
     
     private Connection conn;
     private String host;
@@ -16,9 +20,8 @@ public class ConexionBD {
     
     private static ConexionBD connect;
     
-    public ConexionBD(String host, int port, String db, String username, String password) {
+    public ConexionBD(String host, String db, String username, String password) {
         //oracle.jdbc.driver.OracleDriver
-        String driver = "com.mysql.jdbc.Driver";
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";
         this.host = host;
         this.db = db;
@@ -32,7 +35,7 @@ public class ConexionBD {
         connect = this;
     }
     
-    public Connection connection() {
+    public Connection conectar() {
         try {
             return getConn();
         }catch(Exception ex){
@@ -41,15 +44,13 @@ public class ConexionBD {
         return null;
     }
 
-    public Statement query(String sQuery) throws SQLException { //PARA HACER CONSULTAS
-        Statement s = getConn().createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        s.executeQuery(sQuery);
-        return s;
+    public PreparedStatement query(String sQuery) throws SQLException { //PARA HACER CONSULTAS
+        PreparedStatement ps = getConn().prepareStatement(sQuery);
+        return ps;
     }
 
-    public Statement update(String sQuery) throws SQLException { // MODIFICACIONES EN TABLAS 
-        Statement s = getConn().createStatement();
-        s.executeUpdate(sQuery);
+    public PreparedStatement update(String sQuery) throws SQLException { // MODIFICACIONES EN TABLAS 
+        PreparedStatement s = getConn().prepareStatement(sQuery);
         return s;
     }
 
