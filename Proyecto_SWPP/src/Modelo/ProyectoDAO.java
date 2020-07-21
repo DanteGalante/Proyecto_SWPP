@@ -19,7 +19,7 @@ public interface ProyectoDAO {
     /**
      * Crea una fila nueva en la tabla Proyecto
      * @param proyecto Objeto que representa una fila de la tabla Proyecto
-     * @return booleano que indica si se pudo crear con exito una nueva fila en la tabla Proyecto con el elemento introducido
+     * @return Booleano que indica si se pudo crear con exito una nueva fila en la tabla Proyecto con el elemento introducido
      */
     public boolean create(ProyectoVO proyecto);
     /**
@@ -52,5 +52,4 @@ public interface ProyectoDAO {
      * @return booleano que indica si se pudo eliminar la fila especificada de la tabla Proyecto con éxito
      */
     public boolean delete(String nombreProyecto);
-    
 }
