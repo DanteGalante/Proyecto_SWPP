@@ -28,7 +28,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
     public boolean create(ProyectoVO proyecto){
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try{
-            String insertar = "INSERT INTO Proyecto VALUES (?,?,?,?,?,?,?,?,?)";
+            String insertar = "INSERT INTO Proyecto VALUES (?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement pst = conexBD.prepareStatement(insertar);
             
             pst.setString(1, proyecto.getNombreProyecto());
@@ -40,8 +40,9 @@ public class ProyectoDAOImp implements ProyectoDAO{
             pst.setString(7, proyecto.getAnioInicioPeriodo());
             pst.setString(8, proyecto.getMesFinalPeriodo());
             pst.setString(9, proyecto.getAnioFinalPeriodo());
+            pst.setString(10, proyecto.getNombreInstitucionVinculada());
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -60,7 +61,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
             List<ProyectoVO> listaProyectos = new ArrayList<ProyectoVO>();
             String consulta = "SELECT * FROM Proyecto";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
-            ResultSet rs = conexBD.query(pst);
+            ResultSet rs = conexBD.preparedStatementQuery(pst);
             
             while(rs.next()){
                 listaProyectos.add(
@@ -73,7 +74,8 @@ public class ProyectoDAOImp implements ProyectoDAO{
                         rs.getString("mesInicioPeriodo"),
                         rs.getString("anioInicioPeriodo"),
                         rs.getString("mesFinalPeriodo"),
-                        rs.getString("anioFinalPeriodo")
+                        rs.getString("anioFinalPeriodo"),
+                        rs.getString("nombreInstitucionVincul")
                     )
                 );
             }
@@ -98,7 +100,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
             
             pst.setString(1, nomProyecto);
             
-            ResultSet rs = conexBD.query(pst);
+            ResultSet rs = conexBD.preparedStatementQuery(pst);
             
             ProyectoVO proyecto = new ProyectoVO(
                 rs.getString("nombreProyecto"),
@@ -109,7 +111,8 @@ public class ProyectoDAOImp implements ProyectoDAO{
                 rs.getString("mesInicioPeriodo"),
                 rs.getString("anioInicioPeriodo"),
                 rs.getString("mesFinalPeriodo"),
-                rs.getString("anioFinalPeriodo")
+                rs.getString("anioFinalPeriodo"),
+                rs.getString("nombreInstitucionVincul")
             );
             
             pst.close();
@@ -137,6 +140,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
                     + "anioInicioPeriodo = ?"
                     + "mesFinalPeriodo = ?"
                     + "anioFinalPeriodo = ?"
+                    + "nombreInstitucionVincul = ?"
                     + "WHERE nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(actualizacion);
             
@@ -151,7 +155,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
             pst.setString(9, proyecto.getAnioFinalPeriodo());
             pst.setString(10, nombreProyecto);
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -172,7 +176,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
             
             pst.setString(1, proyecto.getNombreProyecto());
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -193,7 +197,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
             
             pst.setString(1, nombreProyecto);
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();

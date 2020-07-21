@@ -36,7 +36,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             pst.setString(3, estudiante.getEstatus());
             pst.setString(4, estudiante.getNRC());
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -55,7 +55,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             List<EstudianteVO> listaEstudiantes = new ArrayList<EstudianteVO>();
             String consulta = "SELECT * FROM Estudiante";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
-            ResultSet rs = conexBD.query(pst);
+            ResultSet rs = conexBD.preparedStatementQuery(pst);
             
             while(rs.next()){
                 listaEstudiantes.add(
@@ -88,7 +88,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             
             pst.setString(1, matriculaEstudiante);
             
-            ResultSet rs = conexBD.query(pst);
+            ResultSet rs = conexBD.preparedStatementQuery(pst);
             
             EstudianteVO estudiante = new EstudianteVO(
                 rs.getString("matricula"),
@@ -126,7 +126,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             pst.setString(4, estudiante.getNRC());
             pst.setString(5, matriculaEstudiante);
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -147,7 +147,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             
             pst.setString(1, estudiante.getMatricula());
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();
@@ -168,7 +168,7 @@ public class EstudianteDAOImp implements EstudianteDAO{
             
             pst.setString(1, matricula);
             
-            conexBD.update(pst);
+            conexBD.preparedStatementUpdate(pst);
             
             pst.close();
             conexBD.close();

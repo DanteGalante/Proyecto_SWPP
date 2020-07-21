@@ -58,12 +58,12 @@ public class ConexionBD {
         return s;
     }
     
-    public ResultSet query(PreparedStatement sQuery) throws SQLException { //PARA HACER CONSULTAS
+    public ResultSet preparedStatementQuery(PreparedStatement sQuery) throws SQLException { //PARA HACER CONSULTAS
         ResultSet rs = sQuery.executeQuery();
         return rs;
     }
     
-    public void update(PreparedStatement sUpdate) throws SQLException { // MODIFICACIONES EN TABLAS 
+    public void preparedStatementUpdate(PreparedStatement sUpdate) throws SQLException { // MODIFICACIONES EN TABLAS 
         sUpdate.execute();
     }
 
