@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package proyecto_swpp;
+package Controlador;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -13,19 +13,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 /**
- *
- * @author olver
+ * Clave del programa: SWPP<br>
+ * Autor: olver <br>
+ * Fecha: 20/07/2020 <br>
+ * Descripción: Controlador de la pantalla "Asociar proyecto a estudiante"
  */
 public class FXMLDocumentController implements Initializable {
     
-    @FXML
-    private Label label;
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
-    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

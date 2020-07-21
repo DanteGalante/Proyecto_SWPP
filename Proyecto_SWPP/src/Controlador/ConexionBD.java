@@ -1,3 +1,9 @@
+/*
+------------------------
+Dan Javier Olvera Villeda
+UNIVERSIDAD VERACRUZANA
+------------------------
+ */
 package Controlador;
 
 import java.sql.Connection;
@@ -7,6 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Clave del programa: SWPP <br>
+ * Autor: olver <br>
+ * Fecha: 07/20/2020 <br>
+ * Descripción: Clase que sirve para conectar la base de datos con el sistema
+ */
 public class ConexionBD {
     
     public static String driver = "com.mysql.jdbc.Driver";
@@ -17,8 +29,6 @@ public class ConexionBD {
     private String db;
     private String username;
     private String password;
-    
-    private static ConexionBD connect;
     
     public ConexionBD(String host, String db, String username, String password) {
         //oracle.jdbc.driver.OracleDriver
@@ -32,7 +42,6 @@ public class ConexionBD {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        connect = this;
     }
     
     public Connection conectar() {
@@ -44,14 +53,18 @@ public class ConexionBD {
         return null;
     }
 
-    public PreparedStatement query(String sQuery) throws SQLException { //PARA HACER CONSULTAS
-        PreparedStatement ps = getConn().prepareStatement(sQuery);
-        return ps;
-    }
-
-    public PreparedStatement update(String sQuery) throws SQLException { // MODIFICACIONES EN TABLAS 
-        PreparedStatement s = getConn().prepareStatement(sQuery);
+    public PreparedStatement prepareStatement(String statement) throws SQLException{
+        PreparedStatement s = getConn().prepareStatement(statement);
         return s;
+    }
+    
+    public ResultSet query(PreparedStatement sQuery) throws SQLException { //PARA HACER CONSULTAS
+        ResultSet rs = sQuery.executeQuery();
+        return rs;
+    }
+    
+    public void update(PreparedStatement sUpdate) throws SQLException { // MODIFICACIONES EN TABLAS 
+        sUpdate.execute();
     }
 
     public void close(Statement s) {
@@ -71,80 +84,82 @@ public class ConexionBD {
             System.err.println("Error: " + e.getMessage() + "\n" + e.getErrorCode());
         }
     }
-
-    public static ConexionBD getConnect() {
-        return connect;
-    }
-
-    public static void setConnect(ConexionBD connect) {
-        ConexionBD.connect = connect;
-    }
-
+    
     /**
-     * @return the conn
+     * Recupera la conexion con la base de datos
+     * @return La conexion a base de datos
      */
     public Connection getConn() {
         return conn;
     }
 
     /**
-     * @param conn the conn to set
+     * Establece la conexion con la base de datos
+     * @param conn La conexion con base de datos
      */
     public void setConn(Connection conn) {
         this.conn = conn;
     }
 
     /**
-     * @return the host
+     * Recupera el host de la base de datos
+     * @return Host de la base de datos
      */
     public String getHost() {
         return host;
     }
 
     /**
-     * @param host the host to set
+     * Establece el host de la base de datos
+     * @param host Host de la base de datos
      */
     public void setHost(String host) {
         this.host = host;
     }
 
     /**
-     * @return the db
+     * Recupera el nombre de la base de datos
+     * @return Nombre de la base de datos
      */
     public String getDb() {
         return db;
     }
 
     /**
-     * @param db the db to set
+     * Establece el nombre de la base de datos
+     * @param db Nombre de la base de datos
      */
     public void setDb(String db) {
         this.db = db;
     }
 
     /**
-     * @return the username
+     * Recupera el usuario de la base de datos
+     * @return El usuario de la base de datos
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * @param username the username to set
+     * Establece el usuario de la base de datos
+     * @param username El usuario de la base de datos
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * @return the password
+     * Recupera la contraseña de la conexion a la base de datos
+     * @return La contraseña de la conexion a la base de datos
      */
     public String getPassword() {
         return password;
     }
 
     /**
-     * @param password the password to set
+     * Establece la contraseña de la conexion a la base de datos
+     * @param password La contraseña de la conexion a la base de datos
      */
     public void setPassword(String password) {
         this.password = password;
