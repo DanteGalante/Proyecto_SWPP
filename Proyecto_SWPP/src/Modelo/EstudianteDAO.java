@@ -28,7 +28,7 @@ public interface EstudianteDAO {
      */
     public List<EstudianteVO> readAll();
     /**
-     * Crea un objeto, recuperando los valores de una fila específica de la tabla Expediente
+     * Crea un objeto, recuperando los valores de una fila específica de la tabla Estudiante
      * @param matriculaEstudiante Matricula del estudiante que se desea recuperar de la base de datos
      * @return Objeto con los valores de la fila que se quería recuperar
      */
@@ -48,7 +48,7 @@ public interface EstudianteDAO {
     public boolean delete(EstudianteVO estudiante);
     /**
      * Borra una fila de la tabla Estudiante, especificado por su nombre en la base de datos
-     * @param matriculaEstudiante nombre del estudiante que se desea eliminar de la base de datos
+     * @param matriculaEstudiante Matricula del estudiante que se desea eliminar de la base de datos
      * @return Booleano que indica si se pudo eliminar la fila especificada de la tabla Estudiante con éxito
      */
     public boolean delete(String matricula);

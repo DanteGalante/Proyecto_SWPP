@@ -81,4 +81,11 @@ public class PreferenciaProyectoVO {
     public void setPosicion(int posicion) {
         this.posicion = posicion;
     }
+
+    @Override
+    public String toString() {
+        return "PreferenciaProyectoVO:\n" + "matriculaEstudianteVinculado = " + matriculaEstudianteVinculado 
+                + "\nnombreProyectoVinculado = " + nombreProyectoVinculado 
+                + "\nposicion = " + posicion;
+    }
 }

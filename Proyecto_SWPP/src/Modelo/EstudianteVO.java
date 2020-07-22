@@ -24,6 +24,7 @@ public class EstudianteVO {
     private String nombre;
     /**
      * Estatus del estudiante: <br>
+     * "Trabajando" <br>
      * "Evaluado" <br>
      * "Aprobado" <br>
      * "Por aprobar" <br>
@@ -104,6 +105,14 @@ public class EstudianteVO {
      */
     public void setNRC(String NRC) {
         this.NRC = NRC;
+    }
+
+    @Override
+    public String toString() {
+        return "EstudianteVO:\n" + "matricula = " + matricula 
+               + "\nnombre = " + nombre
+               + "\nestatus = " + estatus 
+               + "\nNRC = " + NRC;
     }
     
 }

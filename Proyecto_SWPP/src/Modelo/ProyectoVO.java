@@ -224,4 +224,19 @@ public class ProyectoVO {
     public void setNombreInstitucionVinculada(String nombreInstitucionVinculada) {
         this.nombreInstitucionVinculada = nombreInstitucionVinculada;
     }
+
+    @Override
+    public String toString() {
+        return "ProyectoVO:\n" + "nombreProyecto = " + nombreProyecto 
+                + "\ndescripcion = " + descripcion 
+                + "\nestatus = " + estatus 
+                + "\nnomLiderProyecto = " + nomLiderProyecto 
+                + "\npersonasRequeridas = " + personasRequeridas 
+                + "\nmesInicioPeriodo = " + mesInicioPeriodo 
+                + "\nanioInicioPeriodo = " + anioInicioPeriodo 
+                + "\nmesFinalPeriodo = " + mesFinalPeriodo 
+                + "\nanioFinalPeriodo = " + anioFinalPeriodo 
+                + "\nnombreInstitucionVinculada = " + nombreInstitucionVinculada;
+    }
+    
 }

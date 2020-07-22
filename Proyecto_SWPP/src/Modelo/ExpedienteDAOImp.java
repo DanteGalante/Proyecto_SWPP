@@ -87,7 +87,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
     public ExpedienteVO read(String nombreProyecto, String matriculaEstudiante) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             
             pst.setString(1, matriculaEstudiante);
@@ -95,14 +95,18 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
             
             ResultSet rs = conexBD.preparedStatementQuery(pst);
             
-            ExpedienteVO expediente = new ExpedienteVO(
+            ExpedienteVO expediente = null;
+            if(rs.next()){
+                expediente = new ExpedienteVO(
                 rs.getString("estudiante_matricula"),
                 rs.getString("proyecto_nombreProyecto"),
                 rs.getString("periodo"),
                 rs.getInt("numArchivos"),
                 rs.getInt("numHrsTotales"),
                 rs.getString("cedProf_Docente")
-            );
+                );
+            }
+                
             
             pst.close();
             rs.close();
@@ -120,13 +124,13 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             String actualizacion = "UPDATE Expediente SET "
-                    + "estudiante_matricula = ?"
-                    + "proyecto_nombreProyecto = ?"
-                    + "periodo = ?"
-                    + "numArchivos = ?"
-                    + "numHrsTotales = ?"
+                    + "estudiante_matricula = ?,"
+                    + "proyecto_nombreProyecto = ?,"
+                    + "periodo = ?,"
+                    + "numArchivos = ?,"
+                    + "numHrsTotales = ?,"
                     + "cedProf_Docente = ?"
-                    + "WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+                    + "WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(actualizacion);
             
             pst.setString(1, expediente.getMatriculaEstudianteVinculado());
@@ -154,7 +158,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
     public boolean delete(ExpedienteVO expediente) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(borrar);
             
             pst.setString(1, expediente.getMatriculaEstudianteVinculado());
@@ -176,7 +180,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
     public boolean delete(String matriculaEstudiante, String nombreProyecto) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(borrar);
             
             pst.setString(1, matriculaEstudiante);
@@ -193,5 +197,4 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
             return false;
         }
     }
-
 }

@@ -11,19 +11,29 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * Clave del programa: SWPP<br>
  * Autor: olver <br>
  * Fecha: 20/07/2020 <br>
- * Descripción: Controlador de la pantalla "Asociar proyecto a estudiante"
+ * Descripción: Controlador de la pantalla "Inicio"
  */
-public class FXMLDocumentController implements Initializable {
-    
-    
+public class FXMLInicioController implements Initializable {
+    @FXML
+    private Label lbTitulo;
+    @FXML
+    private AnchorPane anPrincipal;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
     
+    public void clicAsociarProyectoEstudiante(ActionEvent e){
+        irVentanaAsociarProyectoEstudiante();
+    }
+    
+    public void irVentanaAsociarProyectoEstudiante(){
+        
+    }
 }

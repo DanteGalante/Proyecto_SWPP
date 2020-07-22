@@ -141,4 +141,14 @@ public class ExpedienteVO {
     public void setCedulaDocenteVinculado(String cedulaDocenteVinculado) {
         this.cedulaDocenteVinculado = cedulaDocenteVinculado;
     }
+
+    @Override
+    public String toString() {
+        return "ExpedienteVO:\n" + "matriculaEstudianteVinculado = " + matriculaEstudianteVinculado 
+                + "\nnombreProyectoVinculado = " + nombreProyectoVinculado 
+                + "\nperiodo = " + periodo 
+                + "\nnumeroArchivos = " + numeroArchivos 
+                + "\nnumHrsTotales = " + numHrsTotales 
+                + "\ncedulaDocenteVinculado = " + cedulaDocenteVinculado;
+    }
 }

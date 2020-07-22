@@ -10,9 +10,9 @@ package Modelo;
 import java.util.List;
 
 /**
- * Clave del programa: SWPP
- * Autor: olver
- * Fecha: 
+ * Clave del programa: SWPP <br>
+ * Autor: olver <br>
+ * Fecha: 20/07/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla Expediente
  */
 public interface ExpedienteDAO {
