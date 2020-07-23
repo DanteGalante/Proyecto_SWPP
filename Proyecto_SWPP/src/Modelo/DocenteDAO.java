@@ -7,7 +7,7 @@ UNIVERSIDAD VERACRUZANA
 
 package Modelo;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP
@@ -15,18 +15,18 @@ import java.util.List;
  * Fecha: 22/07/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla Docente
  */
-public interface DocenteDAO {
+public interface DocenteDAO{
     /**
      * Crea una fila nueva en la tabla Docente
      * @param docente Objeto que representa una fila de la tabla Docente
      * @return Booleano que indica si se pudo crear con exito una nueva fila en la tabla Docente con el elemento introducido
      */
-    public boolean create(DocenteVO docente);
+    public boolean create(DocenteVO docente) throws Exception;
     /**
      * Crea una lista con todas las filas de la tabla Docente
      * @return Lista con todas las filas de la tabla Docente
      */
-    public List<DocenteVO> readAll();
+    public ObservableList<DocenteVO> readAll();
     /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla Docente
      * @param cedulaProf Cedula profesional del docente que se desea recuperar de la base de datos

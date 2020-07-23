@@ -16,30 +16,27 @@ import org.junit.Before;
  * Clave del programa: SWPP<br>
  * Autor: olver <br>
  * Fecha: 22/07/2020 <br>
- * Descripción: Prueba unitaria de los metodos de la clase ExpedienteDAOImp<br>
+ * Descripción: Prueba unitaria de los metodos de la clase PreferenciaProyectoDAOImp<br>
  */
-public class ExpedienteDAOImp_Test {
+public class PreferenciaProyectoDAOImp_Test {
     EstudianteDAOImp estudianteDAOTest;
     EstudianteVO estudianteTest;
-    DocenteDAOImp docenteDAOTest;
-    DocenteVO docenteTest;
+
     InstitucionVinculadaDAOImp institucionDAOTest;
     InstitucionVinculadaVO institucionTest;
+
     ProyectoDAOImp proyectoDAOTest;
     ProyectoVO proyectoTest;
-    ExpedienteDAOImp expedienteDAO;
-    ExpedienteVO expediente;
     
+    PreferenciaProyectoDAOImp preferenciaProyectoDAO;
+    PreferenciaProyectoVO preferenciaProyecto;
     
     @Before
     public void previo(){
+        
         estudianteDAOTest = new EstudianteDAOImp();
         estudianteTest = new EstudianteVO("matriculaEstudiante","Nombre del estudiante","Estatus del estudiante","NRC del estudiante");
         estudianteDAOTest.create(estudianteTest);
-        
-        docenteDAOTest = new DocenteDAOImp();
-        docenteTest = new DocenteVO("cedulaDocente","Nombre","GrupoNRC");
-        docenteDAOTest.create(docenteTest);
         
         institucionDAOTest = new InstitucionVinculadaDAOImp();
         institucionTest = new InstitucionVinculadaVO("nombreInstitucionVinculada","direccion","sector","correoElectronico");
@@ -49,25 +46,25 @@ public class ExpedienteDAOImp_Test {
         proyectoTest = new ProyectoVO("nombreProyecto","Descripcion del proyecto","Estatus del proyecto","Nombre del lider de proyecto",0,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo","nombreInstitucionVinculada");
         proyectoDAOTest.create(proyectoTest);
         
-        expedienteDAO = new ExpedienteDAOImp();
-        expediente = new ExpedienteVO("matriculaEstudiante","nombreProyecto","Periodo",3,100,"CedulaDocente");
-        expedienteDAO.create(expediente);
+        preferenciaProyectoDAO = new PreferenciaProyectoDAOImp();
+        preferenciaProyecto = new PreferenciaProyectoVO("matriculaEstudiante","nombreProyecto",1);
+        preferenciaProyectoDAO.create(preferenciaProyecto);
     }
-    /*
+    
     @Test
     public void testCreate(){
-        expedienteDAO.delete(expediente);
+        preferenciaProyectoDAO.delete(preferenciaProyecto);
     
-        boolean resultado = expedienteDAO.create(expediente);
+        boolean resultado = preferenciaProyectoDAO.create(preferenciaProyecto);
     
         assertTrue(resultado);
     }
-    */
+    
     /*
     @Test
     public void testReadAll(){
-        ObservableList<ExpedienteVO> listaPrueba = null;
-        listaPrueba = expedienteDAO.readAll();
+        ObservableList<PreferenciaProyectoVO> listaPrueba = null;
+        listaPrueba = preferenciaProyectoDAO.readAll();
         boolean resultado;
         
         if(listaPrueba.isEmpty() || listaPrueba == null){
@@ -83,47 +80,46 @@ public class ExpedienteDAOImp_Test {
     /*
     @Test
     public void testRead(){
-        ExpedienteVO expedienteRecuperado = expedienteDAO.read("nombreProyecto","matriculaEstudiante");
+        PreferenciaProyectoVO preferenciaProyectoRecuperado = preferenciaProyectoDAO.read("nombreProyecto","matriculaEstudiante");
         boolean resultado;
         
-        resultado = expedienteRecuperado != null;
+        resultado = preferenciaProyectoRecuperado != null;
         
-        System.out.println(expedienteRecuperado);
+        System.out.println(preferenciaProyectoRecuperado);
         assertTrue(resultado);
     }
     */
     /*
     @Test
     public void testUpdate(){
-        ExpedienteVO expedienteActualizado = new ExpedienteVO(expediente.getMatriculaEstudianteVinculado(),expediente.getNombreProyectoVinculado(),"Nuevo periodo",4,1,expediente.getCedulaDocenteVinculado());
+        PreferenciaProyectoVO preferenciaProyectoActualizado = new PreferenciaProyectoVO(preferenciaProyecto.getMatriculaEstudianteVinculado(),preferenciaProyecto.getNombreProyectoVinculado(),4);
         
-        boolean resultado = expedienteDAO.update("matriculaEstudiante","nombreProyecto", expedienteActualizado);
+        boolean resultado = preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante", preferenciaProyectoActualizado);
         
-        System.out.println(expedienteDAO.read("nombreProyecto", "matriculaEstudiante"));
-        expedienteDAO.update("matriculaEstudiante","nombreProyecto",expediente);
+        System.out.println(preferenciaProyectoDAO.read("nombreProyecto", "matriculaEstudiante"));
+        preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante",preferenciaProyecto);
         assertTrue(resultado);
     }
     */
     /*
     @Test
     public void testDelete(){
-        boolean resultado = expedienteDAO.delete(expediente);
-        expedienteDAO.create(expediente);
+        boolean resultado = preferenciaProyectoDAO.delete(preferenciaProyecto);
+        preferenciaProyectoDAO.create(preferenciaProyecto);
         assertTrue(resultado);
     }
     */
-    
+    /*
     @Test
-    public void testDelete(){
-        boolean resultado = expedienteDAO.delete("matriculaEstudiante", "nombreProyecto");
-        expedienteDAO.create(expediente);
+    public void testDelete2(){
+        boolean resultado = preferenciaProyectoDAO.delete("nombreProyecto", "matriculaEstudiante");
+        preferenciaProyectoDAO.create(preferenciaProyecto);
         assertTrue(resultado);
     }
-    
+    */
     @After
     public void despues(){
-        expedienteDAO.delete(expediente);
-        docenteDAOTest.delete(docenteTest);
+        preferenciaProyectoDAO.delete(preferenciaProyecto);
         estudianteDAOTest.delete(estudianteTest);
         proyectoDAOTest.delete(proyectoTest);
         institucionDAOTest.delete(institucionTest);

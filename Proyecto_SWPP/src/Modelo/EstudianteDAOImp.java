@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP<br>
@@ -49,10 +51,10 @@ public class EstudianteDAOImp implements EstudianteDAO{
     }
 
     @Override
-    public List<EstudianteVO> readAll() {
+    public ObservableList<EstudianteVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<EstudianteVO> listaEstudiantes = new ArrayList<EstudianteVO>();
+            ObservableList<EstudianteVO> listaEstudiantes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Estudiante";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);

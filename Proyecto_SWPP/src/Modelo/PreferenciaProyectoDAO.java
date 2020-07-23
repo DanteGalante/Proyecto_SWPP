@@ -7,7 +7,7 @@ UNIVERSIDAD VERACRUZANA
 
 package Modelo;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP
@@ -26,13 +26,13 @@ public interface PreferenciaProyectoDAO {
      * Crea una lista con todas las filas de la tabla PreferenciaProyecto
      * @return Lista con todas las filas de la tabla PreferenciaProyecto
      */
-    public List<PreferenciaProyectoVO> readAll();
+    public ObservableList<PreferenciaProyectoVO> readAll();
     /**
      * Crea una lista con todas las filas de la tabla PreferenciaProyecto que sean de un estudiante específico
      * @param matriculaEstudiante Matricula del estudiante que eligio los proyectos
      * @return Lista con todas las filas de la tabla PreferenciaProyecto
      */
-    public List<PreferenciaProyectoVO> readAll(String matriculaEstudiante);
+    public ObservableList<PreferenciaProyectoVO> readAll(String matriculaEstudiante);
     /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla PreferenciaProyecto
      * @param nombreProyecto Nombre del proyecto elegido por el estudiante

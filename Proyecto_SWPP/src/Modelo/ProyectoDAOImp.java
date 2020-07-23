@@ -11,10 +11,10 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP <br>
@@ -55,10 +55,10 @@ public class ProyectoDAOImp implements ProyectoDAO{
     }
 
     @Override
-    public List<ProyectoVO> readAll() {
+    public ObservableList<ProyectoVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<ProyectoVO> listaProyectos = new ArrayList<ProyectoVO>();
+            ObservableList<ProyectoVO> listaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Proyecto";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);
@@ -102,7 +102,9 @@ public class ProyectoDAOImp implements ProyectoDAO{
             
             ResultSet rs = conexBD.preparedStatementQuery(pst);
             
-            ProyectoVO proyecto = new ProyectoVO(
+            ProyectoVO proyecto = new ProyectoVO();
+            if(rs.next()){
+                proyecto = new ProyectoVO(
                 rs.getString("nombreProyecto"),
                 rs.getString("descripcion"),
                 rs.getString("estatus"),
@@ -113,7 +115,9 @@ public class ProyectoDAOImp implements ProyectoDAO{
                 rs.getString("mesFinalPeriodo"),
                 rs.getString("anioFinalPeriodo"),
                 rs.getString("nombreInstitucionVincul")
-            );
+                );
+            }
+            
             
             pst.close();
             rs.close();
@@ -131,15 +135,15 @@ public class ProyectoDAOImp implements ProyectoDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             String actualizacion = "UPDATE Proyecto SET "
-                    + "nombreProyecto = ?"
-                    + "descripcion = ?"
-                    + "estatus = ?"
-                    + "nomLIderProyecto = ?"
-                    + "personasRequeridas = ?"
-                    + "mesInicioPeriodo = ?"
-                    + "anioInicioPeriodo = ?"
-                    + "mesFinalPeriodo = ?"
-                    + "anioFinalPeriodo = ?"
+                    + "nombreProyecto = ?,"
+                    + "descripcion = ?,"
+                    + "estatus = ?,"
+                    + "nomLIderProyecto = ?,"
+                    + "personasRequeridas = ?,"
+                    + "mesInicioPeriodo = ?,"
+                    + "anioInicioPeriodo = ?,"
+                    + "mesFinalPeriodo = ?,"
+                    + "anioFinalPeriodo = ?,"
                     + "nombreInstitucionVincul = ?"
                     + "WHERE nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(actualizacion);
@@ -153,7 +157,8 @@ public class ProyectoDAOImp implements ProyectoDAO{
             pst.setString(7, proyecto.getAnioInicioPeriodo());
             pst.setString(8, proyecto.getMesFinalPeriodo());
             pst.setString(9, proyecto.getAnioFinalPeriodo());
-            pst.setString(10, nombreProyecto);
+            pst.setString(10, proyecto.getNombreInstitucionVinculada());
+            pst.setString(11, nombreProyecto);
             
             conexBD.preparedStatementUpdate(pst);
             

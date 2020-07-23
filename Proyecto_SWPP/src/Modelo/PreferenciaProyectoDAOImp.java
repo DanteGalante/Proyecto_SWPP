@@ -11,10 +11,10 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: <br>
@@ -48,10 +48,10 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public List<PreferenciaProyectoVO> readAll() {
+    public ObservableList<PreferenciaProyectoVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<PreferenciaProyectoVO> listaPreferenciaProyectos = new ArrayList<PreferenciaProyectoVO>();
+            ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM PreferenciaProyecto";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);
@@ -78,10 +78,10 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public List<PreferenciaProyectoVO> readAll(String matriculaEstudiante) {
+    public ObservableList<PreferenciaProyectoVO> readAll(String matriculaEstudiante) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<PreferenciaProyectoVO> listaPreferenciaProyectos = new ArrayList<PreferenciaProyectoVO>();
+            ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM PreferenciaProyecto WHERE matriculaEstudiante = ?";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             
@@ -114,7 +114,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     public PreferenciaProyectoVO read(String nombreProyecto, String matriculaEstudiante) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             
             pst.setString(1, matriculaEstudiante);
@@ -122,11 +122,14 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
             
             ResultSet rs = conexBD.preparedStatementQuery(pst);
             
-            PreferenciaProyectoVO preferenciaProyecto = new PreferenciaProyectoVO(
+            PreferenciaProyectoVO preferenciaProyecto = new PreferenciaProyectoVO();
+            if(rs.next()){
+                preferenciaProyecto = new PreferenciaProyectoVO(
                 rs.getString("estudiante_matricula"),
                 rs.getString("proyecto_nombreProyecto"),
                 rs.getInt("posicion")
-            );
+                );
+            }
             
             pst.close();
             rs.close();
@@ -144,15 +147,15 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             String actualizacion = "UPDATE PreferenciaProyecto SET "
-                    + "estudiante_matricula = ?"
-                    + "proyecto_nombreProyecto = ?"
+                    + "estudiante_matricula = ?,"
+                    + "proyecto_nombreProyecto = ?,"
                     + "posicion = ?";
             
             PreparedStatement pst = conexBD.prepareStatement(actualizacion);
             
             pst.setString(1, preferenciaProyecto.getMatriculaEstudianteVinculado());
             pst.setString(2, preferenciaProyecto.getNombreProyectoVinculado());
-            pst.setInt(5, preferenciaProyecto.getPosicion());
+            pst.setInt(3, preferenciaProyecto.getPosicion());
             
             conexBD.preparedStatementUpdate(pst);
             
@@ -170,7 +173,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     public boolean delete(PreferenciaProyectoVO preferenciaProyecto) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(borrar);
             
             pst.setString(1, preferenciaProyecto.getMatriculaEstudianteVinculado());
@@ -192,7 +195,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     public boolean delete(String nombreProyecto, String matriculaEstudiante) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ?, proyecto_nombreProyecto = ?";
+            String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
             PreparedStatement pst = conexBD.prepareStatement(borrar);
             
             pst.setString(1, matriculaEstudiante);

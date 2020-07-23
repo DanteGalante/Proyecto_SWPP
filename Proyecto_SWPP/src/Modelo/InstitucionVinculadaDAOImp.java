@@ -11,10 +11,10 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: <br>
@@ -49,10 +49,10 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
     }
 
     @Override
-    public List<InstitucionVinculadaVO> readAll() {
+    public ObservableList<InstitucionVinculadaVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<InstitucionVinculadaVO> listaInstituciones = new ArrayList<InstitucionVinculadaVO>();
+            ObservableList<InstitucionVinculadaVO> listaInstituciones = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM InstitucionVinculada";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);

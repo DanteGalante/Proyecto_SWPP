@@ -7,7 +7,7 @@ UNIVERSIDAD VERACRUZANA
 
 package Modelo;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP <br>
@@ -26,7 +26,7 @@ public interface ExpedienteDAO {
      * Crea una lista con todas las filas de la tabla Expediente
      * @return Lista con todas las filas de la tabla Expediente
      */
-    public List<ExpedienteVO> readAll();
+    public ObservableList<ExpedienteVO> readAll();
     /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla Expediente
      * @param nombreProyecto nombre del proyecto vinculado con el expediente que se desea recuperar de la base de datos

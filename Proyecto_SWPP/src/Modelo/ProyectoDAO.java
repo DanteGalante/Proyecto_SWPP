@@ -7,7 +7,7 @@
 
 package Modelo;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP <br>                                                      
@@ -26,7 +26,7 @@ public interface ProyectoDAO {
      * Crea una lista con todas las filas de la tabla Proyecto
      * @return Lista con todas las filas de la tabla Proyecto
      */
-    public List<ProyectoVO> readAll();
+    public ObservableList<ProyectoVO> readAll();
     /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla Proyecto
      * @param nombreProyecto Nombre del proyecto que se desea recuperar de la base de datos

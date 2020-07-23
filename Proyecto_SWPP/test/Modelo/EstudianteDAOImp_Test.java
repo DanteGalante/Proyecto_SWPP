@@ -6,15 +6,17 @@ UNIVERSIDAD VERACRUZANA
  */
 package Modelo;
 
-import java.util.List;
+import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
 
 /**
- *
- * @author olver
+ * Clave del programa: SWPP<br>
+ * Autor: olver <br>
+ * Fecha: 22/07/2020 <br>
+ * Descripción: Prueba unitaria de los metodos de la clase EstudianteDAOImp<br>
  */
 public class EstudianteDAOImp_Test {
     EstudianteDAOImp estudianteDAO;
@@ -39,7 +41,7 @@ public class EstudianteDAOImp_Test {
     /*
     @Test
     public void testReadAll(){
-        List<EstudianteVO> listaPrueba = null;
+        ObservableList<EstudianteVO> listaPrueba = null;
         listaPrueba = estudianteDAO.readAll();
         boolean resultado;
         
@@ -74,14 +76,14 @@ public class EstudianteDAOImp_Test {
         assertTrue(resultado);
     }
     */
-    /*
+    
     @Test
     public void testDelete(){
         boolean resultado = estudianteDAO.delete(estudiante);
         estudianteDAO.create(estudiante);
         assertTrue(resultado);
     }
-    */
+    
     /*
     @Test
     public void testDelete(){

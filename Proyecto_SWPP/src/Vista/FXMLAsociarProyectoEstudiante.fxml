@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="479.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controlador.FXMLAsociarProyectoEstudianteController">
+   <children>
+      <GridPane alignment="TOP_CENTER" layoutY="73.0" prefHeight="381.0" prefWidth="1000.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="282.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="633.0" minWidth="10.0" prefWidth="546.0" />
+            <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="229.0" minWidth="10.0" prefWidth="158.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="118.0" minHeight="0.0" prefHeight="26.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="355.0" minHeight="10.0" prefHeight="355.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Estudiantes:">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <TableView fx:id="tbEstudiantes" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+              <columns>
+                <TableColumn fx:id="tcMatriculaEstudiante" prefWidth="112.0" text="Matricula" />
+                <TableColumn fx:id="tcNombreEstudiante" prefWidth="175.0" text="Nombre" />
+              </columns>
+            </TableView>
+            <Label text="Proyectos:" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="20.0" />
+               </GridPane.margin>
+            </Label>
+            <TableView fx:id="tbProyectos" prefHeight="355.0" prefWidth="478.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+              <columns>
+                <TableColumn fx:id="tcNombreProyecto" prefWidth="202.0" text="Nombre" />
+                <TableColumn fx:id="tcDescripcionProyecto" prefWidth="286.0" text="Descripcion" />
+                  <TableColumn fx:id="tcNumEstudiantesSolicitados" prefWidth="47.0" text="# Est" />
+              </columns>
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </TableView>
+            <Label text="Seleccion de estudiante:" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="lbPreferenciaProyectos" alignment="TOP_LEFT" prefHeight="335.0" prefWidth="140.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" />
+               </GridPane.margin>
+            </Label>
+         </children>
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </GridPane>
+      <Button layoutX="32.0" layoutY="29.0" mnemonicParsing="false" text="Asociar" />
+      <Button layoutX="94.0" layoutY="29.0" mnemonicParsing="false" text="Salir" />
+   </children>
+</AnchorPane>

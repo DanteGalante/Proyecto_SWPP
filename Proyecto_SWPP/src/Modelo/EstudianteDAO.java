@@ -8,6 +8,7 @@ UNIVERSIDAD VERACRUZANA
 package Modelo;
 
 import java.util.List;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP
@@ -26,7 +27,7 @@ public interface EstudianteDAO {
      * Crea una lista con todas las filas de la tabla Estudiante
      * @return Lista con todas las filas de la tabla Estudiante
      */
-    public List<EstudianteVO> readAll();
+    public ObservableList<EstudianteVO> readAll();
     /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla Estudiante
      * @param matriculaEstudiante Matricula del estudiante que se desea recuperar de la base de datos
@@ -48,7 +49,7 @@ public interface EstudianteDAO {
     public boolean delete(EstudianteVO estudiante);
     /**
      * Borra una fila de la tabla Estudiante, especificado por su nombre en la base de datos
-     * @param matriculaEstudiante Matricula del estudiante que se desea eliminar de la base de datos
+     * @param matricula Matricula del estudiante que se desea eliminar de la base de datos
      * @return Booleano que indica si se pudo eliminar la fila especificada de la tabla Estudiante con éxito
      */
     public boolean delete(String matricula);

@@ -11,10 +11,10 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: <br>
@@ -48,10 +48,10 @@ public class DocenteDAOImp implements DocenteDAO{
     }
 
     @Override
-    public List<DocenteVO> readAll() {
+    public ObservableList<DocenteVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<DocenteVO> listaDocentes = new ArrayList<DocenteVO>();
+            ObservableList<DocenteVO> listaDocentes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Docente";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);

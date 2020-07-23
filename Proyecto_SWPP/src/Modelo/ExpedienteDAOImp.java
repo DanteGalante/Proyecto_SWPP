@@ -11,10 +11,10 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * Clave del programa: SWPP<br>
@@ -51,10 +51,10 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
     }
 
     @Override
-    public List<ExpedienteVO> readAll() {
+    public ObservableList<ExpedienteVO> readAll() {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
-            List<ExpedienteVO> listaExpedientes = new ArrayList<ExpedienteVO>();
+            ObservableList<ExpedienteVO> listaExpedientes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Expediente";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             ResultSet rs = conexBD.preparedStatementQuery(pst);
