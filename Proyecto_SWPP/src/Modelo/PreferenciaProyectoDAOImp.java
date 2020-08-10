@@ -82,24 +82,21 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = FXCollections.observableArrayList();
-            String consulta = "SELECT * FROM PreferenciaProyecto WHERE matriculaEstudiante = ?";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            
-            pst.setString(1, matriculaEstudiante);
-            
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            while(rs.next()){
-                listaPreferenciaProyectos.add(
-                    new PreferenciaProyectoVO(
-                        rs.getString("estudiante_matricula"),
-                        rs.getString("proyecto_nombreProyecto"),
-                        rs.getInt("posicion")
-                    )
-                );
+            String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ?";
+            ResultSet rs;
+            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
+                pst.setString(1, matriculaEstudiante);
+                rs = conexBD.preparedStatementQuery(pst);
+                while(rs.next()){
+                    listaPreferenciaProyectos.add(
+                            new PreferenciaProyectoVO(
+                                    rs.getString("estudiante_matricula"),
+                                    rs.getString("proyecto_nombreProyecto"),
+                                    rs.getInt("posicion")
+                            )
+                    );
+                }
             }
-            
-            pst.close();
             rs.close();
             conexBD.close();
             return listaPreferenciaProyectos;

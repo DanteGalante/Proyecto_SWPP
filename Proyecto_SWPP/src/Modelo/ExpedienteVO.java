@@ -8,9 +8,9 @@ UNIVERSIDAD VERACRUZANA
 package Modelo;
 
 /**
- * Clave del programa: SWPP
- * Autor: olver
- * Fecha: 19/07/2020
+ * Clave del programa: SWPP <br>
+ * Autor: olver <br>
+ * Fecha: 19/07/2020 <br>
  * Descripción:Clase que representa a la tabla Expediente de la base de datos 
  */
 public class ExpedienteVO {

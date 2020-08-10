@@ -6,6 +6,8 @@ UNIVERSIDAD VERACRUZANA
  */
 package Modelo;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Test;
@@ -24,20 +26,29 @@ public class EstudianteDAOImp_Test {
     
     @Before
     public void previo(){
-        estudianteDAO = new EstudianteDAOImp();
-        estudiante = new EstudianteVO("S18012181","Dan Javier Olvera Villeda","Aprobado","74286");
-        estudianteDAO.create(estudiante);
+        try {
+            estudianteDAO = new EstudianteDAOImp();
+            estudiante = new EstudianteVO("S18012181","Dan Javier Olvera Villeda","Aprobado","74286");
+            estudianteDAO.create(estudiante);
+        } catch (Exception ex) {
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    /*
+    
     @Test
     public void testCreate(){
         estudianteDAO.delete(estudiante);
-    
-        boolean resultado = estudianteDAO.create(estudiante);
+        boolean resultado = false;
+        
+        try {
+            resultado = estudianteDAO.create(estudiante);
+        } catch (Exception ex) {
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
         assertTrue(resultado);
     }
-    */
+    
     /*
     @Test
     public void testReadAll(){
@@ -76,14 +87,18 @@ public class EstudianteDAOImp_Test {
         assertTrue(resultado);
     }
     */
-    
+    /*
     @Test
     public void testDelete(){
-        boolean resultado = estudianteDAO.delete(estudiante);
-        estudianteDAO.create(estudiante);
-        assertTrue(resultado);
+        try {
+            boolean resultado = estudianteDAO.delete(estudiante);
+            estudianteDAO.create(estudiante);
+            assertTrue(resultado);
+        } catch (Exception ex) {
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+    */
     /*
     @Test
     public void testDelete(){

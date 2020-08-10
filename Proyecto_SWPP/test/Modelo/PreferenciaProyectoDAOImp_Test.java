@@ -6,6 +6,8 @@ UNIVERSIDAD VERACRUZANA
  */
 package Modelo;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Test;
@@ -34,23 +36,27 @@ public class PreferenciaProyectoDAOImp_Test {
     @Before
     public void previo(){
         
-        estudianteDAOTest = new EstudianteDAOImp();
-        estudianteTest = new EstudianteVO("matriculaEstudiante","Nombre del estudiante","Estatus del estudiante","NRC del estudiante");
-        estudianteDAOTest.create(estudianteTest);
-        
-        institucionDAOTest = new InstitucionVinculadaDAOImp();
-        institucionTest = new InstitucionVinculadaVO("nombreInstitucionVinculada","direccion","sector","correoElectronico");
-        institucionDAOTest.create(institucionTest);
-        
-        proyectoDAOTest = new ProyectoDAOImp();
-        proyectoTest = new ProyectoVO("nombreProyecto","Descripcion del proyecto","Estatus del proyecto","Nombre del lider de proyecto",0,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo","nombreInstitucionVinculada");
-        proyectoDAOTest.create(proyectoTest);
-        
-        preferenciaProyectoDAO = new PreferenciaProyectoDAOImp();
-        preferenciaProyecto = new PreferenciaProyectoVO("matriculaEstudiante","nombreProyecto",1);
-        preferenciaProyectoDAO.create(preferenciaProyecto);
+        try {
+            estudianteDAOTest = new EstudianteDAOImp();
+            estudianteTest = new EstudianteVO("matriculaEstudiante","Nombre del estudiante","Estatus del estudiante","NRC del estudiante");
+            estudianteDAOTest.create(estudianteTest);
+            
+            institucionDAOTest = new InstitucionVinculadaDAOImp();
+            institucionTest = new InstitucionVinculadaVO("nombreInstitucionVinculada","direccion","sector","correoElectronico");
+            institucionDAOTest.create(institucionTest);
+            
+            proyectoDAOTest = new ProyectoDAOImp();
+            proyectoTest = new ProyectoVO("nombreProyecto","Descripcion del proyecto","Estatus del proyecto","Nombre del lider de proyecto",0,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo","nombreInstitucionVinculada");
+            proyectoDAOTest.create(proyectoTest);
+            
+            preferenciaProyectoDAO = new PreferenciaProyectoDAOImp();
+            preferenciaProyecto = new PreferenciaProyectoVO("matriculaEstudiante","nombreProyecto",1);
+            preferenciaProyectoDAO.create(preferenciaProyecto);
+        } catch (Exception ex) {
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+    /*
     @Test
     public void testCreate(){
         preferenciaProyectoDAO.delete(preferenciaProyecto);
@@ -59,7 +65,7 @@ public class PreferenciaProyectoDAOImp_Test {
     
         assertTrue(resultado);
     }
-    
+    */
     /*
     @Test
     public void testReadAll(){
@@ -77,6 +83,21 @@ public class PreferenciaProyectoDAOImp_Test {
         assertTrue(resultado);
     }
     */
+    @Test
+    public void testReadAllConMatricula(){
+        ObservableList<PreferenciaProyectoVO> listaPrueba = null;
+        listaPrueba = preferenciaProyectoDAO.readAll(estudianteTest.getMatricula());
+        boolean resultado;
+        
+        if(listaPrueba.isEmpty() || listaPrueba == null){
+            resultado = false;
+        }else{
+            System.out.println(listaPrueba.get(0));
+            resultado = true;
+        }
+        
+        assertTrue(resultado);
+    }
     /*
     @Test
     public void testRead(){

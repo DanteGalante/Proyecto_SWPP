@@ -27,27 +27,26 @@ import javafx.collections.ObservableList;
 public class EstudianteDAOImp implements EstudianteDAO{
 
     @Override
-    public boolean create(EstudianteVO estudiante) {
+    public boolean create(EstudianteVO estudiante) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try{
             String insertar = "INSERT INTO Estudiante VALUES (?,?,?,?)";
-            PreparedStatement pst = conexBD.prepareStatement(insertar);
-            
-            pst.setString(1, estudiante.getMatricula());
-            pst.setString(2, estudiante.getNombre());
-            pst.setString(3, estudiante.getEstatus());
-            pst.setString(4, estudiante.getNRC());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
-            return true;
+            try (PreparedStatement pst = conexBD.prepareStatement(insertar)) {
+                pst.setString(1, estudiante.getMatricula());
+                pst.setString(2, estudiante.getNombre());
+                pst.setString(3, estudiante.getEstatus());
+                pst.setString(4, estudiante.getNRC());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
         }catch(SQLException ex){
-            Logger.getLogger(EstudianteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override
@@ -71,6 +70,38 @@ public class EstudianteDAOImp implements EstudianteDAO{
             }
             
             pst.close();
+            rs.close();
+            conexBD.close();
+            return listaEstudiantes;
+        } catch (SQLException ex) {
+            Logger.getLogger(EstudianteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            conexBD.close();
+            return null;
+        }
+    }
+
+    @Override
+    public ObservableList<EstudianteVO> readAll(String estatus) throws Exception {
+        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        try {
+            ObservableList<EstudianteVO> listaEstudiantes = FXCollections.observableArrayList();
+            String consulta = "SELECT * FROM Estudiante WHERE estatus = ?";
+            ResultSet rs;
+            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
+                pst.setString(1, estatus);
+                
+                rs = conexBD.preparedStatementQuery(pst);
+                while(rs.next()){
+                    listaEstudiantes.add(
+                            new EstudianteVO(
+                                    rs.getString("matricula"),
+                                    rs.getString("nombre"),
+                                    rs.getString("estatus"),
+                                    rs.getString("nrc")
+                            )
+                    );
+                }
+            }
             rs.close();
             conexBD.close();
             return listaEstudiantes;
@@ -184,5 +215,4 @@ public class EstudianteDAOImp implements EstudianteDAO{
             return false;
         }
     }
-
 }

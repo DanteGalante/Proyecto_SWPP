@@ -28,6 +28,12 @@ public interface ProyectoDAO {
      */
     public ObservableList<ProyectoVO> readAll();
     /**
+     * Crea una lista con todas las filas de la tabla Proyecto
+     * @param estatus Estatus del proyecto que se desea actualizar en la base de datos
+     * @return Lista con todas las filas de la tabla Proyecto
+     */
+    public ObservableList<ProyectoVO> readAll(String estatus);
+    /**
      * Crea un objeto, recuperando los valores de una fila específica de la tabla Proyecto
      * @param nombreProyecto Nombre del proyecto que se desea recuperar de la base de datos
      * @return Objeto con los valores de la fila que se quería recuperar

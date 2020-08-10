@@ -90,6 +90,43 @@ public class ProyectoDAOImp implements ProyectoDAO{
             return null;
         }
     }
+    
+    @Override
+    public ObservableList<ProyectoVO> readAll(String estatus) {
+        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        try {
+            ObservableList<ProyectoVO> listaProyectos = FXCollections.observableArrayList();
+            String consulta = "SELECT * FROM Proyecto WHERE estatus = ?";
+            ResultSet rs;
+            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
+                pst.setString(1, estatus);
+                rs = conexBD.preparedStatementQuery(pst);
+                while(rs.next()){
+                    listaProyectos.add(
+                            new ProyectoVO(
+                                    rs.getString("nombreProyecto"),
+                                    rs.getString("descripcion"),
+                                    rs.getString("estatus"),
+                                    rs.getString("nomLiderProyecto"),
+                                    rs.getInt("personasRequeridas"),
+                                    rs.getString("mesInicioPeriodo"),
+                                    rs.getString("anioInicioPeriodo"),
+                                    rs.getString("mesFinalPeriodo"),
+                                    rs.getString("anioFinalPeriodo"),
+                                    rs.getString("nombreInstitucionVincul")
+                            )
+                    );
+                }
+            }
+            rs.close();
+            conexBD.close();
+            return listaProyectos;
+        } catch (SQLException ex) {
+            Logger.getLogger(ProyectoDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            conexBD.close();
+            return null;
+        }
+    }
 
     @Override
     public ProyectoVO read(String nomProyecto) {
@@ -213,5 +250,4 @@ public class ProyectoDAOImp implements ProyectoDAO{
             return false;
         }
     }
-
 }
