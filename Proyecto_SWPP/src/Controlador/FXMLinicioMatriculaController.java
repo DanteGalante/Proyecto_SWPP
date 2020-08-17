@@ -70,7 +70,7 @@ public class FXMLinicioMatriculaController implements Initializable {
     public void confirmarMatricula(){
         try {
             EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-            estudianteInicio = estudianteDAO.readTrabajando(tfInicioMatricula.getText());
+            estudianteInicio = estudianteDAO.read(tfInicioMatricula.getText());
             if(estudianteInicio.getMatricula().equals(tfInicioMatricula.getText()))
                 irEntregarReporte();
         } catch (Exception ex) {
