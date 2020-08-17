@@ -70,13 +70,16 @@ public class FXMLinicioMatriculaController implements Initializable {
     public void confirmarMatricula(){
         try {
             EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-            estudianteInicio = estudianteDAO.readTrabajando(tfInicioMatricula.getText());
-            if(estudianteInicio.getMatricula().equals(tfInicioMatricula.getText()))
+            estudianteInicio = estudianteDAO.read(tfInicioMatricula.getText());
+            if(estudianteInicio != null && estudianteInicio.getEstatus().equals("Trabajando"))
                 irEntregarReporte();
+            else{
+                Alert alert = new Alert(AlertType.ERROR, "Ingrese una matricula valida", ButtonType.OK);
+                alert.setHeaderText(null);
+                alert.showAndWait();
+            }
         } catch (Exception ex) {
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
-            Alert alert = new Alert(AlertType.ERROR, "Ingrese una matricula valida", ButtonType.OK);
-            alert.showAndWait();
         }
     }
     

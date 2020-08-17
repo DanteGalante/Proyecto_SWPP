@@ -119,6 +119,41 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
         }
     }
 
+     @Override
+    public ExpedienteVO readExpedienteMatricula(String matriculaEstudiante) {
+        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        try {
+            String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ?";
+            PreparedStatement pst = conexBD.prepareStatement(consulta);
+            
+            pst.setString(1, matriculaEstudiante);
+            
+            ResultSet rs = conexBD.preparedStatementQuery(pst);
+            
+            ExpedienteVO expediente = null;
+            if(rs.next()){
+                expediente = new ExpedienteVO(
+                rs.getString("estudiante_matricula"),
+                rs.getString("proyecto_nombreProyecto"),
+                rs.getString("periodo"),
+                rs.getInt("numArchivos"),
+                rs.getInt("numHrsTotales"),
+                rs.getString("cedProf_Docente")
+                );
+            }
+                
+            
+            pst.close();
+            rs.close();
+            conexBD.close();
+            return expediente;
+        } catch (SQLException ex) {
+            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            conexBD.close();
+            return null;
+        }
+    }
+
     @Override
     public boolean update(String matriculaEstudiante, String nombreProyecto, ExpedienteVO expediente) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
