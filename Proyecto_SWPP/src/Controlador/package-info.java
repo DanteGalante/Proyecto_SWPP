@@ -1,4 +1,4 @@
 /**
- * Esta es la descripcion de mi paquete
+ * Provee clases que gestionan los eventos recibidos y otorgan una respuesta y clases que controlan las vistas
  */
 package Controlador;

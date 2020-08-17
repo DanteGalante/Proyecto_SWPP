@@ -20,31 +20,51 @@ import java.sql.Statement;
  * Descripción: Clase que sirve para conectar la base de datos con el sistema
  */
 public class ConexionBD {
-    
+    /**
+     * Controlador que permite conectarse con MySQL
+     */
     public static String driver = "com.mysql.jdbc.Driver";
+    /**
+     * Puerto por que se transmite la información
+     */
     public static String port = "3306";
     
+    /**
+     * Objeto que representa una conexion entre una base de datos especifica y el sistema
+     * @see java.sql.Connection
+     */
     private Connection conn;
+    /**
+     * Ubicacion de la base de datos
+     */
     private String host;
+    /**
+     * Nombre de la base de datos
+     */
     private String db;
+    /**
+     * Usuario que usara la base de datos
+     */
     private String username;
+    /**
+     * Contraseña del usuario
+     */
     private String password;
     
-    public ConexionBD(String host, String db, String username, String password) {
-        //oracle.jdbc.driver.OracleDriver
+    public ConexionBD(String host, String db, String username, String password){
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";
         this.host = host;
         this.db = db;
         this.username = username;
         this.password = password;
-        try {
+        try{
             conn = DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }
     
-    public Connection conectar() {
+    public Connection conectar(){
         try {
             return getConn();
         }catch(Exception ex){
@@ -89,7 +109,7 @@ public class ConexionBD {
      * Recupera la conexion con la base de datos
      * @return La conexion a base de datos
      */
-    public Connection getConn() {
+    public Connection getConn(){
         return conn;
     }
 

@@ -11,8 +11,6 @@ import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -50,33 +48,30 @@ public class EstudianteDAOImp implements EstudianteDAO{
     }
 
     @Override
-    public ObservableList<EstudianteVO> readAll() {
+    public ObservableList<EstudianteVO> readAll() throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             ObservableList<EstudianteVO> listaEstudiantes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Estudiante";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            while(rs.next()){
-                listaEstudiantes.add(
-                    new EstudianteVO(
-                        rs.getString("matricula"),
-                        rs.getString("nombre"),
-                        rs.getString("estatus"),
-                        rs.getString("nrc")
-                    )
-                );
+            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                    listaEstudiantes.add(
+                            new EstudianteVO(
+                                rs.getString("matricula"),
+                                rs.getString("nombre"),
+                                rs.getString("estatus"),
+                                rs.getString("nrc")
+                            )
+                        );
+                    }
+                }
             }
-            
-            pst.close();
-            rs.close();
-            conexBD.close();
             return listaEstudiantes;
         } catch (SQLException ex) {
-            Logger.getLogger(EstudianteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return null;
         }
     }
 

@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -33,7 +32,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -268,6 +266,10 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     }
 
     private void asociarProyectoConEstudiante() {
+        ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
+        EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
+        ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
+        
         String periodoActual = 
             this.proyectoSeleccionadoPAsociar.getMesInicioPeriodo() + " " +
             this.proyectoSeleccionadoPAsociar.getAnioInicioPeriodo() + " - " +
@@ -275,17 +277,21 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             this.proyectoSeleccionadoPAsociar.getAnioFinalPeriodo();
         
         this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
-
+        
         for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
             this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
             ExpedienteVO expedienteNuevo = new ExpedienteVO(
-                this.estudiantesSeleccionadosPAsociar.get(i).getNombre(),
-                this.proyectoSeleccionadoPAsociar.getNomLiderProyecto(),
+                this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
+                this.proyectoSeleccionadoPAsociar.getNombreProyecto(),
                 periodoActual,
                 0,
                 0,
-                buscarDocente(estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
+                buscarDocente(this.estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
             );
+            
+            estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
+            expedienteDAO.create(expedienteNuevo);
         }
+        proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
     }
 }

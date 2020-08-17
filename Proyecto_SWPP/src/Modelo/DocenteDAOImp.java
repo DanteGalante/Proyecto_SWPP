@@ -23,9 +23,8 @@ import javafx.collections.ObservableList;
  * Descripción: Implementación de la clase DocenteDAO, la cual da acceso a la información de los docentes contenidos en la base de datos<br>
  */
 public class DocenteDAOImp implements DocenteDAO{
-
     @Override
-    public boolean create(DocenteVO docente) throws SQLException{
+    public boolean create(DocenteVO docente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
         try{
@@ -47,54 +46,53 @@ public class DocenteDAOImp implements DocenteDAO{
     }
 
     @Override
-    public ObservableList<DocenteVO> readAll() throws SQLException{
+    public ObservableList<DocenteVO> readAll() throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        try{
             ObservableList<DocenteVO> listaDocentes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Docente";
-            ResultSet rs;
-            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
-                rs = conexBD.preparedStatementQuery(pst);
-                while(rs.next()){
-                    listaDocentes.add(
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                       listaDocentes.add(
                             new DocenteVO(
-                                    rs.getString("cedulaProfesional"),
-                                    rs.getString("nombre"),
-                                    rs.getString("grupoNRC")
+                                rs.getString("cedulaProfesional"),
+                                rs.getString("nombre"),
+                                rs.getString("grupoNRC")
                             )
-                    );
+                        );
+                    }   
                 }
             }
-            rs.close();
-            conexBD.close();
             return listaDocentes;
-        } catch (SQLException ex) {
-            Logger.getLogger(DocenteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return null;
         }
     }
 
     @Override
-    public DocenteVO read(String cedulaProf) throws SQLException {
+    public DocenteVO read(String cedulaProf) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        try{
             String consulta = "SELECT * FROM Docente WHERE cedulaProfesional = ?";
-            ResultSet rs = null;
             DocenteVO docente;
             try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
                 pst.setString(1, cedulaProf);
-                rs = conexBD.preparedStatementQuery(pst);
-                docente = null;
-                if(rs.next()){
-                    docente = new DocenteVO(
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    docente = null;
+                    if(rs.next()){
+                        docente = new DocenteVO(
                             rs.getString("cedulaProfesional"),
                             rs.getString("nombre"),
                             rs.getString("grupoNRC")
-                    );
+                        );
+                    }
                 }
+                
             }finally{
-                rs.close();
+                conexBD.close();
             }
             return docente;
         } catch (SQLException ex) {
@@ -107,26 +105,26 @@ public class DocenteDAOImp implements DocenteDAO{
     @Override
     public DocenteVO readPorGrupo(String NRC) throws Exception {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        try{
             String consulta = "SELECT * FROM Docente WHERE GrupoNRC = ?";
-            ResultSet rs = null;
             DocenteVO docente;
-            try (PreparedStatement pst = conexBD.prepareStatement(consulta)) {
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, NRC);
-                rs = conexBD.preparedStatementQuery(pst);
-                docente = null;
-                if(rs.next()){
-                    docente = new DocenteVO(
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    docente = null;
+                    if(rs.next()){
+                        docente = new DocenteVO(
                             rs.getString("cedulaProfesional"),
                             rs.getString("nombre"),
                             rs.getString("grupoNRC")
-                    );
+                        );
+                    }
                 }   
             }finally{
-                rs.close();
+                conexBD.close();
             }
             return docente;
-        } catch (SQLException ex) {
+        }catch(SQLException ex){
             throw ex;
         }finally{
             conexBD.close();
@@ -134,57 +132,56 @@ public class DocenteDAOImp implements DocenteDAO{
     }
 
     @Override
-    public boolean update(String cedulaProf, DocenteVO docente) {
+    public boolean update(String cedulaProf, DocenteVO docente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        boolean resultado = false;
+        try{
             String actualizacion = "UPDATE Docente SET "
                     + "cedulaProfesional = ?,"
                     + "nombre = ?,"
                     + "grupoNRC = ?,"
                     + "WHERE cedulaProfesional = ?";
-            PreparedStatement pst = conexBD.prepareStatement(actualizacion);
-            
-            pst.setString(1, docente.getCedulaProfesional());
-            pst.setString(2, docente.getNombre());
-            pst.setString(3, docente.getGrupoNRC());
-            pst.setString(4, cedulaProf);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try (PreparedStatement pst = conexBD.prepareStatement(actualizacion)) {
+                pst.setString(1, docente.getCedulaProfesional());
+                pst.setString(2, docente.getNombre());
+                pst.setString(3, docente.getGrupoNRC());
+                pst.setString(4, cedulaProf);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(DocenteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override
-    public boolean delete(DocenteVO docente) {
+    public boolean delete(DocenteVO docente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try {
             String borrar = "DELETE FROM Docente WHERE cedulaProfesional = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, docente.getCedulaProfesional());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
-            return true;
+            try (PreparedStatement pst = conexBD.prepareStatement(borrar)) {
+                pst.setString(1, docente.getCedulaProfesional());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
         } catch (SQLException ex) {
-            Logger.getLogger(DocenteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override
-    public boolean delete(String cedulaProf) {
+    public boolean delete(String cedulaProf) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try {
             String borrar = "DELETE FROM Docente WHERE cedulaProfesional = ?";
             PreparedStatement pst = conexBD.prepareStatement(borrar);
@@ -195,11 +192,12 @@ public class DocenteDAOImp implements DocenteDAO{
             
             pst.close();
             conexBD.close();
-            return true;
+            resultado = true;
         } catch (SQLException ex) {
-            Logger.getLogger(DocenteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return false;
         }
+        return resultado;
     }
 }

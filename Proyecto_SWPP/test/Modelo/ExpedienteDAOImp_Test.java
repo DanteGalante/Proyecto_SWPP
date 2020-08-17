@@ -59,7 +59,7 @@ public class ExpedienteDAOImp_Test {
             Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /*
+    
     @Test
     public void testCreate(){
         expedienteDAO.delete(expediente);
@@ -68,7 +68,7 @@ public class ExpedienteDAOImp_Test {
     
         assertTrue(resultado);
     }
-    */
+    
     /*
     @Test
     public void testReadAll(){
@@ -118,14 +118,14 @@ public class ExpedienteDAOImp_Test {
         assertTrue(resultado);
     }
     */
-    
+    /*
     @Test
     public void testDelete(){
         boolean resultado = expedienteDAO.delete("matriculaEstudiante", "nombreProyecto");
         expedienteDAO.create(expediente);
         assertTrue(resultado);
     }
-    
+    */
     @After
     public void despues(){
         expedienteDAO.delete(expediente);

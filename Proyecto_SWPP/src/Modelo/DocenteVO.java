@@ -27,8 +27,6 @@ public class DocenteVO {
      */
     private String grupoNRC;
 
-    public DocenteVO() {
-    }
     /**
      * Constructor del objeto DocenteVO
      * @param cedulaProfesional Cedula profesional del docente

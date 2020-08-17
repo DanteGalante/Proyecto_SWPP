@@ -10,8 +10,8 @@ package Modelo;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: SWPP
- * Autor: olver
+ * Clave del programa: SWPP <br>
+ * Autor: olver <br>
  * Fecha: 22/07/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla Docente
  */
@@ -62,6 +62,7 @@ public interface DocenteDAO{
      * Borra una fila de la tabla Docente, especificado por su nombre en la base de datos
      * @param cedulaProf Cedula profesional del docente que se desea eliminar de la base de datos
      * @return Booleano que indica si se pudo eliminar la fila especificada de la tabla Docente con éxito
+     * @throws java.lang.Exception
      */
     public boolean delete(String cedulaProf) throws Exception;
 }
