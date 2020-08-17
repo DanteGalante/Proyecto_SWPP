@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="485.0" prefWidth="529.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.FXMLEntregarReporteController">
+   <children>
+      <TitledPane animated="false" layoutX="1.0" prefHeight="485.0" prefWidth="529.0" text="Entrega Reporte">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="524.0">
+               <children>
+                  <Label layoutX="35.0" layoutY="20.0" text="Nombre">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label layoutX="35.0" layoutY="62.0" text="Matricula">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label layoutX="35.0" layoutY="105.0" text="Horas Acumuladas">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label layoutX="87.0" layoutY="266.0" text="Tipo Reporte">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
+                  <Label layoutX="341.0" layoutY="266.0" text="Horas Reportadas">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font></Label>
+                  <TextField fx:id="tfTipoReporte" layoutX="55.0" layoutY="307.0" />
+                  <TextField fx:id="tfHoras" layoutX="319.0" layoutY="307.0" />
+                  <Button layoutX="89.0" layoutY="370.0" mnemonicParsing="false" onAction="#clicGuardarReporte" prefHeight="40.0" prefWidth="76.0" text="Guardar" />
+                  <Button layoutX="357.0" layoutY="371.0" mnemonicParsing="false" onAction="#clicSalirReporte" prefHeight="39.0" prefWidth="76.0" text="Salir" />
+                  <Label fx:id="lbNombre" layoutX="196.0" layoutY="20.0" text="Label">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label fx:id="lbMatricula" layoutX="196.0" layoutY="62.0" text="Label">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label fx:id="lbHorasAcumuladas" layoutX="196.0" layoutY="104.0" text="Label">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font></Label>
+                  <Label fx:id="FechaActual" layoutX="358.0" layoutY="11.0" />
+                  <Label layoutX="35.0" layoutY="146.0" text="Fecha">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbFecha" layoutX="196.0" layoutY="146.0" text="Label">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="35.0" layoutY="197.0" text="Periodo">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lbPeriodo" layoutX="196.0" layoutY="197.0" text="Label">
+                     <font>
+                        <Font name="Century Gothic" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </TitledPane>
+   </children>
+</AnchorPane>
