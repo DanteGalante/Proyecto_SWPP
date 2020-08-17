@@ -10,9 +10,9 @@ package Modelo;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: SWPP
- * Autor: olver
- * Fecha: 21/07/2020
+ * Clave del programa: SWPP <br>
+ * Autor: olver <br>
+ * Fecha: 21/07/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla PreferenciaProyecto
  */
 public interface PreferenciaProyectoDAO {

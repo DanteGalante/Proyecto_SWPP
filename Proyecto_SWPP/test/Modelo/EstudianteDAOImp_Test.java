@@ -26,34 +26,38 @@ public class EstudianteDAOImp_Test {
     
     @Before
     public void previo(){
-        try {
+        try{
             estudianteDAO = new EstudianteDAOImp();
             estudiante = new EstudianteVO("S18012181","Dan Javier Olvera Villeda","Aprobado","74286");
             estudianteDAO.create(estudiante);
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    /*
     @Test
     public void testCreate(){
         estudianteDAO.delete(estudiante);
         boolean resultado = false;
         
-        try {
+        try{
             resultado = estudianteDAO.create(estudiante);
-        } catch (Exception ex) {
+        }catch (Exception ex) {
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     
         assertTrue(resultado);
     }
+    */
     
-    /*
     @Test
     public void testReadAll(){
         ObservableList<EstudianteVO> listaPrueba = null;
-        listaPrueba = estudianteDAO.readAll();
+        try{
+            listaPrueba = estudianteDAO.readAll();
+        }catch (Exception ex) {
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         boolean resultado;
         
         if(listaPrueba.isEmpty() || listaPrueba == null){
@@ -65,7 +69,7 @@ public class EstudianteDAOImp_Test {
         
         assertTrue(resultado);
     }
-    */
+    
     /*
     @Test
     public void testRead(){
