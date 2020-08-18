@@ -50,7 +50,13 @@ public class ConexionBD {
      * Contraseña del usuario
      */
     private String password;
-    
+    /**
+     * Constructor de la clase ConexionBD, donde se establece la conexion con la base de datos
+     * @param host Ubicacion de la base de datos
+     * @param db Nombre de la base de datos
+     * @param username Usuario que usara la base de datos
+     * @param password Contraseña del usuario
+     */
     public ConexionBD(String host, String db, String username, String password){
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";
         this.host = host;
@@ -63,7 +69,10 @@ public class ConexionBD {
             e.printStackTrace();
         }
     }
-    
+    /**
+     * Retorna la conexion a la base de datos que proporciona el driver
+     * @return Objeto que representa una conexion entre una base de datos especifica y el sistema
+     */
     public Connection conectar(){
         try {
             return getConn();
@@ -72,29 +81,48 @@ public class ConexionBD {
         }
         return null;
     }
-
+    /**
+     * Crea una clase que representa una declaracion de SQL precompilada
+     * @param statement cadena de texto que representa una declaracion de SQL
+     * @return Una clase que representa una declaracion de SQL precompilada
+     * @throws SQLException 
+     */
     public PreparedStatement prepareStatement(String statement) throws SQLException{
         PreparedStatement s = getConn().prepareStatement(statement);
         return s;
     }
-    
+    /**
+     * Recibe una declaracion de consulta precompilada de SQL y es ejecutada en la base de datos
+     * @param sQuery declaracion de consulta precompilada de SQL
+     * @return Objeto que contiene la informacion de la consulta ejecutada
+     * @throws SQLException 
+     */
     public ResultSet preparedStatementQuery(PreparedStatement sQuery) throws SQLException { //PARA HACER CONSULTAS
         ResultSet rs = sQuery.executeQuery();
         return rs;
     }
-    
+    /**
+     * Recibe una declaracion de modificacion precompilada de SQL y es ejecutada en la base de datos
+     * @param sUpdate declaracion de modificacion precompilada de SQL
+     * @throws SQLException
+     */
     public void preparedStatementUpdate(PreparedStatement sUpdate) throws SQLException { // MODIFICACIONES EN TABLAS 
         sUpdate.execute();
     }
-
-    public void close(Statement s) {
+    /**
+     * Libera los recursos ocupados para una declaracion de SQL precompilada
+     * @param s declaracion de SQL precompilada
+     */
+    public void close(PreparedStatement s) {
         try {
             s.close();
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage() + "\n" + e.getErrorCode());
         }
     }
-
+    /**
+     * Libera los recursos ocupados para la conexion a la base de datos
+     */
     public void close() {
         try {
             if(getConn()!=null){

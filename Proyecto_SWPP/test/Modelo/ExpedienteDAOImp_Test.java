@@ -128,10 +128,14 @@ public class ExpedienteDAOImp_Test {
     */
     @After
     public void despues(){
-        expedienteDAO.delete(expediente);
-        docenteDAOTest.delete(docenteTest);
-        estudianteDAOTest.delete(estudianteTest);
-        proyectoDAOTest.delete(proyectoTest);
-        institucionDAOTest.delete(institucionTest);
+        try{
+            expedienteDAO.delete(expediente);
+            docenteDAOTest.delete(docenteTest);
+            estudianteDAOTest.delete(estudianteTest);
+            proyectoDAOTest.delete(proyectoTest);
+            institucionDAOTest.delete(institucionTest);
+        }catch(Exception ex){
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
