@@ -177,18 +177,15 @@ public class DocenteDAOImp implements DocenteDAO{
     public boolean delete(String cedulaProf) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
-        try {
+        try{
             String borrar = "DELETE FROM Docente WHERE cedulaProfesional = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, cedulaProf);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(borrar)){
+                pst.setString(1, cedulaProf);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
             resultado = true;
-        } catch (SQLException ex) {
+        }catch(SQLException ex){
             throw ex;
         }finally{
             conexBD.close();
