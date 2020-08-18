@@ -50,7 +50,13 @@ public class ConexionBD {
      * Contraseña del usuario
      */
     private String password;
-    
+    /**
+     * Constructor de la clase ConexionBD, donde se establece la conexion con la base de datos
+     * @param host Ubicacion de la base de datos
+     * @param db Nombre de la base de datos
+     * @param username Usuario que usara la base de datos
+     * @param password Contraseña del usuario
+     */
     public ConexionBD(String host, String db, String username, String password){
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";
         this.host = host;
@@ -63,7 +69,10 @@ public class ConexionBD {
             e.printStackTrace();
         }
     }
-    
+    /**
+     * Retorna la conexion a la base de datos que proporciona el driver
+     * @return Objeto que representa una conexion entre una base de datos especifica y el sistema
+     */
     public Connection conectar(){
         try {
             return getConn();
@@ -72,7 +81,12 @@ public class ConexionBD {
         }
         return null;
     }
-
+    /**
+     * Crea una clase que representa una declaracion de SQL precompilada
+     * @param statement
+     * @return
+     * @throws SQLException 
+     */
     public PreparedStatement prepareStatement(String statement) throws SQLException{
         PreparedStatement s = getConn().prepareStatement(statement);
         return s;
