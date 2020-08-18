@@ -130,45 +130,43 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
     }
 
     @Override
-    public boolean delete(InstitucionVinculadaVO institucionVinculada) {
+    public boolean delete(InstitucionVinculadaVO institucionVinculada) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        boolean resultado = false;
+        try{
             String borrar = "DELETE FROM InstitucionVinculada WHERE nombre = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, institucionVinculada.getNombre());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(borrar)){
+                pst.setString(1, institucionVinculada.getNombre());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch (SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
-        }  
+        }
+        return resultado;
     }
 
     @Override
-    public boolean delete(String nombreInstitucion) {
+    public boolean delete(String nombreInstitucion) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try {
             String borrar = "DELETE FROM InstitucionVinculada WHERE nombre = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, nombreInstitucion);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(borrar)){
+                pst.setString(1, nombreInstitucion);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
-        }  
+        }
+        return resultado;
     }
 
 }

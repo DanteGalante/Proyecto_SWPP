@@ -30,15 +30,24 @@ import javafx.stage.Stage;
 public class FXMLInicioController implements Initializable {
     @FXML
     private Label lbTitulo;
+    /**
+     * Acciones que se realizan en el programa a la hora de inicializar la ventana actual
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
+    /**
+     * Gestiona las acciones que se realizan al hacer clic en Asociar proyecto con estudiante
+     * @param e Evento recibido
+     */
     @FXML
     public void clicAsociarProyectoEstudiante(ActionEvent e){
         irVentanaAsociarProyectoEstudiante();
     }
-    
+    /**
+     * Inicializa la ventana asociar proyecto con estudiante
+     */
     public void irVentanaAsociarProyectoEstudiante(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FXMLAsociarProyectoEstudiante.fxml"));
@@ -61,9 +70,11 @@ public class FXMLInicioController implements Initializable {
             }
         } catch (IOException ex) {
             Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        }  
     }
+    /**
+     * Oculta la ventana actual
+     */
     public void ocultarVentanaActual(){
         Stage stageActual = (Stage)lbTitulo.getScene().getWindow();
         stageActual.hide(); 

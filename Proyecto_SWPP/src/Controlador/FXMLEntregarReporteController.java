@@ -117,7 +117,11 @@ public class FXMLEntregarReporteController implements Initializable {
         this.lbNombre.setText(nombreEstudiante.getNombre()); 
         
         ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-        horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+        try {
+            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int horasTotales = horasAcumEstudiante.getNumHrsTotales();
         String periodo = horasAcumEstudiante.getPeriodo();
         
@@ -202,7 +206,11 @@ public class FXMLEntregarReporteController implements Initializable {
     
         try {
             ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+            try {
+                horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String nombreDeProyecto = horasAcumEstudiante.getNombreProyectoVinculado();
             int totalDeHoras = Integer.parseInt(tfHoras.getText());
             String tipoReporte = tfTipoReporte.getText();
@@ -225,7 +233,7 @@ public class FXMLEntregarReporteController implements Initializable {
             ReporteEstudianteDAOImp reporteEstudianteDAO = new ReporteEstudianteDAOImp();
             nuevoReporte = new ReporteEstudianteVO(0, totalDeHoras, tipoReporte, matriculaEstudianteExpediente, nombreDeProyecto);
             resultadoReporte = reporteEstudianteDAO.create(nuevoReporte);
-            resultadoExpediente = expedienteDAO.update(matriculaEstudianteExpediente, numeroArchivosActualizado, totalDeHorasActualizado, nombreDeProyecto, horasAcumEstudiante);
+            //resultadoExpediente = expedienteDAO.update(matriculaEstudianteExpediente, numeroArchivosActualizado, totalDeHorasActualizado, nombreDeProyecto, horasAcumEstudiante);
             if(resultadoReporte = true) {
                 
                 Alert alert = new Alert(AlertType.INFORMATION, "Se ha registrado el reporte con exito", ButtonType.OK);
