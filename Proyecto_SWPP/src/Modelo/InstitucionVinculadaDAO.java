@@ -12,7 +12,7 @@ import javafx.collections.ObservableList;
 /**
  * Clave del programa: <br>
  * Autor: olver <br>
- * Fecha: <br>
+ * Fecha: 10/08/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla InstitucionVinculada
  */
 public interface InstitucionVinculadaDAO{

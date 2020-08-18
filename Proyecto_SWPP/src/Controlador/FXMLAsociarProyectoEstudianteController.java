@@ -197,7 +197,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     }
     /**
      * Guarda en un ObservableList los estudiantes que estan siendo seleccionados
-     * @see javafx.collections.ObservableList;
+     * @see javafx.collections.ObservableList
      * @see Modelo.EstudianteVO
      */
     private void seleccionarEstudiante(){
@@ -210,7 +210,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     }
     /**
      * Gestiona las acciones a tomar cuando se hace clic en el boton Asociar
-     * @param e Acccion que esta siendo recibida
+     * @param event Acccion que esta siendo recibida
      */
     @FXML
     private void clicAsociar(ActionEvent event){
@@ -241,8 +241,8 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     /**
      * verifica que el numero de estudiantes que son solicitados en el proyecto seleccionado sea igual o mayor al numero de estudiantes seleccionados para asociar
      * @return Resultado de esta verificacion <br>
-     *         Verdadero => el numero de estudiantes seleccionados es menor o igual a los requeridos en el proyecto <br>
-     *         Falso => el numero de estudiantes seleccionados es mayor a los requeridos en el proyecto
+     *         Verdadero = el numero de estudiantes seleccionados es menor o igual a los requeridos en el proyecto <br>
+     *         Falso = el numero de estudiantes seleccionados es mayor a los requeridos en el proyecto
      */
     private boolean verificarNumEstudiantesSolicitados(){
         System.out.println("Personas requeridas: "+proyectoSeleccionadoPAsociar.getPersonasRequeridas()+

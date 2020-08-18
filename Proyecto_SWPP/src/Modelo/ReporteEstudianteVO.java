@@ -41,8 +41,8 @@ public class ReporteEstudianteVO {
      * @param idReporteEstudiante ID del reporte que el estudiante entrego
      * @param horasReportadas Horas reportadas en el tipo de reporte del estudiante
      * @param tipoDeReporte Tipo de reporte del estudiante
-     * @param Expediente_Estudiante_matricula 
-     * @param Expediente_Proyecto_nombreProyecto 
+     * @param Expediente_Estudiante_matricula matricula del estudiante asociado al expediente
+     * @param Expediente_Proyecto_nombreProyecto nombre del proyecto asociado al expediente
      * 
      */
     public ReporteEstudianteVO(int idReporteEstudiante, int horasReportadas, String tipoDeReporte, String Expediente_Estudiante_matricula, String Expediente_Proyecto_nombreProyecto) {
