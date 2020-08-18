@@ -30,32 +30,36 @@ public class EstudianteDAOImp_Test {
             estudianteDAO = new EstudianteDAOImp();
             estudiante = new EstudianteVO("S18012181","Dan Javier Olvera Villeda","Aprobado","74286");
             estudianteDAO.create(estudiante);
-        }catch (Exception ex) {
+        }catch(Exception ex){
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /*
+    
     @Test
     public void testCreate(){
-        estudianteDAO.delete(estudiante);
-        boolean resultado = false;
-        
         try{
-            resultado = estudianteDAO.create(estudiante);
+            estudianteDAO.delete(estudiante);
+            boolean resultado = false;
+            
+            try{
+                resultado = estudianteDAO.create(estudiante);
+            }catch(Exception ex){
+                Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            assertTrue(resultado);
         }catch (Exception ex) {
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-        assertTrue(resultado);
     }
-    */
+    
     
     @Test
     public void testReadAll(){
         ObservableList<EstudianteVO> listaPrueba = null;
         try{
             listaPrueba = estudianteDAO.readAll();
-        }catch (Exception ex) {
+        }catch(Exception ex){
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
         boolean resultado;
@@ -70,10 +74,15 @@ public class EstudianteDAOImp_Test {
         assertTrue(resultado);
     }
     
-    /*
+    
     @Test
     public void testRead(){
-        EstudianteVO estudianteRecuperado = estudianteDAO.read("S18012181");
+        EstudianteVO estudianteRecuperado = null;
+        try{
+            estudianteRecuperado = estudianteDAO.read("S18012181");
+        }catch(Exception ex){
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         boolean resultado;
         
         resultado = estudianteRecuperado != null;
@@ -81,38 +90,50 @@ public class EstudianteDAOImp_Test {
         System.out.println(estudianteRecuperado);
         assertTrue(resultado);
     }
-    */
-    /*
+    
+    
     @Test
     public void testUpdate(){
-        EstudianteVO estudianteActualizado = new EstudianteVO("S18012181","Olvera Villeda Dan Javier","Evaluado","74286");
-        boolean resultado = estudianteDAO.update("S18012181", estudianteActualizado);
-        System.out.println(estudianteDAO.read("S18012181"));
-        assertTrue(resultado);
+        try {
+            EstudianteVO estudianteActualizado = new EstudianteVO("S18012181","Olvera Villeda Dan Javier","Evaluado","74286");
+            boolean resultado = estudianteDAO.update("S18012181", estudianteActualizado);
+            System.out.println(estudianteDAO.read("S18012181"));
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testDelete(){
-        try {
+        try{
             boolean resultado = estudianteDAO.delete(estudiante);
             estudianteDAO.create(estudiante);
             assertTrue(resultado);
-        } catch (Exception ex) {
+        }catch(Exception ex){
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /*
+    @Test
+    public void testDelete(){
+        try{
+            boolean resultado = estudianteDAO.delete("S18012181");
+            estudianteDAO.create(estudiante);
+            assertTrue(resultado);
+        }catch(Exception ex){
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     */
-    /*
-    @Test
-    public void testDelete(){
-        boolean resultado = estudianteDAO.delete("S18012181");
-        estudianteDAO.create(estudiante);
-        assertTrue(resultado);
-    }
-    */
     @After
     public void despues(){
-        estudianteDAO.delete(estudiante);
+        try {
+            estudianteDAO.delete(estudiante);
+        } catch (Exception ex) {
+            Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

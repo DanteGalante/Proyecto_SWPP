@@ -6,6 +6,8 @@ UNIVERSIDAD VERACRUZANA
  */
 package Modelo;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import org.junit.After;
 import org.junit.Test;
@@ -26,80 +28,112 @@ public class ProyectoDAOImp_Test {
     
     @Before
     public void previo(){
-        institucionDAO = new InstitucionVinculadaDAOImp();
-        institucion = new InstitucionVinculadaVO("nombreInstitucionVinculada","direccion","sector","correoElectronico");
-        institucionDAO.create(institucion);
-        
-        proyectoDAO = new ProyectoDAOImp();
-        proyecto = new ProyectoVO("nombreProyecto","Descripcion del proyecto","Estatus del proyecto","Nombre del lider de proyecto",0,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo","nombreInstitucionVinculada");
-        proyectoDAO.create(proyecto);
+        try{
+            institucionDAO = new InstitucionVinculadaDAOImp();
+            institucion = new InstitucionVinculadaVO("nombreInstitucionVinculada","direccion","sector","correoElectronico");
+            institucionDAO.create(institucion);
+            
+            proyectoDAO = new ProyectoDAOImp();
+            proyecto = new ProyectoVO("nombreProyecto","Descripcion del proyecto","Estatus del proyecto","Nombre del lider de proyecto",0,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo","nombreInstitucionVinculada");
+            proyectoDAO.create(proyecto);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    /*
+    
     @Test
     public void testCreate(){
-        proyectoDAO.delete(proyecto);
-    
-        boolean resultado = proyectoDAO.create(proyecto);
-    
-        assertTrue(resultado);
+        try{
+            proyectoDAO.delete(proyecto);
+            
+            boolean resultado = proyectoDAO.create(proyecto);
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testReadAll(){
-        ObservableList<ProyectoVO> listaPrueba = null;
-        listaPrueba = proyectoDAO.readAll();
-        boolean resultado;
-        
-        if(listaPrueba.isEmpty() || listaPrueba == null){
-            resultado = false;
-        }else{
-            System.out.println(listaPrueba.get(0));
-            resultado = true;
-        }       
-        assertTrue(resultado);
+        try{
+            ObservableList<ProyectoVO> listaPrueba = null;
+            listaPrueba = proyectoDAO.readAll();
+            boolean resultado;
+            
+            if(listaPrueba.isEmpty() || listaPrueba == null){
+                resultado = false;
+            }else{
+                System.out.println(listaPrueba.get(0));
+                resultado = true;
+            }
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testRead(){
-        ProyectoVO proyectoRecuperado = proyectoDAO.read("nombreProyecto");
-        boolean resultado;
-        
-        resultado = proyectoRecuperado != null;
-        
-        System.out.println(proyectoRecuperado);
-        assertTrue(resultado);
+        try{
+            ProyectoVO proyectoRecuperado = proyectoDAO.read("nombreProyecto");
+            boolean resultado;
+            
+            resultado = proyectoRecuperado != null;
+            
+            System.out.println(proyectoRecuperado);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testUpdate(){
-        ProyectoVO proyectoActualizado = new ProyectoVO(proyecto.getNombreProyecto(),"Nueva descripcion","Nuevo estatus","Nuevo lider",2,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo",proyecto.getNombreInstitucionVinculada());
-        boolean resultado = proyectoDAO.update(proyecto.getNombreProyecto(), proyectoActualizado);
-        System.out.println(proyectoDAO.read(proyecto.getNombreProyecto()));
-        assertTrue(resultado);
+        try{
+            ProyectoVO proyectoActualizado = new ProyectoVO(proyecto.getNombreProyecto(),"Nueva descripcion","Nuevo estatus","Nuevo lider",2,"mes de inicio de periodo","Año de inicio de periodo","Mes de final de periodo","Año de final de periodo",proyecto.getNombreInstitucionVinculada());
+            boolean resultado = proyectoDAO.update(proyecto.getNombreProyecto(), proyectoActualizado);
+            System.out.println(proyectoDAO.read(proyecto.getNombreProyecto()));
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
-    @Test
-    public void testDelete(){
-        boolean resultado = proyectoDAO.delete(proyecto);
-        proyectoDAO.create(proyecto);
-        assertTrue(resultado);
-    }
-    */
+    
     
     @Test
     public void testDelete(){
-        boolean resultado = proyectoDAO.delete(proyecto.getNombreProyecto());
-        proyectoDAO.create(proyecto);
-        assertTrue(resultado);
+        try{
+            boolean resultado = proyectoDAO.delete(proyecto);
+            proyectoDAO.create(proyecto);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    @Test
+    public void testDelete2(){
+        try{
+            boolean resultado = proyectoDAO.delete(proyecto.getNombreProyecto());
+            proyectoDAO.create(proyecto);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @After
     public void despues(){
-        proyectoDAO.delete(proyecto);
-        institucionDAO.delete(institucion);
+        try{
+            proyectoDAO.delete(proyecto);
+            institucionDAO.delete(institucion);
+        }catch(Exception ex){
+            Logger.getLogger(ProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -177,7 +177,13 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         PreferenciaProyectoDAOImp preferencia = new PreferenciaProyectoDAOImp();
         String proyectosPreferidos = "";
         try{
-            ObservableList<PreferenciaProyectoVO> listaPreferencias = preferencia.readAll(estudianteSeleccionado.getMatricula());
+            ObservableList<PreferenciaProyectoVO> listaPreferencias = null;
+            try{
+                listaPreferencias = preferencia.readAll(estudianteSeleccionado.getMatricula());
+            }catch (Exception ex){
+                this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+                ocultarVentanaActual();
+            }
             for(int i=0; i<listaPreferencias.size(); i++){
                 proyectosPreferidos = proyectosPreferidos + (i+1) + ": " + listaPreferencias.get(i).getNombreProyectoVinculado() + "\n";
             }
@@ -245,8 +251,6 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
      *         Falso = el numero de estudiantes seleccionados es mayor a los requeridos en el proyecto
      */
     private boolean verificarNumEstudiantesSolicitados(){
-        System.out.println("Personas requeridas: "+proyectoSeleccionadoPAsociar.getPersonasRequeridas()+
-                "\n"+ "# estudiantes seleccionados: "+estudiantesSeleccionadosPAsociar.size());
         if(proyectoSeleccionadoPAsociar.getPersonasRequeridas() < estudiantesSeleccionadosPAsociar.size()){
             mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que se ha excedido el número de estudiantes permitidos para este proyecto",Alert.AlertType.ERROR);
             return false;
@@ -301,38 +305,42 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
      * Asocia en la base de datos del sistema un proyecto seleccionado en la ventana con el estudiante o estudiantes seleccionados en la ventana
      */
     private void asociarProyectoConEstudiante() {
-        ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
-        EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-        ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-        
-        String periodoActual = 
-            this.proyectoSeleccionadoPAsociar.getMesInicioPeriodo() + " " +
-            this.proyectoSeleccionadoPAsociar.getAnioInicioPeriodo() + " - " +
-            this.proyectoSeleccionadoPAsociar.getMesFinalPeriodo() + " " +
-            this.proyectoSeleccionadoPAsociar.getAnioFinalPeriodo();
-        
-        this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
-        
-        for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
-            try{
-                this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
-                ExpedienteVO expedienteNuevo = new ExpedienteVO(
-                        this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
-                        this.proyectoSeleccionadoPAsociar.getNombreProyecto(),
-                        periodoActual,
-                        0,
-                        0,
-                        buscarDocente(this.estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
-                );
-                
-                estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
-                expedienteDAO.create(expedienteNuevo);
-            }catch(Exception ex){
-                this.mostrarVentanaMensaje(null,"No se pudo asociar el proyecto con el/los estudiantes debido a un problema con la conexión a la base de datos", Alert.AlertType.ERROR);
-                ocultarVentanaActual();
+        try {
+            ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
+            EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
+            ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
+            
+            String periodoActual =
+                    this.proyectoSeleccionadoPAsociar.getMesInicioPeriodo() + " " +
+                    this.proyectoSeleccionadoPAsociar.getAnioInicioPeriodo() + " - " +
+                    this.proyectoSeleccionadoPAsociar.getMesFinalPeriodo() + " " +
+                    this.proyectoSeleccionadoPAsociar.getAnioFinalPeriodo();
+            
+            this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
+            
+            for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
+                try{
+                    this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
+                    ExpedienteVO expedienteNuevo = new ExpedienteVO(
+                            this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
+                            this.proyectoSeleccionadoPAsociar.getNombreProyecto(),
+                            periodoActual,
+                            0,
+                            0,
+                            buscarDocente(this.estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
+                    );
+                    
+                    estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
+                    expedienteDAO.create(expedienteNuevo);
+                }catch(Exception ex){
+                    this.mostrarVentanaMensaje(null,"No se pudo asociar el proyecto con el/los estudiantes debido a un problema con la conexión a la base de datos", Alert.AlertType.ERROR);
+                    ocultarVentanaActual();
+                }
             }
+            proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
     }
     /**
      * Oculta la ventana actual

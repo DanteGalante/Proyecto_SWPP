@@ -35,8 +35,7 @@ public class PreferenciaProyectoDAOImp_Test {
     
     @Before
     public void previo(){
-        
-        try {
+        try{
             estudianteDAOTest = new EstudianteDAOImp();
             estudianteTest = new EstudianteVO("matriculaEstudiante","Nombre del estudiante","Estatus del estudiante","NRC del estudiante");
             estudianteDAOTest.create(estudianteTest);
@@ -52,97 +51,126 @@ public class PreferenciaProyectoDAOImp_Test {
             preferenciaProyectoDAO = new PreferenciaProyectoDAOImp();
             preferenciaProyecto = new PreferenciaProyectoVO("matriculaEstudiante","nombreProyecto",1);
             preferenciaProyectoDAO.create(preferenciaProyecto);
-        } catch (Exception ex) {
+        }catch(Exception ex){
             Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    /*
+    
     @Test
     public void testCreate(){
-        preferenciaProyectoDAO.delete(preferenciaProyecto);
-    
-        boolean resultado = preferenciaProyectoDAO.create(preferenciaProyecto);
-    
-        assertTrue(resultado);
+        try{
+            preferenciaProyectoDAO.delete(preferenciaProyecto);
+            
+            boolean resultado = preferenciaProyectoDAO.create(preferenciaProyecto);
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
     @Test
     public void testReadAll(){
-        ObservableList<PreferenciaProyectoVO> listaPrueba = null;
-        listaPrueba = preferenciaProyectoDAO.readAll();
-        boolean resultado;
-        
-        if(listaPrueba.isEmpty() || listaPrueba == null){
-            resultado = false;
-        }else{
-            System.out.println(listaPrueba.get(0));
-            resultado = true;
+        try{
+            ObservableList<PreferenciaProyectoVO> listaPrueba = null;
+            listaPrueba = preferenciaProyectoDAO.readAll();
+            boolean resultado;
+            
+            if(listaPrueba.isEmpty() || listaPrueba == null){
+                resultado = false;
+            }else{
+                System.out.println(listaPrueba.get(0));
+                resultado = true;
+            }
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        assertTrue(resultado);
     }
-    */
+    
     @Test
     public void testReadAllConMatricula(){
-        ObservableList<PreferenciaProyectoVO> listaPrueba = null;
-        listaPrueba = preferenciaProyectoDAO.readAll(estudianteTest.getMatricula());
-        boolean resultado;
-        
-        if(listaPrueba.isEmpty() || listaPrueba == null){
-            resultado = false;
-        }else{
-            System.out.println(listaPrueba.get(0));
-            resultado = true;
+        try{
+            ObservableList<PreferenciaProyectoVO> listaPrueba = null;
+            listaPrueba = preferenciaProyectoDAO.readAll(estudianteTest.getMatricula());
+            boolean resultado;
+            
+            if(listaPrueba.isEmpty() || listaPrueba == null){
+                resultado = false;
+            }else{
+                System.out.println(listaPrueba.get(0));
+                resultado = true;
+            }
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        assertTrue(resultado);
     }
-    /*
+    
     @Test
     public void testRead(){
-        PreferenciaProyectoVO preferenciaProyectoRecuperado = preferenciaProyectoDAO.read("nombreProyecto","matriculaEstudiante");
-        boolean resultado;
-        
-        resultado = preferenciaProyectoRecuperado != null;
-        
-        System.out.println(preferenciaProyectoRecuperado);
-        assertTrue(resultado);
+        PreferenciaProyectoVO preferenciaProyectoRecuperado = null;
+        try{
+            preferenciaProyectoRecuperado = preferenciaProyectoDAO.read("nombreProyecto","matriculaEstudiante");
+            boolean resultado;
+            resultado = preferenciaProyectoRecuperado != null;
+            System.out.println(preferenciaProyectoRecuperado);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testUpdate(){
-        PreferenciaProyectoVO preferenciaProyectoActualizado = new PreferenciaProyectoVO(preferenciaProyecto.getMatriculaEstudianteVinculado(),preferenciaProyecto.getNombreProyectoVinculado(),4);
-        
-        boolean resultado = preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante", preferenciaProyectoActualizado);
-        
-        System.out.println(preferenciaProyectoDAO.read("nombreProyecto", "matriculaEstudiante"));
-        preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante",preferenciaProyecto);
-        assertTrue(resultado);
+        try{
+            PreferenciaProyectoVO preferenciaProyectoActualizado = new PreferenciaProyectoVO(preferenciaProyecto.getMatriculaEstudianteVinculado(),preferenciaProyecto.getNombreProyectoVinculado(),4);
+            
+            boolean resultado = preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante", preferenciaProyectoActualizado);
+            
+            System.out.println(preferenciaProyectoDAO.read("nombreProyecto", "matriculaEstudiante"));
+            preferenciaProyectoDAO.update("nombreProyecto","matriculaEstudiante",preferenciaProyecto);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testDelete(){
-        boolean resultado = preferenciaProyectoDAO.delete(preferenciaProyecto);
-        preferenciaProyectoDAO.create(preferenciaProyecto);
-        assertTrue(resultado);
+        try{
+            boolean resultado = preferenciaProyectoDAO.delete(preferenciaProyecto);
+            preferenciaProyectoDAO.create(preferenciaProyecto);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testDelete2(){
-        boolean resultado = preferenciaProyectoDAO.delete("nombreProyecto", "matriculaEstudiante");
-        preferenciaProyectoDAO.create(preferenciaProyecto);
-        assertTrue(resultado);
+        try{
+            boolean resultado = preferenciaProyectoDAO.delete("nombreProyecto", "matriculaEstudiante");
+            preferenciaProyectoDAO.create(preferenciaProyecto);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
+    
     @After
     public void despues(){
-        preferenciaProyectoDAO.delete(preferenciaProyecto);
-        estudianteDAOTest.delete(estudianteTest);
-        proyectoDAOTest.delete(proyectoTest);
-        institucionDAOTest.delete(institucionTest);
+        try{
+            preferenciaProyectoDAO.delete(preferenciaProyecto);
+            estudianteDAOTest.delete(estudianteTest);
+            proyectoDAOTest.delete(proyectoTest);
+            institucionDAOTest.delete(institucionTest);
+        }catch(Exception ex){
+            Logger.getLogger(PreferenciaProyectoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

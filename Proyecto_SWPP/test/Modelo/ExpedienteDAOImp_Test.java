@@ -35,7 +35,7 @@ public class ExpedienteDAOImp_Test {
     
     @Before
     public void previo(){
-        try {
+        try{
             estudianteDAOTest = new EstudianteDAOImp();
             estudianteTest = new EstudianteVO("matriculaEstudiante","Nombre del estudiante","Estatus del estudiante","NRC del estudiante");
             estudianteDAOTest.create(estudianteTest);
@@ -55,77 +55,102 @@ public class ExpedienteDAOImp_Test {
             expedienteDAO = new ExpedienteDAOImp();
             expediente = new ExpedienteVO("matriculaEstudiante","nombreProyecto","Periodo",3,100,"CedulaDocente");
             expedienteDAO.create(expediente);
-        } catch (Exception ex) {
+        }catch(Exception ex){
             Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     @Test
     public void testCreate(){
-        expedienteDAO.delete(expediente);
-    
-        boolean resultado = expedienteDAO.create(expediente);
-    
-        assertTrue(resultado);
+        try{
+            expedienteDAO.delete(expediente);
+            
+            boolean resultado = expedienteDAO.create(expediente);
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
-    /*
+    
     @Test
     public void testReadAll(){
-        ObservableList<ExpedienteVO> listaPrueba = null;
-        listaPrueba = expedienteDAO.readAll();
-        boolean resultado;
-        
-        if(listaPrueba.isEmpty() || listaPrueba == null){
-            resultado = false;
-        }else{
-            System.out.println(listaPrueba.get(0));
-            resultado = true;
+        try{
+            ObservableList<ExpedienteVO> listaPrueba = null;
+            listaPrueba = expedienteDAO.readAll();
+            boolean resultado;
+            
+            if(listaPrueba.isEmpty() || listaPrueba == null){
+                resultado = false;
+            }else{
+                System.out.println(listaPrueba.get(0));
+                resultado = true;
+            }
+            
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        assertTrue(resultado);
     }
-    */
-    /*
+    
+    
     @Test
     public void testRead(){
-        ExpedienteVO expedienteRecuperado = expedienteDAO.read("nombreProyecto","matriculaEstudiante");
-        boolean resultado;
+        try{
+            ExpedienteVO expedienteRecuperado = expedienteDAO.read("nombreProyecto","matriculaEstudiante");
+            boolean resultado;
+
+            resultado = expedienteRecuperado != null;
+
+            System.out.println(expedienteRecuperado);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
-        resultado = expedienteRecuperado != null;
-        
-        System.out.println(expedienteRecuperado);
-        assertTrue(resultado);
     }
-    */
-    /*
+    
+    
     @Test
     public void testUpdate(){
-        ExpedienteVO expedienteActualizado = new ExpedienteVO(expediente.getMatriculaEstudianteVinculado(),expediente.getNombreProyectoVinculado(),"Nuevo periodo",4,1,expediente.getCedulaDocenteVinculado());
-        
-        boolean resultado = expedienteDAO.update("matriculaEstudiante","nombreProyecto", expedienteActualizado);
-        
-        System.out.println(expedienteDAO.read("nombreProyecto", "matriculaEstudiante"));
-        expedienteDAO.update("matriculaEstudiante","nombreProyecto",expediente);
-        assertTrue(resultado);
+        try {
+            ExpedienteVO expedienteActualizado = new ExpedienteVO(expediente.getMatriculaEstudianteVinculado(),expediente.getNombreProyectoVinculado(),"Nuevo periodo",4,1,expediente.getCedulaDocenteVinculado());
+            
+            boolean resultado = expedienteDAO.update("matriculaEstudiante","nombreProyecto", expedienteActualizado);
+            
+            System.out.println(expedienteDAO.read("nombreProyecto", "matriculaEstudiante"));
+            expedienteDAO.update("matriculaEstudiante","nombreProyecto",expediente);
+            assertTrue(resultado);
+        }catch(Exception ex){
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
     public void testDelete(){
-        boolean resultado = expedienteDAO.delete(expediente);
-        expedienteDAO.create(expediente);
-        assertTrue(resultado);
+        try {
+            boolean resultado = expedienteDAO.delete(expediente);
+            expedienteDAO.create(expediente);
+            assertTrue(resultado);
+        } catch (Exception ex) {
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
-    /*
+    
+    
     @Test
-    public void testDelete(){
-        boolean resultado = expedienteDAO.delete("matriculaEstudiante", "nombreProyecto");
-        expedienteDAO.create(expediente);
-        assertTrue(resultado);
+    public void testDelete2(){
+        try {
+            boolean resultado = expedienteDAO.delete("matriculaEstudiante", "nombreProyecto");
+            expedienteDAO.create(expediente);
+            assertTrue(resultado);
+        } catch (Exception ex) {
+            Logger.getLogger(ExpedienteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
+    
     @After
     public void despues(){
         try{
