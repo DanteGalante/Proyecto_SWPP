@@ -50,8 +50,9 @@ public class EstudianteDAOImp implements EstudianteDAO{
     @Override
     public ObservableList<EstudianteVO> readAll() throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ObservableList<EstudianteVO> listaEstudiantes = null;
         try{
-            ObservableList<EstudianteVO> listaEstudiantes = FXCollections.observableArrayList();
+            listaEstudiantes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Estudiante";
             try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
@@ -110,23 +111,20 @@ public class EstudianteDAOImp implements EstudianteDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try {
             String consulta = "SELECT * FROM Estudiante WHERE matricula = ?";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            
-            pst.setString(1, matriculaEstudiante);
-            
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            EstudianteVO estudiante = null;
-            if(rs.next()){
-                estudiante = new EstudianteVO(
-                rs.getString("matricula"),
-                rs.getString("nombre"),
-                rs.getString("estatus"),
-                rs.getString("nrc")
-                );
+            EstudianteVO estudiante;
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                pst.setString(1, matriculaEstudiante);
+                ResultSet rs = conexBD.preparedStatementQuery(pst);
+                estudiante = null;
+                if(rs.next()){
+                    estudiante = new EstudianteVO(
+                            rs.getString("matricula"),
+                            rs.getString("nombre"),
+                            rs.getString("estatus"),
+                            rs.getString("nrc")
+                    );
+                }
             }
-            
-            pst.close();
             rs.close();
             conexBD.close();
             return estudiante;
