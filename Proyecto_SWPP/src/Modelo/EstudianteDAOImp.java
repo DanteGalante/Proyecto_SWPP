@@ -107,32 +107,30 @@ public class EstudianteDAOImp implements EstudianteDAO{
     }
 
     @Override
-    public EstudianteVO read(String matriculaEstudiante) {
+    public EstudianteVO read(String matriculaEstudiante) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        EstudianteVO estudiante = null;
         try {
             String consulta = "SELECT * FROM Estudiante WHERE matricula = ?";
-            EstudianteVO estudiante;
             try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, matriculaEstudiante);
-                ResultSet rs = conexBD.preparedStatementQuery(pst);
-                estudiante = null;
-                if(rs.next()){
-                    estudiante = new EstudianteVO(
-                            rs.getString("matricula"),
-                            rs.getString("nombre"),
-                            rs.getString("estatus"),
-                            rs.getString("nrc")
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    if(rs.next()){
+                        estudiante = new EstudianteVO(
+                                rs.getString("matricula"),
+                                rs.getString("nombre"),
+                                rs.getString("estatus"),
+                                rs.getString("nrc")
+                        );
+                    }
                 }
             }
-            rs.close();
-            conexBD.close();
-            return estudiante;
         } catch (SQLException ex) {
-            Logger.getLogger(EstudianteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return null;
         }
+        return estudiante;
     }
 
     @Override
