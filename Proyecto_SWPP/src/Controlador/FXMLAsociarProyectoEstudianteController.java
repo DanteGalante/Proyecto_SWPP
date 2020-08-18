@@ -147,7 +147,8 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             listaEstudiantes = estudianteDAO.readAll("Aprobado");
         } catch (Exception ex) {
             System.out.println("Error al tratar de recuperar a los estudiantes");
-            this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            ocultarVentanaActual();
             ex.printStackTrace();
         }
     }
@@ -155,8 +156,13 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
      * Recupera los proyectos de la base de datos en una ObservableList
      */
     private void recuperarProyectos(){
-        ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
-        listaProyectos = proyectoDAO.readAll("En espera");
+        try {
+            ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
+            listaProyectos = proyectoDAO.readAll("En espera");
+        } catch (Exception ex) {
+            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            ocultarVentanaActual();
+        }
     }
     public ObservableList<EstudianteVO> getListaEstudiantes(){
         return listaEstudiantes;
