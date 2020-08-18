@@ -17,6 +17,7 @@ import Modelo.PreferenciaProyectoVO;
 import Modelo.ProyectoDAOImp;
 import Modelo.ProyectoVO;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -156,7 +157,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
      * Recupera los proyectos de la base de datos en una ObservableList
      */
     private void recuperarProyectos(){
-        try {
+        try{
             ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
             this.listaProyectos = proyectoDAO.readAll("En espera");
         }catch(Exception ex){
@@ -182,19 +183,20 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     private void mostrarPreferenciaEstudiante(EstudianteVO estudianteSeleccionado){
         PreferenciaProyectoDAOImp preferencia = new PreferenciaProyectoDAOImp();
         String proyectosPreferidos = "";
+        ObservableList<PreferenciaProyectoVO> listaPreferencias = null;
         try{
-            ObservableList<PreferenciaProyectoVO> listaPreferencias = null;
-            try{
-                listaPreferencias = preferencia.readAll(estudianteSeleccionado.getMatricula());
-            }catch (Exception ex){
-                this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
-                ocultarVentanaActual();
-            }
+            listaPreferencias = preferencia.readAll(estudianteSeleccionado.getMatricula());
             for(int i=0; i<listaPreferencias.size(); i++){
                 proyectosPreferidos = proyectosPreferidos + (i+1) + ": " + listaPreferencias.get(i).getNombreProyectoVinculado() + "\n";
             }
         }catch(NullPointerException ex){
-            System.out.println("El estudiante seleccionado no tiene preferencia de proyectos");
+            //Si se selecciona más de un estudiante a la vez no puede mostrar los proyectos de todos a la vez y lanza la excepcion NullPointerException
+        }catch(SQLException ex){
+            ex.printStackTrace();
+            this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            ocultarVentanaActual();
+        }catch(Exception ex){
+            ex.printStackTrace();
         }
         
         this.lbPreferenciaProyectos.setText(proyectosPreferidos);

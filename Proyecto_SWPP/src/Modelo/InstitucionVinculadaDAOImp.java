@@ -54,17 +54,20 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
         try{
             listaInstituciones = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM InstitucionVinculada";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
-                while(rs.next()){
-                    listaInstituciones.add(
-                        new InstitucionVinculadaVO(
-                            rs.getString("nombre"),
-                            rs.getString("direccion"),
-                            rs.getString("sector"),
-                            rs.getString("correoElectronico")
-                        )
-                    );
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaInstituciones.add(
+                            new InstitucionVinculadaVO(
+                                rs.getString("nombre"),
+                                rs.getString("direccion"),
+                                rs.getString("sector"),
+                                rs.getString("correoElectronico")
+                            )
+                        );
+                    }
                 }
+                
             }
         }catch(SQLException ex){
             throw ex;
@@ -80,15 +83,17 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
         InstitucionVinculadaVO institucion = null;
         try {
             String consulta = "SELECT * FROM InstitucionVinculada WHERE nombre = ?";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, nombreInstitucion);
-                if(rs.next()){
-                    institucion = new InstitucionVinculadaVO(
-                    rs.getString("nombre"),
-                    rs.getString("direccion"),
-                    rs.getString("sector"),
-                    rs.getString("correoElectronico")
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    if(rs.next()){
+                        institucion = new InstitucionVinculadaVO(
+                        rs.getString("nombre"),
+                        rs.getString("direccion"),
+                        rs.getString("sector"),
+                        rs.getString("correoElectronico")
+                        );
+                    }
                 }
             }            
             

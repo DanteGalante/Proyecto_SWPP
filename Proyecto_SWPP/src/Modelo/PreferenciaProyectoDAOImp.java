@@ -25,7 +25,7 @@ import javafx.collections.ObservableList;
 public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
-    public boolean create(PreferenciaProyectoVO preferenciaProyecto) throws Exception{
+    public boolean create(PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
         try{
@@ -47,22 +47,24 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public ObservableList<PreferenciaProyectoVO> readAll() throws Exception{
+    public ObservableList<PreferenciaProyectoVO> readAll() throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = null;
         try{
             listaPreferenciaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM PreferenciaProyecto";
             
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)) {
-                while(rs.next()){
-                    listaPreferenciaProyectos.add(
-                            new PreferenciaProyectoVO(
-                                    rs.getString("estudiante_matricula"),
-                                    rs.getString("proyecto_nombreProyecto"),
-                                    rs.getInt("posicion")
-                            )
-                    );
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaPreferenciaProyectos.add(
+                                new PreferenciaProyectoVO(
+                                        rs.getString("estudiante_matricula"),
+                                        rs.getString("proyecto_nombreProyecto"),
+                                        rs.getInt("posicion")
+                                )
+                        );
+                    }
                 }
             }
         }catch(SQLException ex){
@@ -74,23 +76,25 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public ObservableList<PreferenciaProyectoVO> readAll(String matriculaEstudiante) throws Exception{
+    public ObservableList<PreferenciaProyectoVO> readAll(String matriculaEstudiante) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = null;
         try{
             listaPreferenciaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ?";
             
-            try (PreparedStatement pst = conexBD.prepareStatement(consulta); ResultSet rs = conexBD.preparedStatementQuery(pst)) {
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, matriculaEstudiante);
-                while(rs.next()){
-                    listaPreferenciaProyectos.add(
-                            new PreferenciaProyectoVO(
-                                    rs.getString("estudiante_matricula"),
-                                    rs.getString("proyecto_nombreProyecto"),
-                                    rs.getInt("posicion")
-                            )
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaPreferenciaProyectos.add(
+                                new PreferenciaProyectoVO(
+                                        rs.getString("estudiante_matricula"),
+                                        rs.getString("proyecto_nombreProyecto"),
+                                        rs.getInt("posicion")
+                                )
+                        );
+                    }
                 }
             }
         } catch (SQLException ex) {
@@ -102,21 +106,23 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public PreferenciaProyectoVO read(String nombreProyecto, String matriculaEstudiante) throws Exception{
+    public PreferenciaProyectoVO read(String nombreProyecto, String matriculaEstudiante) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         PreferenciaProyectoVO preferenciaProyecto = null;
         try{
             String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, matriculaEstudiante);
                 pst.setString(2, nombreProyecto);
-                preferenciaProyecto = new PreferenciaProyectoVO();
-                if(rs.next()){
-                    preferenciaProyecto = new PreferenciaProyectoVO(
-                            rs.getString("estudiante_matricula"),
-                            rs.getString("proyecto_nombreProyecto"),
-                            rs.getInt("posicion")
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    preferenciaProyecto = new PreferenciaProyectoVO();
+                    if(rs.next()){
+                        preferenciaProyecto = new PreferenciaProyectoVO(
+                                rs.getString("estudiante_matricula"),
+                                rs.getString("proyecto_nombreProyecto"),
+                                rs.getInt("posicion")
+                        );
+                    }
                 }
             }
         }catch (SQLException ex){
@@ -128,7 +134,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public boolean update(String nombreProyecto, String matriculaEstudiante, PreferenciaProyectoVO preferenciaProyecto) throws Exception{
+    public boolean update(String nombreProyecto, String matriculaEstudiante, PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
         try{
@@ -155,7 +161,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public boolean delete(PreferenciaProyectoVO preferenciaProyecto) throws Exception{
+    public boolean delete(PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
         try{
@@ -176,7 +182,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
     }
 
     @Override
-    public boolean delete(String nombreProyecto, String matriculaEstudiante) throws Exception{
+    public boolean delete(String nombreProyecto, String matriculaEstudiante) throws SQLException{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         boolean resultado = false;
         try {

@@ -92,28 +92,31 @@ public class ProyectoDAOImp implements ProyectoDAO{
     @Override
     public ObservableList<ProyectoVO> readAll(String estatus) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        ObservableList<ProyectoVO> listaProyectos;
+        ObservableList<ProyectoVO> listaProyectos = null;
         try{
             listaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Proyecto WHERE estatus = ?";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta) ; ResultSet rs = conexBD.preparedStatementQuery(pst)){
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, estatus);
-                while(rs.next()){
-                    listaProyectos.add(
-                        new ProyectoVO(
-                            rs.getString("nombreProyecto"),
-                            rs.getString("descripcion"),
-                            rs.getString("estatus"),
-                            rs.getString("nomLiderProyecto"),
-                            rs.getInt("personasRequeridas"),
-                            rs.getString("mesInicioPeriodo"),
-                            rs.getString("anioInicioPeriodo"),
-                            rs.getString("mesFinalPeriodo"),
-                            rs.getString("anioFinalPeriodo"),
-                            rs.getString("nombreInstitucionVincul")
-                        )
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaProyectos.add(
+                            new ProyectoVO(
+                                rs.getString("nombreProyecto"),
+                                rs.getString("descripcion"),
+                                rs.getString("estatus"),
+                                rs.getString("nomLiderProyecto"),
+                                rs.getInt("personasRequeridas"),
+                                rs.getString("mesInicioPeriodo"),
+                                rs.getString("anioInicioPeriodo"),
+                                rs.getString("mesFinalPeriodo"),
+                                rs.getString("anioFinalPeriodo"),
+                                rs.getString("nombreInstitucionVincul")
+                            )
+                        );
+                    }
                 }
+                
             }
         }catch(SQLException ex){
             throw ex;
@@ -129,23 +132,23 @@ public class ProyectoDAOImp implements ProyectoDAO{
         ProyectoVO proyecto = null;
         try{
             String consulta = "SELECT * FROM Proyecto WHERE nombreProyecto = ?";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta) ; ResultSet rs = conexBD.preparedStatementQuery(pst)){
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
                 pst.setString(1, nomProyecto);
-                
-                proyecto = new ProyectoVO();
-                if(rs.next()){
-                    proyecto = new ProyectoVO(
-                        rs.getString("nombreProyecto"),
-                        rs.getString("descripcion"),
-                        rs.getString("estatus"),
-                        rs.getString("nomLiderProyecto"),
-                        rs.getInt("personasRequeridas"),
-                        rs.getString("mesInicioPeriodo"),
-                        rs.getString("anioInicioPeriodo"),
-                        rs.getString("mesFinalPeriodo"),
-                        rs.getString("anioFinalPeriodo"),
-                        rs.getString("nombreInstitucionVincul")
-                    );
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    if(rs.next()){
+                        proyecto = new ProyectoVO(
+                            rs.getString("nombreProyecto"),
+                            rs.getString("descripcion"),
+                            rs.getString("estatus"),
+                            rs.getString("nomLiderProyecto"),
+                            rs.getInt("personasRequeridas"),
+                            rs.getString("mesInicioPeriodo"),
+                            rs.getString("anioInicioPeriodo"),
+                            rs.getString("mesFinalPeriodo"),
+                            rs.getString("anioFinalPeriodo"),
+                            rs.getString("nombreInstitucionVincul")
+                        );
+                    }
                 }
             }
         }catch(SQLException ex){
