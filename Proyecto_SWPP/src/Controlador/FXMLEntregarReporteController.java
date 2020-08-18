@@ -7,12 +7,17 @@ UNIVERSIDAD VERACRUZANA
 package Controlador;
 
 import static Controlador.FXMLEntregarReporteController.establecerFecha;
+import Modelo.DocumentoRequeridoDAOImp;
+import Modelo.DocumentoRequeridoVO;
 import Modelo.EstudianteDAOImp;
 import Modelo.EstudianteVO;
 import Modelo.ExpedienteDAOImp;
 import Modelo.ExpedienteVO;
+import Modelo.ReporteEstudianteDAOImp;
+import Modelo.ReporteEstudianteVO;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
@@ -24,6 +29,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -33,7 +41,7 @@ import javafx.stage.Stage;
  * Clave del programa: SWPP<br>
  * Autor: Morgado <br>
  * Fecha: 10/08/2020 <br>
- * Actualizacion: 17/08/2020
+ * Actualizacion: 17/08/2020 <br>
  * Descripción: Clase que representa al controlador de la ventana FXMLEntregarReporte
  **/
 public class FXMLEntregarReporteController implements Initializable {
@@ -73,6 +81,13 @@ public class FXMLEntregarReporteController implements Initializable {
      * Expediente del alumno seleccionado de la tabla Expediente
      */
     private ExpedienteVO horasAcumEstudiante;
+    
+    /**
+     * DocuemntoRequerido del alumno seleccionado de la tabla Expediente
+     */
+    //private DocumentoRequeridoVO nuevoReporte;
+    
+    private ReporteEstudianteVO nuevoReporte;
   
      /**
      * Acciones que realiza la ventana a la hora de inicializar
@@ -165,8 +180,96 @@ public class FXMLEntregarReporteController implements Initializable {
     /**
      * Acciones que realiza el boton "Guardar" cuando se le da clic
      */
+    
+    
+    
     private void guardarReporte(){
         
+        //verificarCampoTipoReporte();
+        verificarCampoHorasReportadas();
+        
+        try {
+            ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
+            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+            String nombreProyecto = horasAcumEstudiante.getNombreProyectoVinculado();
+            int totalDeHoras = Integer.parseInt(tfHoras.getText());
+            String tipoReporte = tfTipoReporte.getText();
+            String matriculaEstudianteExpediente = lbMatricula.getText();
+            
+            
+            /*
+            DocumentoRequeridoDAOImp DocumentoRequeridoDAO = new DocumentoRequeridoDAOImp();
+            String tituloReporte = "Reporte Estudiante";
+            String descripcionReporte = lbFecha.getText();
+            
+            */
+            
+            boolean resultadoReporte;
+                       
+            //DocumentoRequeridoVO documentoReporte = new DocumentoRequeridoVO(0, tituloReporte,  descripcionReporte, lbMatricula.getText(),  nombreProyecto);
+            //resultadoDocumento = DocumentoRequeridoDAO.create(documentoReporte);
+            //Preguntamos por el id del ultimo documento entregado    
+            
+            ReporteEstudianteDAOImp reporteEstudianteDAO = new ReporteEstudianteDAOImp();
+            ReporteEstudianteVO reporteEstudiante = new ReporteEstudianteVO(0, totalDeHoras, tipoReporte, matriculaEstudianteExpediente, nombreProyecto);
+            resultadoReporte = reporteEstudianteDAO.create(reporteEstudiante);
+            
+            
+            
+            //Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor valido", ButtonType.OK);
+            //alert.showAndWait();
+        } catch (SQLException | NumberFormatException ex) {
+            Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);    
+        }
     }
-    
+
+    private boolean verificarCampoHorasReportadas() {
+        
+        //Contiene el resultado de la comprobacion del TextField "tfHoras" 
+        boolean resultado;
+        
+        //Preguntamos si el TextField es diferente de nulo
+        if(tfHoras.getText() != null){
+            try {
+                Integer.parseInt(tfHoras.getText());
+                resultado = true;
+            } catch (NumberFormatException excepcion) {
+                Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo entero en el campo de Horas Reportadas", ButtonType.OK);
+                alert.setHeaderText(null);
+                alert.showAndWait();
+                resultado = false;
+            }
+        
+        }else{
+            Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor en el campo de Horas Reportadas", ButtonType.OK);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+            resultado = false;
+            
+        }
+        return resultado;
+    }
+    /*
+    private boolean verificarCampoTipoReporte() {
+        
+        boolean resultado2;
+        //Preguntamos si el TextFiled es diferente de nulo
+        if(tfTipoReporte.getText() != null){
+            try {
+                Integer.parseInt(tfHoras.getText());
+                resultado2 = true;
+      
+                Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo String en el campo de Tipo Reporte", ButtonType.OK);
+                alert.setHeaderText(null);
+                alert.showAndWait();
+                resultado2 = false;
+            }
+                resultado2 = true;
+        }
+        return resultado2;                
+    }   
+    */
+      
+        
 }
+   
