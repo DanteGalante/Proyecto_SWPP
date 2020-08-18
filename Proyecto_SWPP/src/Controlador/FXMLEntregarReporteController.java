@@ -109,7 +109,11 @@ public class FXMLEntregarReporteController implements Initializable {
         lbMatricula.setText(matriculaExportada);
         
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-        nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
+        try {
+            nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
                       
         this.lbNombre.setText(nombreEstudiante.getNombre()); 
         

@@ -34,7 +34,7 @@ public class ReporteEstudianteDAOImp_Test {
             reporteEstudiante = new ReporteEstudianteVO( 1, 20, "Reporte mes 1",  "S88817931", "Sistema gestor de servicio social");
             ReporteEstudianteDAO.create(reporteEstudiante);
         } catch (Exception ex) {
-            Logger.getLogger(DocumentoRequeridoDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReporteEstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
         

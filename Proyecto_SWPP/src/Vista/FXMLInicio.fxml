@@ -14,7 +14,7 @@
 <AnchorPane id="AnchorPane" fx:id="anPrincipal" prefHeight="332.0" prefWidth="348.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.FXMLInicioController">
    <children>
       <Rectangle arcWidth="5.0" fill="DODGERBLUE" height="158.0" layoutY="180.0" stroke="TRANSPARENT" strokeType="INSIDE" width="348.0" />
-      <Button layoutX="82.0" layoutY="218.0" mnemonicParsing="false" onAction="#clicAsociarProyectoEstudiante" text="Asociar proyecto con estudiante" />
+      <Button layoutX="82.0" layoutY="218.0" mnemonicParsing="false" onAction="#clicAsociarProyectoEstudiante" prefWidth="187.0" text="Asociar proyecto con estudiante" />
       <GridPane alignment="CENTER" layoutX="12.0" layoutY="14.0" prefHeight="147.0" prefWidth="324.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.0" minWidth="10.0" prefWidth="180.0" />
