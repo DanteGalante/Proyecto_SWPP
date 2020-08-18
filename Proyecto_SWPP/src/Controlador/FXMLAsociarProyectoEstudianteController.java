@@ -147,12 +147,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             listaEstudiantes = estudianteDAO.readAll("Aprobado");
         } catch (Exception ex) {
             System.out.println("Error al tratar de recuperar a los estudiantes");
-            Alert mensajeEmergente = new Alert(Alert.AlertType.ERROR);
-            mensajeEmergente.setTitle("ERROR: BASE DE DATOS");
-            mensajeEmergente.setHeaderText(null);
-            mensajeEmergente.setContentText("Error al tratar de conectar con la base de datos");
-            mensajeEmergente.show();
-            
+            this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
             ex.printStackTrace();
         }
     }
@@ -195,11 +190,16 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     /**
      * Guarda en una variable el proyecto que esta siendo seleccionado en ese momento
      * @param proyectoSeleccionado objeto seleccionado
+     * @see Modelo.ProyectoVO
      */
     private void seleccionarProyecto(ProyectoVO proyectoSeleccionado){
         this.proyectoSeleccionadoPAsociar = proyectoSeleccionado;
     }
-
+    /**
+     * Guarda en un ObservableList los estudiantes que estan siendo seleccionados
+     * @see javafx.collections.ObservableList;
+     * @see Modelo.EstudianteVO
+     */
     private void seleccionarEstudiante(){
         if(tbEstudiantes.getSelectionModel().getSelectedItem() != null){    
             TableViewSelectionModel selectionModel = tbEstudiantes.getSelectionModel();
@@ -208,14 +208,18 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             this.estudiantesSeleccionadosPAsociar = selectedCells;
         }
     }
+    /**
+     * Gestiona las acciones a tomar cuando se hace clic en el boton Asociar
+     * @param e Acccion que esta siendo recibida
+     */
     @FXML
-    private void clicAsociar(ActionEvent e){
+    private void clicAsociar(ActionEvent event){
         ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
         ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
         
         if(this.proyectoSeleccionadoPAsociar == null || this.estudiantesSeleccionadosPAsociar == null){
-            mostrarVentanaMensaje("No se puede realizar la asociación debido a que no se ha seleccionado al menos 1 proyecto y un estudiante",Alert.AlertType.ERROR);
+            mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que no se ha seleccionado al menos 1 proyecto y un estudiante",Alert.AlertType.ERROR);
         }else{
             if(verificarNumEstudiantesSolicitados()){
                 boolean opcion = mostrarVentanaConfirmacion("¿Esta seguro que desea asociar este proyecto a este(os) estudiantes?");
@@ -226,24 +230,35 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             }           
         }
     }
+    /**
+     * Oculta la ventana cuando se da clic en el boton Salir
+     * @param event Accion que esta siendo recibida
+     */
      @FXML
     private void clicSalir(ActionEvent event) {
         ocultarVentanaActual();
     }
+    /**
+     * verifica que el numero de estudiantes que son solicitados en el proyecto seleccionado sea igual o mayor al numero de estudiantes seleccionados para asociar
+     * @return Resultado de esta verificacion <br>
+     *         Verdadero => el numero de estudiantes seleccionados es menor o igual a los requeridos en el proyecto <br>
+     *         Falso => el numero de estudiantes seleccionados es mayor a los requeridos en el proyecto
+     */
     private boolean verificarNumEstudiantesSolicitados(){
         System.out.println("Personas requeridas: "+proyectoSeleccionadoPAsociar.getPersonasRequeridas()+
                 "\n"+ "# estudiantes seleccionados: "+estudiantesSeleccionadosPAsociar.size());
         if(proyectoSeleccionadoPAsociar.getPersonasRequeridas() < estudiantesSeleccionadosPAsociar.size()){
-            Alert mensajeEmergente = new Alert(Alert.AlertType.ERROR);
-            mensajeEmergente.setTitle(null);
-            mensajeEmergente.setHeaderText(null);
-            mensajeEmergente.setContentText("No se puede realizar la asociación debido a que se ha excedido el número de estudiantes permitidos para este proyecto");
-            mensajeEmergente.show();
+            mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que se ha excedido el número de estudiantes permitidos para este proyecto",Alert.AlertType.ERROR);
             return false;
         }
         return true;
     }
-
+    /**
+     * Crea una ventana emergente que muestra un mensaje para el usuario y espera una respuesta de confirmacion
+     * @param contenido Mensaje que se espera mostrar en la ventana emergente
+     * @return Respuesta del usuario a la ventana de confirmacion
+     * @see javafx.scene.control.Alert
+     */
     private Boolean mostrarVentanaConfirmacion(String contenido) {
         Alert mensajeConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
         mensajeConfirmacion.setTitle(null);
@@ -253,26 +268,38 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         
         return botonPresionado.get() == ButtonType.OK;
     }
-    
-    private void mostrarVentanaMensaje(String mensaje, Alert.AlertType tipo) {
+    /**
+     * Crea una ventana emergente que muestra un mensaje sin esperar una respuesta
+     * @param titulo Titulo de la ventana
+     * @param mensaje Mensaje que se quiere mostrar
+     * @param tipo Tipo de Alert que se quiere mostrar
+     * @see javafx.scene.control.Alert
+     */
+    private void mostrarVentanaMensaje(String titulo,String mensaje, Alert.AlertType tipo) {
         Alert ventanaMensaje = new Alert(tipo);
-        ventanaMensaje.setTitle(null);
+        ventanaMensaje.setTitle(titulo);
         ventanaMensaje.setHeaderText(null);
         ventanaMensaje.setContentText(mensaje);
         ventanaMensaje.show();
     }
-    
+    /**
+     * Busca que docente da clases a un NRC especifico
+     * @param nrc numero que representa una clase especifica (es otorgada por la universidad)
+     * @return Clase que representa a la tabla Docente de la base de datos
+     */
     private DocenteVO buscarDocente(String nrc) {
         DocenteDAOImp docenteDAO = new DocenteDAOImp();
         try {
             DocenteVO docenteBuscado = docenteDAO.readPorGrupo(nrc);
             return docenteBuscado;
         }catch (Exception ex) {
-            mostrarVentanaMensaje("No se pudo asociar el proyecto con el/los estudiantes debido a un problema con la conexión a la base de datos",Alert.AlertType.ERROR);
+            mostrarVentanaMensaje(null,"No se pudo asociar el proyecto con el/los estudiantes debido a un problema con la conexión a la base de datos",Alert.AlertType.ERROR);
         }
         return null;
     }
-
+    /**
+     * Asocia en la base de datos del sistema un proyecto seleccionado en la ventana con el estudiante o estudiantes seleccionados en la ventana
+     */
     private void asociarProyectoConEstudiante() {
         ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
@@ -287,7 +314,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
         
         for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
-            try {
+            try{
                 this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
                 ExpedienteVO expedienteNuevo = new ExpedienteVO(
                         this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
@@ -300,13 +327,16 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
                 
                 estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
                 expedienteDAO.create(expedienteNuevo);
-            } catch (Exception ex) {
-                Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
+            }catch(Exception ex){
+                this.mostrarVentanaMensaje(null,"No se pudo asociar el proyecto con el/los estudiantes debido a un problema con la conexión a la base de datos", Alert.AlertType.ERROR);
+                ocultarVentanaActual();
             }
         }
         proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
     }
-
+    /**
+     * Oculta la ventana actual
+     */
     public void ocultarVentanaActual(){
         Stage stageActual = (Stage)this.apVentana.getScene().getWindow();
         stageActual.hide(); 

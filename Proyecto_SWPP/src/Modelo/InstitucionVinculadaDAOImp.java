@@ -25,95 +25,85 @@ import javafx.collections.ObservableList;
 public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
-    public boolean create(InstitucionVinculadaVO institucionVinculada) {
+    public boolean create(InstitucionVinculadaVO institucionVinculada) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try{
             String insertar = "INSERT INTO InstitucionVinculada VALUES (?,?,?,?)";
-            PreparedStatement pst = conexBD.prepareStatement(insertar);
-            
-            pst.setString(1, institucionVinculada.getNombre());
-            pst.setString(2, institucionVinculada.getDireccion());
-            pst.setString(3, institucionVinculada.getSector());
-            pst.setString(4, institucionVinculada.getCorreoElectronico());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
-            return true;
-        }catch(SQLException ex){
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
-        }
-    }
-
-    @Override
-    public ObservableList<InstitucionVinculadaVO> readAll() {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
-            ObservableList<InstitucionVinculadaVO> listaInstituciones = FXCollections.observableArrayList();
-            String consulta = "SELECT * FROM InstitucionVinculada";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            while(rs.next()){
-                listaInstituciones.add(
-                    new InstitucionVinculadaVO(
-                        rs.getString("nombre"),
-                        rs.getString("direccion"),
-                        rs.getString("sector"),
-                        rs.getString("correoElectronico")
-                    )
-                );
+            try(PreparedStatement pst = conexBD.prepareStatement(insertar)){
+                pst.setString(1, institucionVinculada.getNombre());
+                pst.setString(2, institucionVinculada.getDireccion());
+                pst.setString(3, institucionVinculada.getSector());
+                pst.setString(4, institucionVinculada.getCorreoElectronico());
+                
+                conexBD.preparedStatementUpdate(pst);
             }
-            
-            pst.close();
-            rs.close();
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return listaInstituciones;
-        } catch (SQLException ex) {
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return null;
         }
+        return resultado;
     }
 
     @Override
-    public InstitucionVinculadaVO read(String nombreInstitucion) {
+    public ObservableList<InstitucionVinculadaVO> readAll() throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ObservableList<InstitucionVinculadaVO> listaInstituciones = null;
+        try{
+            listaInstituciones = FXCollections.observableArrayList();
+            String consulta = "SELECT * FROM InstitucionVinculada";
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                while(rs.next()){
+                    listaInstituciones.add(
+                        new InstitucionVinculadaVO(
+                            rs.getString("nombre"),
+                            rs.getString("direccion"),
+                            rs.getString("sector"),
+                            rs.getString("correoElectronico")
+                        )
+                    );
+                }
+            }
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
+            conexBD.close();
+        }
+        return listaInstituciones;
+    }
+
+    @Override
+    public InstitucionVinculadaVO read(String nombreInstitucion) throws Exception{
+        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        InstitucionVinculadaVO institucion = null;
         try {
             String consulta = "SELECT * FROM InstitucionVinculada WHERE nombre = ?";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                pst.setString(1, nombreInstitucion);
+                if(rs.next()){
+                    institucion = new InstitucionVinculadaVO(
+                    rs.getString("nombre"),
+                    rs.getString("direccion"),
+                    rs.getString("sector"),
+                    rs.getString("correoElectronico")
+                    );
+                }
+            }            
             
-            pst.setString(1, nombreInstitucion);
-            
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            InstitucionVinculadaVO institucion = null;
-            if(rs.next()){
-                institucion = new InstitucionVinculadaVO(
-                rs.getString("nombre"),
-                rs.getString("direccion"),
-                rs.getString("sector"),
-                rs.getString("correoElectronico")
-                );
-            }
-            
-            pst.close();
-            rs.close();
-            conexBD.close();
-            return institucion;
         } catch (SQLException ex) {
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return null;
         }
+        return institucion;
     }
 
     @Override
-    public boolean update(String nombreInstitucion, InstitucionVinculadaVO institucionVinculada) {
+    public boolean update(String nombreInstitucion, InstitucionVinculadaVO institucionVinculada) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try {
             String actualizacion = "UPDATE InstitucionVinculada SET "
                     + "nombre = ?,"
@@ -121,24 +111,22 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
                     + "sector = ?,"
                     + "correoElectronico = ?"
                     + "WHERE nombre = ? ";
-            PreparedStatement pst = conexBD.prepareStatement(actualizacion);
-            
-            pst.setString(1, institucionVinculada.getNombre());
-            pst.setString(2, institucionVinculada.getDireccion());
-            pst.setString(3, institucionVinculada.getSector());
-            pst.setString(4, institucionVinculada.getCorreoElectronico());
-            pst.setString(5, nombreInstitucion);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try (PreparedStatement pst = conexBD.prepareStatement(actualizacion)) {
+                pst.setString(1, institucionVinculada.getNombre());
+                pst.setString(2, institucionVinculada.getDireccion());
+                pst.setString(3, institucionVinculada.getSector());
+                pst.setString(4, institucionVinculada.getCorreoElectronico());
+                pst.setString(5, nombreInstitucion);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(InstitucionVinculadaDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override

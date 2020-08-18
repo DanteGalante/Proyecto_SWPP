@@ -111,44 +111,39 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
     }
 
      @Override
-    public ExpedienteVO readExpedienteMatricula(String matriculaEstudiante) {
+    public ExpedienteVO readExpedienteMatricula(String matriculaEstudiante) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ExpedienteVO expediente = null;
         try{
             String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ?";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            
-            pst.setString(1, matriculaEstudiante);
-            
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            ExpedienteVO expediente = null;
-            if(rs.next()){
-                expediente = new ExpedienteVO(
-                rs.getString("estudiante_matricula"),
-                rs.getString("proyecto_nombreProyecto"),
-                rs.getString("periodo"),
-                rs.getInt("numArchivos"),
-                rs.getInt("numHrsTotales"),
-                rs.getString("cedProf_Docente")
-                );
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                pst.setString(1, matriculaEstudiante);
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    if(rs.next()){
+                        expediente = new ExpedienteVO(
+                                rs.getString("estudiante_matricula"),
+                                rs.getString("proyecto_nombreProyecto"),
+                                rs.getString("periodo"),
+                                rs.getInt("numArchivos"),
+                                rs.getInt("numHrsTotales"),
+                                rs.getString("cedProf_Docente")
+                        );
+                    }
+                }
             }
-                
-            
-            pst.close();
-            rs.close();
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return expediente;
-        } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return null;
         }
+        return expediente;
     }
 
     @Override
-    public boolean update(String matriculaEstudiante, String nombreProyecto, ExpedienteVO expediente) {
+    public boolean update(String matriculaEstudiante, String nombreProyecto, ExpedienteVO expediente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        boolean resultado = false;
+        try{
             String actualizacion = "UPDATE Expediente SET "
                     + "estudiante_matricula = ?,"
                     + "proyecto_nombreProyecto = ?,"
@@ -157,70 +152,66 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
                     + "numHrsTotales = ?,"
                     + "cedProf_Docente = ?"
                     + "WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
-            PreparedStatement pst = conexBD.prepareStatement(actualizacion);
-            
-            pst.setString(1, expediente.getMatriculaEstudianteVinculado());
-            pst.setString(2, expediente.getNombreProyectoVinculado());
-            pst.setString(3, expediente.getPeriodo());
-            pst.setInt(4, expediente.getNumeroArchivos());
-            pst.setInt(5, expediente.getNumHrsTotales());
-            pst.setString(6, expediente.getCedulaDocenteVinculado());
-            pst.setString(7, matriculaEstudiante);
-            pst.setString(8, nombreProyecto);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
-            return true;
+            try(PreparedStatement pst = conexBD.prepareStatement(actualizacion)){
+                pst.setString(1, expediente.getMatriculaEstudianteVinculado());
+                pst.setString(2, expediente.getNombreProyectoVinculado());
+                pst.setString(3, expediente.getPeriodo());
+                pst.setInt(4, expediente.getNumeroArchivos());
+                pst.setInt(5, expediente.getNumHrsTotales());
+                pst.setString(6, expediente.getCedulaDocenteVinculado());
+                pst.setString(7, matriculaEstudiante);
+                pst.setString(8, nombreProyecto);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
         } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override
-    public boolean delete(ExpedienteVO expediente) {
+    public boolean delete(ExpedienteVO expediente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        boolean resultado = false;
+        try{
             String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, expediente.getMatriculaEstudianteVinculado());
-            pst.setString(2, expediente.getNombreProyectoVinculado());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(borrar)){
+                pst.setString(1, expediente.getMatriculaEstudianteVinculado());
+                pst.setString(2, expediente.getNombreProyectoVinculado());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
-        }  
+        }
+        return resultado;
     }
 
     @Override
-    public boolean delete(String matriculaEstudiante, String nombreProyecto) {
+    public boolean delete(String matriculaEstudiante, String nombreProyecto) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        boolean resultado = false;
+        try{
             String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, matriculaEstudiante);
-            pst.setString(2, nombreProyecto);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(borrar)){
+                pst.setString(1, matriculaEstudiante);
+                pst.setString(2, nombreProyecto);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return false;
         }
+        return resultado;
     }
 }
