@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -43,10 +44,21 @@ public class FXMLInicioController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FXMLAsociarProyectoEstudiante.fxml"));
             Parent root = (Parent) loader.load();
             
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Asociar proyecto a estudiante");
-            stage.show();
+            FXMLAsociarProyectoEstudianteController siguienteControlador = loader.getController();
+            
+            //Unicamente si se obtiene una lista de estudiantes se abre la siguiente ventana
+            if(siguienteControlador.getListaEstudiantes().size() > 0){
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Asociar proyecto a estudiante");
+                stage.show();
+            }else{
+                Alert mensajeEmergente = new Alert(Alert.AlertType.INFORMATION);
+                mensajeEmergente.setTitle("");
+                mensajeEmergente.setHeaderText(null);
+                mensajeEmergente.setContentText("No hay suficientes estudiantes para asociar");
+                mensajeEmergente.show();
+            }
         } catch (IOException ex) {
             Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }

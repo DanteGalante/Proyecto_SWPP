@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="413.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.FXMLAsociarProyectoEstudianteController">
+<AnchorPane id="AnchorPane" fx:id="apVentana" prefHeight="413.0" prefWidth="1074.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controlador.FXMLAsociarProyectoEstudianteController">
    <children>
       <GridPane alignment="TOP_CENTER" layoutY="9.0" prefHeight="381.0" prefWidth="1074.0">
         <columnConstraints>

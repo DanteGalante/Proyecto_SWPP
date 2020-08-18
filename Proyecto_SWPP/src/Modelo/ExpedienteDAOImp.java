@@ -25,11 +25,12 @@ import javafx.collections.ObservableList;
 public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
-    public boolean create(ExpedienteVO expediente) {
+    public boolean create(ExpedienteVO expediente) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        boolean resultado = false;
         try{
             String insertar = "INSERT INTO Expediente VALUES (?,?,?,?,?,?)";
-            try (PreparedStatement pst = conexBD.prepareStatement(insertar)) {
+            try(PreparedStatement pst = conexBD.prepareStatement(insertar)){
                 pst.setString(1, expediente.getMatriculaEstudianteVinculado());
                 pst.setString(2, expediente.getNombreProyectoVinculado());
                 pst.setString(3, expediente.getPeriodo());
@@ -39,88 +40,80 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
                 
                 conexBD.preparedStatementUpdate(pst);
             }
-            conexBD.close();
-            return true;
+            resultado = true;
         }catch(SQLException ex){
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }finally{
             conexBD.close();
-            return false;
         }
+        return resultado;
     }
 
     @Override
-    public ObservableList<ExpedienteVO> readAll() {
+    public ObservableList<ExpedienteVO> readAll() throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
-            ObservableList<ExpedienteVO> listaExpedientes = FXCollections.observableArrayList();
+        ObservableList<ExpedienteVO> listaExpedientes = null;
+        try{
+            listaExpedientes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Expediente";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            while(rs.next()){
-                listaExpedientes.add(
-                    new ExpedienteVO(
-                        rs.getString("estudiante_matricula"),
-                        rs.getString("proyecto_nombreProyecto"),
-                        rs.getString("periodo"),
-                        rs.getInt("numArchivos"),
-                        rs.getInt("numHrsTotales"),
-                        rs.getString("cedProf_Docente")
-                    )
-                );
-            }
-            
-            pst.close();
-            rs.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaExpedientes.add(
+                            new ExpedienteVO(
+                                rs.getString("estudiante_matricula"),
+                                rs.getString("proyecto_nombreProyecto"),
+                                rs.getString("periodo"),
+                                rs.getInt("numArchivos"),
+                                rs.getInt("numHrsTotales"),
+                                rs.getString("cedProf_Docente")
+                            )
+                        );
+                    }
+                }
+            }            
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return listaExpedientes;
-        } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return null;
         }
+        return listaExpedientes;
     }
 
     @Override
-    public ExpedienteVO read(String nombreProyecto, String matriculaEstudiante) {
+    public ExpedienteVO read(String nombreProyecto, String matriculaEstudiante) throws Exception{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
-        try {
+        ExpedienteVO expediente = null;
+        try{
             String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
-            PreparedStatement pst = conexBD.prepareStatement(consulta);
-            
-            pst.setString(1, matriculaEstudiante);
-            pst.setString(2, nombreProyecto);
-            
-            ResultSet rs = conexBD.preparedStatementQuery(pst);
-            
-            ExpedienteVO expediente = null;
-            if(rs.next()){
-                expediente = new ExpedienteVO(
-                rs.getString("estudiante_matricula"),
-                rs.getString("proyecto_nombreProyecto"),
-                rs.getString("periodo"),
-                rs.getInt("numArchivos"),
-                rs.getInt("numHrsTotales"),
-                rs.getString("cedProf_Docente")
-                );
-            }
-                
-            
-            pst.close();
-            rs.close();
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta);){
+                pst.setString(1, matriculaEstudiante);
+                pst.setString(2, nombreProyecto);
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst);){
+                    if(rs.next()){
+                        expediente = new ExpedienteVO(
+                                rs.getString("estudiante_matricula"),
+                                rs.getString("proyecto_nombreProyecto"),
+                                rs.getString("periodo"),
+                                rs.getInt("numArchivos"),
+                                rs.getInt("numHrsTotales"),
+                                rs.getString("cedProf_Docente")
+                        );
+                    }
+                }
+            }            
+        }catch(SQLException ex){
+            throw ex;
+        }finally{
             conexBD.close();
-            return expediente;
-        } catch (SQLException ex) {
-            Logger.getLogger(ExpedienteDAOImp.class.getName()).log(Level.SEVERE, null, ex);
-            conexBD.close();
-            return null;
         }
+        return expediente;
     }
 
      @Override
     public ExpedienteVO readExpedienteMatricula(String matriculaEstudiante) {
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
-        try {
+        try{
             String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ?";
             PreparedStatement pst = conexBD.prepareStatement(consulta);
             
