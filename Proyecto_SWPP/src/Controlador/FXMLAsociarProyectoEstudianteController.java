@@ -158,8 +158,8 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
     private void recuperarProyectos(){
         try {
             ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
-            listaProyectos = proyectoDAO.readAll("En espera");
-        } catch (Exception ex) {
+            this.listaProyectos = proyectoDAO.readAll("En espera");
+        }catch(Exception ex){
             mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
             ocultarVentanaActual();
         }

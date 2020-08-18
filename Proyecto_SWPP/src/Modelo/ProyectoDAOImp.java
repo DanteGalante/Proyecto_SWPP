@@ -60,22 +60,24 @@ public class ProyectoDAOImp implements ProyectoDAO{
         try{
             listaProyectos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM Proyecto";
-            try(PreparedStatement pst = conexBD.prepareStatement(consulta);ResultSet rs = conexBD.preparedStatementQuery(pst)){
-                while(rs.next()){
-                    listaProyectos.add(
-                        new ProyectoVO(
-                            rs.getString("nombreProyecto"),
-                            rs.getString("descripcion"),
-                            rs.getString("estatus"),
-                            rs.getString("nomLiderProyecto"),
-                            rs.getInt("personasRequeridas"),
-                            rs.getString("mesInicioPeriodo"),
-                            rs.getString("anioInicioPeriodo"),
-                            rs.getString("mesFinalPeriodo"),
-                            rs.getString("anioFinalPeriodo"),
-                            rs.getString("nombreInstitucionVincul")
-                        )
-                    );
+            try(PreparedStatement pst = conexBD.prepareStatement(consulta)){
+                try(ResultSet rs = conexBD.preparedStatementQuery(pst)){
+                    while(rs.next()){
+                        listaProyectos.add(
+                            new ProyectoVO(
+                                rs.getString("nombreProyecto"),
+                                rs.getString("descripcion"),
+                                rs.getString("estatus"),
+                                rs.getString("nomLiderProyecto"),
+                                rs.getInt("personasRequeridas"),
+                                rs.getString("mesInicioPeriodo"),
+                                rs.getString("anioInicioPeriodo"),
+                                rs.getString("mesFinalPeriodo"),
+                                rs.getString("anioFinalPeriodo"),
+                                rs.getString("nombreInstitucionVincul")
+                            )
+                        );
+                    }
                 }
             }
             
