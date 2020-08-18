@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
  * Clave del programa: SWPP<br>
  * Autor: Morgado <br>
  * Fecha: 10/08/2020 <br>
- * Actualizacion: 17/08/2020
+ * Actualizacion: 17/08/2020 <br>
  * Descripción: Implementación de la clase DocumentoRequeridoDAO, la cual da acceso a la información de los documentos contenidos en la base de datos
  **/
 public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
@@ -196,15 +196,12 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM DocumentoRequerido WHERE Expediente_Estudiante_matricula = ? AND titulo = ?";
-            PreparedStatement pst = conexBD.prepareStatement(borrar);
-            
-            pst.setString(1, matriculaEstudiante);
-            pst.setString(2, tituloDocumento);
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
-            conexBD.close();
+            try (PreparedStatement pst = conexBD.prepareStatement(borrar)) {
+                pst.setString(1, matriculaEstudiante);
+                pst.setString(2, tituloDocumento);
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
             resultado = true;
         } catch (SQLException ex) {
             throw ex;

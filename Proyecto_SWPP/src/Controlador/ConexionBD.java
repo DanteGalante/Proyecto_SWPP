@@ -83,32 +83,46 @@ public class ConexionBD {
     }
     /**
      * Crea una clase que representa una declaracion de SQL precompilada
-     * @param statement
-     * @return
+     * @param statement cadena de texto que representa una declaracion de SQL
+     * @return Una clase que representa una declaracion de SQL precompilada
      * @throws SQLException 
      */
     public PreparedStatement prepareStatement(String statement) throws SQLException{
         PreparedStatement s = getConn().prepareStatement(statement);
         return s;
     }
-    
+    /**
+     * Recibe una declaracion de consulta precompilada de SQL y es ejecutada en la base de datos
+     * @param sQuery declaracion de consulta precompilada de SQL
+     * @return Objeto que contiene la informacion de la consulta ejecutada
+     * @throws SQLException 
+     */
     public ResultSet preparedStatementQuery(PreparedStatement sQuery) throws SQLException { //PARA HACER CONSULTAS
         ResultSet rs = sQuery.executeQuery();
         return rs;
     }
-    
+    /**
+     * Recibe una declaracion de modificacion precompilada de SQL y es ejecutada en la base de datos
+     * @param sUpdate declaracion de modificacion precompilada de SQL
+     * @throws SQLException
+     */
     public void preparedStatementUpdate(PreparedStatement sUpdate) throws SQLException { // MODIFICACIONES EN TABLAS 
         sUpdate.execute();
     }
-
-    public void close(Statement s) {
+    /**
+     * Libera los recursos ocupados para una declaracion de SQL precompilada
+     * @param s declaracion de SQL precompilada
+     */
+    public void close(PreparedStatement s) {
         try {
             s.close();
         } catch (SQLException e) {
             System.err.println("Error: " + e.getMessage() + "\n" + e.getErrorCode());
         }
     }
-
+    /**
+     * Libera los recursos ocupados para la conexion a la base de datos
+     */
     public void close() {
         try {
             if(getConn()!=null){
