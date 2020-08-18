@@ -43,7 +43,7 @@ import javafx.stage.Stage;
  * Actualizacion: 17/08/2020 <br>
  * Descripción: Clase que representa al controlador de la ventana FXMLEntregarReporte
  **/
-public class FXMLEntregarReporteController implements Initializable {
+public class FXMLEntregarReporteController_RESPALDO implements Initializable {
     
     /**
      * TextField que contiene la matricula ingresada por el usuario para iniciar sesion
@@ -68,6 +68,9 @@ public class FXMLEntregarReporteController implements Initializable {
      */
     private String matriculaExportada;
     
+    
+    //private EstudianteVO estudianteEntregaReporte;
+    
     /**
      * Estudiante seleccionado de la tabla Estudiante
      */
@@ -79,8 +82,10 @@ public class FXMLEntregarReporteController implements Initializable {
     private ExpedienteVO horasAcumEstudiante;
     
     /**
-     * reporte seleccionado de la tabla Expediente
+     * DocuemntoRequerido del alumno seleccionado de la tabla Expediente
      */
+    //private DocumentoRequeridoVO nuevoReporte;
+    
     private ReporteEstudianteVO nuevoReporte;
   
      /**
@@ -99,42 +104,31 @@ public class FXMLEntregarReporteController implements Initializable {
     * @param matriculaExportada es la matricula ingresada por el estudiante para inciar sesion
     **/
     public void mostrarDatosEstudiante(String matriculaExportada){
-        /**
-        * matricula ingresada por el estduiante que sera puesta en la etiqueta lbMatricula
-        **/
+        
         lbMatricula.setText(matriculaExportada);
         
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-        nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
-         /**
-        * se establece el nombre del estudiante que ingreso su matricula para iniciar sesion en la etiqueta lbNombre
-        **/             
+        try {
+            nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                      
         this.lbNombre.setText(nombreEstudiante.getNombre()); 
         
         ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-        /**
-        * horasAcumEstudiante recibe un expdiente con la matricula que esta el parametro del metodo readExpdienteMatricula
-        **/
-        horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
-        /**
-        * Guardamos las horas acumuladas del estudiante en la variable horasTotales
-        **/
+        try {
+            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int horasTotales = horasAcumEstudiante.getNumHrsTotales();
-        /**
-        * Guardamos el periodo actual en la variable periodo
-        **/
         String periodo = horasAcumEstudiante.getPeriodo();
-        /**
-        * Muetsra las horas que tiene el estudiante en su expediente
-        * */
+        
         this.lbHorasAcumuladas.setText(String.valueOf(horasTotales));
-        /**
-        * Se le envia el perido actual a la etiqueta
-        **/
+        
         this.lbPeriodo.setText(periodo);
-        /**
-        * Se le envia la fecha actual a la etiqueta
-        **/
+        
         this.lbFecha.setText(establecerFecha());       
     }
     
@@ -154,23 +148,19 @@ public class FXMLEntregarReporteController implements Initializable {
     **/
     @FXML
     private void clicGuardarReporte(ActionEvent event) {
-        
-        //Preguntamos si el textField de tipo reporte esta vacio, en caso de que si se manda un mensaje
+        //String reporte = tfTipoReporte.getText();
         if(tfTipoReporte.getText().length()==0){
-            //Mensaje de error 
-            mostrarVentanaDeMensaje("Ingrese un valor de tipo String en el campo de Tipo Reporte");
+            Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo String en el campo de Tipo Reporte", ButtonType.OK);
+            alert.setHeaderText(null);
+            alert.showAndWait();
         }else{
-            //Se llama al metodo para verificar si lo que ingreso el usuario en el textField de 
-
             if(verificarCampoHorasReportadas() == true){
-                    //Se envia un mensaje de a la metodo para que nos regrese una ventana la cual escuchara un evento true o false a partir del boton selecionado
                     boolean opcion = mostrarVentanaDeConfirmacion("¿Seguro que quieres continuar?");
                 if(opcion ==true){
-                    //Se llama al metodo guardar reporte una vez que se verifico que las entrdas son validas para egistrar el reporte
                     guardarReporte();
                 }
             }
-        }   
+        }
     }
     
     /**
@@ -216,7 +206,11 @@ public class FXMLEntregarReporteController implements Initializable {
     
         try {
             ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+            try {
+                horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
             String nombreDeProyecto = horasAcumEstudiante.getNombreProyectoVinculado();
             int totalDeHoras = Integer.parseInt(tfHoras.getText());
             String tipoReporte = tfTipoReporte.getText();
@@ -229,24 +223,23 @@ public class FXMLEntregarReporteController implements Initializable {
             int totalDeHorasActualizado = horasEnExpediente + totalDeHoras;
             int numeroArchivosActualizado = numeroArchivosParcial + 1;
             
-            //Son de tipo booleano ya que ahi se guarda el resultado(true o false) de la operacion
             boolean resultadoReporte, resultadoExpediente; 
             
             /**
              * Se crea un objeto de tipo ExpedienteVO para 
              */
-            ExpedienteVO expedienteNuevo = new ExpedienteVO(matriculaEstudianteExpediente, nombreDeProyecto, periodo, numeroArchivosActualizado, totalDeHorasActualizado,cedulaDeDocente);
+            ExpedienteVO expedienteNuevo = new ExpedienteVO(matriculaEstudianteExpediente, nombreDeProyecto, periodo, numeroArchivosParcial, horasEnExpediente,cedulaDeDocente);
+            
             ReporteEstudianteDAOImp reporteEstudianteDAO = new ReporteEstudianteDAOImp();
             nuevoReporte = new ReporteEstudianteVO(0, totalDeHoras, tipoReporte, matriculaEstudianteExpediente, nombreDeProyecto);
             resultadoReporte = reporteEstudianteDAO.create(nuevoReporte);
-            //Se actualiza el expediente del estudiante con el numero numero de documentos y las suma de susu horas reportadas
-            resultadoExpediente = expedienteDAO.update(matriculaEstudianteExpediente, nombreDeProyecto, expedienteNuevo);
+            //resultadoExpediente = expedienteDAO.update(matriculaEstudianteExpediente, numeroArchivosActualizado, totalDeHorasActualizado, nombreDeProyecto, horasAcumEstudiante);
             if(resultadoReporte = true) {
-                //Mensaje de confirmacion de exito de la operacion
-                Alert alert = new Alert(AlertType.INFORMATION, "La información ha sido guardada en la base de datos del sistema", ButtonType.OK);
+                
+                Alert alert = new Alert(AlertType.INFORMATION, "Se ha registrado el reporte con exito", ButtonType.OK);
                 alert.setHeaderText(null);
                 alert.showAndWait();
-                //Una vez terminadas las operaciones se regresa al usuario al menu principal
+             
                 salirDeEntregarReporte();               
             } 
         } catch (SQLException | NumberFormatException ex) {
@@ -267,17 +260,17 @@ public class FXMLEntregarReporteController implements Initializable {
                 Integer.parseInt(tfHoras.getText());
                 resultado = true;            
             } catch (NumberFormatException excepcion) {
-                //Mensaje donde se indica al usuario el tipo de entrada valida
-                mostrarVentanaDeMensaje("Ingrese un valor de tipo entero en el campo de Horas Reportadas");
+                Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo entero en el campo de Horas Reportadas", ButtonType.OK);
+                alert.setHeaderText(null);
+                alert.showAndWait();
                 resultado = false;
             }        
         }
-        
         return resultado;
     }                     
     
     /**
-    *Metodo que muestra una ventana de confirmacion, recibe un texto que muestra en un alert de CONFIRMATION
+    *Metodo que muetsra una ventana de confirmacion, recibe un texto que muestra en un alert de CONFIRMATION
     */
     private Boolean mostrarVentanaDeConfirmacion(String contenido) {
     Alert mensajeConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -291,27 +284,6 @@ public class FXMLEntregarReporteController implements Initializable {
         }else{
             return false;
         }
-    }
-    
-    /**
-     * Metodo que muestra una ventana de error, recibe un texto que muestra en un alert de ERROR
-     */
-    private Boolean mostrarVentanaDeMensaje(String contenido) {
-    Alert mensajeConfirmacion = new Alert(Alert.AlertType.ERROR);
-    mensajeConfirmacion.setTitle(null);
-    mensajeConfirmacion.setHeaderText(null);
-    mensajeConfirmacion.setContentText(contenido);
-    Optional<ButtonType> botonPresionado = mensajeConfirmacion.showAndWait();
-    //Si presionan aceptar devuelve true, si presiona cancelar devuelve false
-        if(botonPresionado.get() == ButtonType.OK){
-            return true;
-        }else{
-            return false;
-        }
-    } 
+    }    
 }
-
     
-
-   
-
