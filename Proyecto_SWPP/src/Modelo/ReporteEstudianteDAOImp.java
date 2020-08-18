@@ -2,7 +2,7 @@
 ------------------------
 Alan Adair Morgado Morales
 UNIVERSIDAD VERACRUZANA
------------------------
+------------------------
  */
 package Modelo;
 
@@ -137,6 +137,26 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
         }finally{
             conexBD.close();
         }
+    }
+    
+    @Override
+    public boolean delete(ReporteEstudianteVO reporteEstudiante) throws SQLException {
+        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        boolean resultado = false;
+        try {
+            String borrar = "DELETE FROM ReporteEstudiante WHERE Expediente_Estudiante_matricula = ?";
+            try (PreparedStatement pst = conexBD.prepareStatement(borrar)) {
+                pst.setString(1, reporteEstudiante.getExpediente_Estudiante_matricula());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
+            resultado = true;
+        } catch (SQLException ex) {
+            throw ex;
+        }finally{
+            conexBD.close();
+        }
+        return resultado;
     }
     /*
     @Override

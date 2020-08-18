@@ -60,9 +60,9 @@ public interface ReporteEstudianteDAO {
      * @return Booleano que indica si se pudo eliminar la fila especificada de la tabla ReporteEstudiante con éxito
      * @throws java.sql.SQLException
      */
-    //public boolean delete(ReporteEstudianteVO reporteEstudiante) throws SQLException;
+    public boolean delete(ReporteEstudianteVO reporteEstudiante) throws SQLException;
      /**
-     * Borra una fila especifica de la tabla ReporteEstudiant
+     * Borra una fila especifica de la tabla ReporteEstudiante
      * @param tipoDeReporte Objeto que representa una fila de la tabla ReporteEstudiante
      * @return Booleano que indica si se pudo eliminar la fila especificada de la tabla ReporteEstudiante con éxito
      * @throws java.sql.SQLException
