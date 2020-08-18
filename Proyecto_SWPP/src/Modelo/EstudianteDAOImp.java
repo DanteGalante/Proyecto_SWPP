@@ -125,7 +125,6 @@ public class EstudianteDAOImp implements EstudianteDAO{
                     );
                 }
             }
-            rs.close();
             conexBD.close();
             return estudiante;
         } catch (SQLException ex) {
