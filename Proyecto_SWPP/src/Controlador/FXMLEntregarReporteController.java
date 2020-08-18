@@ -7,8 +7,6 @@ UNIVERSIDAD VERACRUZANA
 package Controlador;
 
 import static Controlador.FXMLEntregarReporteController.establecerFecha;
-import Modelo.DocumentoRequeridoDAOImp;
-import Modelo.DocumentoRequeridoVO;
 import Modelo.EstudianteDAOImp;
 import Modelo.EstudianteVO;
 import Modelo.ExpedienteDAOImp;
@@ -20,6 +18,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,7 +140,19 @@ public class FXMLEntregarReporteController implements Initializable {
     **/
     @FXML
     private void clicGuardarReporte(ActionEvent event) {
-        guardarReporte();
+        //String reporte = tfTipoReporte.getText();
+        if(tfTipoReporte.getText().length()==0){
+            Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo String en el campo de Tipo Reporte", ButtonType.OK);
+            alert.setHeaderText(null);
+            alert.showAndWait();
+        }else{
+            if(verificarCampoHorasReportadas() == true){
+                    boolean opcion = mostrarVentanaDeConfirmacion("¿Seguro que quieres continuar?");
+                if(opcion ==true){
+                    guardarReporte();
+                }
+            }
+        }
     }
     
     /**
@@ -153,7 +164,10 @@ public class FXMLEntregarReporteController implements Initializable {
         salirDeEntregarReporte();
     }
     
-            public void salirDeEntregarReporte(){
+    /**
+    *   Metodo encargado de salir del la ventana FXMLEntregarReporteControlller para volver al menu de inicio
+    */
+    public void salirDeEntregarReporte(){
         try {
             ocultarVentanaActual();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FXMLInicio.fxml"));
@@ -170,7 +184,7 @@ public class FXMLEntregarReporteController implements Initializable {
     }
             
     /**
-     * Metodo encargado de ocultar la ventana actual para asi poder pasar a otra escen
+     * Metodo encargado de ocultar la ventana actual para asi poder pasar a otra escena
      */
     public void ocultarVentanaActual(){
         Stage stageActual = (Stage)tfTipoReporte.getScene().getWindow();
@@ -178,98 +192,86 @@ public class FXMLEntregarReporteController implements Initializable {
     }
     
     /**
-     * Acciones que realiza el boton "Guardar" cuando se le da clic
-     */
-    
-    
-    
+    * METODO ENCARGADO DE GUARDAR EL REPORTE DEL ESTUDIANTE
+    */
     private void guardarReporte(){
-        
-        //verificarCampoTipoReporte();
-        verificarCampoHorasReportadas();
-        
+    
         try {
             ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
             horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
-            String nombreProyecto = horasAcumEstudiante.getNombreProyectoVinculado();
+            String nombreDeProyecto = horasAcumEstudiante.getNombreProyectoVinculado();
             int totalDeHoras = Integer.parseInt(tfHoras.getText());
             String tipoReporte = tfTipoReporte.getText();
             String matriculaEstudianteExpediente = lbMatricula.getText();
+            String periodo = lbPeriodo.getText();
+            String cedulaDeDocente = horasAcumEstudiante.getCedulaDocenteVinculado();
             
+            int numeroArchivosParcial = horasAcumEstudiante.getNumeroArchivos();
+            int horasEnExpediente = horasAcumEstudiante.getNumHrsTotales();
+            int totalDeHorasActualizado = horasEnExpediente + totalDeHoras;
+            int numeroArchivosActualizado = numeroArchivosParcial + 1;
             
-            /*
-            DocumentoRequeridoDAOImp DocumentoRequeridoDAO = new DocumentoRequeridoDAOImp();
-            String tituloReporte = "Reporte Estudiante";
-            String descripcionReporte = lbFecha.getText();
+            boolean resultadoReporte, resultadoExpediente; 
             
-            */
-            
-            boolean resultadoReporte;
-                       
-            //DocumentoRequeridoVO documentoReporte = new DocumentoRequeridoVO(0, tituloReporte,  descripcionReporte, lbMatricula.getText(),  nombreProyecto);
-            //resultadoDocumento = DocumentoRequeridoDAO.create(documentoReporte);
-            //Preguntamos por el id del ultimo documento entregado    
+            /**
+             * Se crea un objeto de tipo ExpedienteVO para 
+             */
+            ExpedienteVO expedienteNuevo = new ExpedienteVO(matriculaEstudianteExpediente, nombreDeProyecto, periodo, numeroArchivosParcial, horasEnExpediente,cedulaDeDocente);
             
             ReporteEstudianteDAOImp reporteEstudianteDAO = new ReporteEstudianteDAOImp();
-            ReporteEstudianteVO reporteEstudiante = new ReporteEstudianteVO(0, totalDeHoras, tipoReporte, matriculaEstudianteExpediente, nombreProyecto);
-            resultadoReporte = reporteEstudianteDAO.create(reporteEstudiante);
-            
-            
-            
-            //Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor valido", ButtonType.OK);
-            //alert.showAndWait();
+            nuevoReporte = new ReporteEstudianteVO(0, totalDeHoras, tipoReporte, matriculaEstudianteExpediente, nombreDeProyecto);
+            resultadoReporte = reporteEstudianteDAO.create(nuevoReporte);
+            resultadoExpediente = expedienteDAO.update(matriculaEstudianteExpediente, numeroArchivosActualizado, totalDeHorasActualizado, nombreDeProyecto, horasAcumEstudiante);
+            if(resultadoReporte = true) {
+                
+                Alert alert = new Alert(AlertType.INFORMATION, "Se ha registrado el reporte con exito", ButtonType.OK);
+                alert.setHeaderText(null);
+                alert.showAndWait();
+             
+                salirDeEntregarReporte();               
+            } 
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);    
         }
     }
-
-    private boolean verificarCampoHorasReportadas() {
-        
+    
+    /*
+    *SE ENCARGA DE VERIFICAR QUE EL CAMPO DE HORAS SOLO TENGA UN NUMERO ENTERO
+    */
+    private boolean verificarCampoHorasReportadas() {     
         //Contiene el resultado de la comprobacion del TextField "tfHoras" 
-        boolean resultado;
+        boolean resultado = false;
         
-        //Preguntamos si el TextField es diferente de nulo
+        //Preguntamos si el TextField es diferente de nulo o si es un numero entero
         if(tfHoras.getText() != null){
             try {
                 Integer.parseInt(tfHoras.getText());
-                resultado = true;
+                resultado = true;            
             } catch (NumberFormatException excepcion) {
                 Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo entero en el campo de Horas Reportadas", ButtonType.OK);
                 alert.setHeaderText(null);
                 alert.showAndWait();
                 resultado = false;
-            }
-        
-        }else{
-            Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor en el campo de Horas Reportadas", ButtonType.OK);
-            alert.setHeaderText(null);
-            alert.showAndWait();
-            resultado = false;
-            
+            }        
         }
         return resultado;
-    }
-    /*
-    private boolean verificarCampoTipoReporte() {
-        
-        boolean resultado2;
-        //Preguntamos si el TextFiled es diferente de nulo
-        if(tfTipoReporte.getText() != null){
-            try {
-                Integer.parseInt(tfHoras.getText());
-                resultado2 = true;
-      
-                Alert alert = new Alert(AlertType.ERROR, "Ingrese un valor de tipo String en el campo de Tipo Reporte", ButtonType.OK);
-                alert.setHeaderText(null);
-                alert.showAndWait();
-                resultado2 = false;
-            }
-                resultado2 = true;
-        }
-        return resultado2;                
-    }   
+    }                     
+    
+    /**
+    *Metodo que muetsra una ventana de confirmacion, recibe un texto que muestra en un alert de CONFIRMATION
     */
-      
-        
+    private Boolean mostrarVentanaDeConfirmacion(String contenido) {
+    Alert mensajeConfirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+    mensajeConfirmacion.setTitle(null);
+    mensajeConfirmacion.setHeaderText(null);
+    mensajeConfirmacion.setContentText(contenido);
+    Optional<ButtonType> botonPresionado = mensajeConfirmacion.showAndWait();
+    //Si presionan aceptar devuelve true, si presiona cancelar devuelve false
+        if(botonPresionado.get() == ButtonType.OK){
+            return true;
+        }else{
+            return false;
+        }
+    }    
 }
-   
+    
