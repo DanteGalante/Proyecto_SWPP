@@ -35,6 +35,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  * Clave del programa: SWPP<br>
@@ -106,6 +107,9 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        if(listaEstudiantes.size()<1){
+            
+        }
         //Establecemos que valores van a recibir cada columna de la tabla tbEstudiantes
         this.tcMatriculaEstudiante.setCellValueFactory(new PropertyValueFactory("matricula"));
         this.tcNombreEstudiante.setCellValueFactory(new PropertyValueFactory("nombre"));
@@ -209,7 +213,10 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             }
         }
     }
-
+     @FXML
+    private void clicSalir(ActionEvent event) {
+        ocultarVentanaActual();
+    }
     private boolean verificarNumEstudiantesSolicitados(){
         if(proyectoSeleccionadoPAsociar.getPersonasRequeridas() > estudiantesSeleccionadosPAsociar.size()){
             Alert mensajeEmergente = new Alert(Alert.AlertType.ERROR);
@@ -239,11 +246,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         mensajeConfirmacion.setContentText(contenido);
         Optional<ButtonType> botonPresionado = mensajeConfirmacion.showAndWait();
         
-        if(botonPresionado.get() == ButtonType.OK){
-            return true;
-        }else{
-            return false;
-        }
+        return botonPresionado.get() == ButtonType.OK;
     }
     
     private void mostrarVentanaMensaje(String mensaje, Alert.AlertType tipo) {
@@ -279,19 +282,28 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
         
         for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
-            this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
-            ExpedienteVO expedienteNuevo = new ExpedienteVO(
-                this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
-                this.proyectoSeleccionadoPAsociar.getNombreProyecto(),
-                periodoActual,
-                0,
-                0,
-                buscarDocente(this.estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
-            );
-            
-            estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
-            expedienteDAO.create(expedienteNuevo);
+            try {
+                this.estudiantesSeleccionadosPAsociar.get(i).setEstatus("Trabajando");
+                ExpedienteVO expedienteNuevo = new ExpedienteVO(
+                        this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(),
+                        this.proyectoSeleccionadoPAsociar.getNombreProyecto(),
+                        periodoActual,
+                        0,
+                        0,
+                        buscarDocente(this.estudiantesSeleccionadosPAsociar.get(i).getNRC()).getCedulaProfesional()
+                );
+                
+                estudianteDAO.update(this.estudiantesSeleccionadosPAsociar.get(i).getMatricula(), this.estudiantesSeleccionadosPAsociar.get(i));
+                expedienteDAO.create(expedienteNuevo);
+            } catch (Exception ex) {
+                Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
+    }
+
+    public void ocultarVentanaActual(){
+        Stage stageActual = (Stage)this.lbPreferenciaProyectos.getScene().getWindow();
+        stageActual.hide(); 
     }
 }

@@ -29,18 +29,16 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
         ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
         try{
             String insertar = "INSERT INTO Expediente VALUES (?,?,?,?,?,?)";
-            PreparedStatement pst = conexBD.prepareStatement(insertar);
-            
-            pst.setString(1, expediente.getMatriculaEstudianteVinculado());
-            pst.setString(2, expediente.getNombreProyectoVinculado());
-            pst.setString(3, expediente.getPeriodo());
-            pst.setInt(4, expediente.getNumeroArchivos());
-            pst.setInt(5, expediente.getNumHrsTotales());
-            pst.setString(6, expediente.getCedulaDocenteVinculado());
-            
-            conexBD.preparedStatementUpdate(pst);
-            
-            pst.close();
+            try (PreparedStatement pst = conexBD.prepareStatement(insertar)) {
+                pst.setString(1, expediente.getMatriculaEstudianteVinculado());
+                pst.setString(2, expediente.getNombreProyectoVinculado());
+                pst.setString(3, expediente.getPeriodo());
+                pst.setInt(4, expediente.getNumeroArchivos());
+                pst.setInt(5, expediente.getNumHrsTotales());
+                pst.setString(6, expediente.getCedulaDocenteVinculado());
+                
+                conexBD.preparedStatementUpdate(pst);
+            }
             conexBD.close();
             return true;
         }catch(SQLException ex){

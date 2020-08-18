@@ -15,7 +15,7 @@ import javafx.collections.ObservableList;
  * Fecha: 19/07/2020 <br>
  * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla Estudiante
  */
-public interface EstudianteDAO {
+public interface EstudianteDAO{
     /**
      * Crea una fila nueva en la tabla Estudiante
      * @param estudiante Objeto que representa una fila de la tabla Estudiante

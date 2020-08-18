@@ -72,7 +72,7 @@
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="1">
                      <children>
                         <Button mnemonicParsing="false" onAction="#clicAsociar" prefHeight="37.0" prefWidth="92.0" text="Asociar" />
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="84.0" text="Salir" />
+                        <Button mnemonicParsing="false" onAction="#clicSalir" prefHeight="37.0" prefWidth="84.0" text="Salir" />
                      </children>
                   </HBox>
                </children>

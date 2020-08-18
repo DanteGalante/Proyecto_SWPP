@@ -33,14 +33,13 @@ public class FXMLInicioController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    
-    
+    @FXML
     public void clicAsociarProyectoEstudiante(ActionEvent e){
         irVentanaAsociarProyectoEstudiante();
     }
     
     public void irVentanaAsociarProyectoEstudiante(){
         try {
-            ocultarVentanaActual();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FXMLAsociarProyectoEstudiante.fxml"));
             Parent root = (Parent) loader.load();
             
