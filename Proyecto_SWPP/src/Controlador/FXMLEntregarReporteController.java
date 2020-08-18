@@ -170,7 +170,7 @@ public class FXMLEntregarReporteController implements Initializable {
     }
             
     /**
-     * Metodo encargado de ocultar la ventana actual para asi poder pasar a otra escena
+     * Metodo encargado de ocultar la ventana actual para asi poder pasar a otra escen
      */
     public void ocultarVentanaActual(){
         Stage stageActual = (Stage)tfTipoReporte.getScene().getWindow();

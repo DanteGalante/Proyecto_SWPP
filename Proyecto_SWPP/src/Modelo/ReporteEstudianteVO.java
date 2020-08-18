@@ -2,7 +2,7 @@
 ------------------------
 Alan Adair Morgado Morales
 UNIVERSIDAD VERACRUZANA
-------------------------
+-----------------------
  */
 package Modelo;
 
