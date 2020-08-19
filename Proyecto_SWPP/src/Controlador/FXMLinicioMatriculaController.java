@@ -80,6 +80,7 @@ public class FXMLinicioMatriculaController implements Initializable {
             }
         } catch (Exception ex) {
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
+            mensajeNoHayConexionBD();
         }
     }
     
@@ -139,4 +140,10 @@ public class FXMLinicioMatriculaController implements Initializable {
         Stage stageActual = (Stage)tfInicioMatricula.getScene().getWindow();
         stageActual.hide(); 
     }
+    
+    private void mensajeNoHayConexionBD(){            
+        Alert alert = new Alert(AlertType.ERROR, "Lo sentimos en estos momentos no se puede establecer una conexión con la BD, inténtelo más tarde", ButtonType.OK);
+        alert.setHeaderText(null);
+        alert.showAndWait();
+    }    
 }

@@ -1,4 +1,8 @@
 /*
+Clave del programa: SWPP
+Autor: Morgado
+Fecha: 10/08/2020
+Actualizacion: 17/08/2020
 ------------------------
 Alan Adair Morgado Morales
 UNIVERSIDAD VERACRUZANA
@@ -13,11 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: SWPP<br>
- * Autor: Morgado <br>
- * Fecha: 10/08/2020 <br>
- * Actualizacion: 17/08/2020 <br>
- * Descripción: Implementación de la clase DocumentoRequeridoDAO, la cual da acceso a la información de los documentos contenidos en la base de datos
+ * Implementación de la clase DocumentoRequeridoDAO, la cual da acceso a la información de los documentos contenidos en la base de datos
  **/
 public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 

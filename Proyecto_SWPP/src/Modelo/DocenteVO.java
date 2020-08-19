@@ -11,7 +11,10 @@ UNIVERSIDAD VERACRUZANA
 package Modelo;
 
 /**
- * Clase que representa a la tabla Docente de la base de datos
+ * Clase que representa a la tabla Docente de la base de datos <br><br>
+ * 
+ * Esta clase sirve como recipiente para trabajar con la informacion que se recibe de la base de datos y cuenta con todos los atributos
+ * o columnas de la tabla Docente
  */
 public class DocenteVO {
     /**

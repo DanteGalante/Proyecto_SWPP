@@ -1,4 +1,8 @@
 /*
+Clave del programa: SWPP
+Autor: Morgado
+Fecha: 10/08/2020
+Actualizacion: 17/08/2020
 ------------------------
 Alan Adair Morgado Morales
 UNIVERSIDAD VERACRUZANA
@@ -10,11 +14,11 @@ import java.sql.SQLException;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: SWPP<br>
- * Autor: Morgado <br>
- * Fecha: 10/08/2020 <br>
- * Actualizacion: 17/08/2020
- * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla DocumentoRequerido
+ * Interfaz que ofrece operaciones para una clase de acceso a la tabla DocumentoRequerido<br><br>
+ * 
+ * Tiene metodos para crear, borrar, modificar y leer, con ayuda de la clase ConexionBD, informacion de la tabla DocumentoRequerido
+ * en la base de datos
+ * @see Modelo.ConexionBD
  **/
 public interface DocumentoRequeridoDAO {
     /**

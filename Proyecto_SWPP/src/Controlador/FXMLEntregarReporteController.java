@@ -261,6 +261,7 @@ public class FXMLEntregarReporteController implements Initializable {
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);    
         } catch (Exception ex) {
             Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+             mensajeNoHayConexionBD();
         }
     }
     
@@ -318,6 +319,13 @@ public class FXMLEntregarReporteController implements Initializable {
         }else{
             return false;
         }
+    }
+    
+    
+    private void mensajeNoHayConexionBD(){            
+    Alert alert = new Alert(AlertType.ERROR, "En estos momentos no se puede guardar el archivo, error con conexión a la BD, inténtelo más tarde", ButtonType.OK);
+    alert.setHeaderText(null);
+    alert.showAndWait();
     } 
 }
 
