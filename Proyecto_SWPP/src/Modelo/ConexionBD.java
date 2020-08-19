@@ -37,19 +37,19 @@ public class ConexionBD {
     /**
      * Ubicacion de la base de datos
      */
-    private String host;
+    private static String host = "localhost";
     /**
      * Nombre de la base de datos
      */
-    private String db;
+    private static String db = "bd_swpp";
     /**
      * Usuario que usara la base de datos
      */
-    private String username;
+    private static String username = "root";
     /**
      * Contraseña del usuario
      */
-    private String password;
+    private static String password = "JLDI02092102";
     /**
      * Constructor de la clase ConexionBD, donde se establece la conexion con la base de datos
      * @param host Ubicacion de la base de datos
@@ -57,12 +57,9 @@ public class ConexionBD {
      * @param username Usuario que usara la base de datos
      * @param password Contraseña del usuario
      */
-    public ConexionBD(String host, String db, String username, String password){
+    public ConexionBD(){
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";
-        this.host = host;
-        this.db = db;
-        this.username = username;
-        this.password = password;
+
         try{
             conn = DriverManager.getConnection(url, username, password);
         }catch (SQLException e){

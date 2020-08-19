@@ -25,7 +25,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public boolean create(InstitucionVinculadaVO institucionVinculada) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO InstitucionVinculada VALUES (?,?,?,?)";
@@ -48,7 +48,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public ObservableList<InstitucionVinculadaVO> readAll() throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<InstitucionVinculadaVO> listaInstituciones = null;
         try{
             listaInstituciones = FXCollections.observableArrayList();
@@ -78,7 +78,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public InstitucionVinculadaVO read(String nombreInstitucion) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         InstitucionVinculadaVO institucion = null;
         try {
             String consulta = "SELECT * FROM InstitucionVinculada WHERE nombre = ?";
@@ -106,7 +106,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public boolean update(String nombreInstitucion, InstitucionVinculadaVO institucionVinculada) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String actualizacion = "UPDATE InstitucionVinculada SET "
@@ -135,7 +135,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public boolean delete(InstitucionVinculadaVO institucionVinculada) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM InstitucionVinculada WHERE nombre = ?";
@@ -155,7 +155,7 @@ public class InstitucionVinculadaDAOImp implements InstitucionVinculadaDAO{
 
     @Override
     public boolean delete(String nombreInstitucion) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM InstitucionVinculada WHERE nombre = ?";

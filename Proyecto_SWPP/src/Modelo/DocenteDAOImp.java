@@ -24,7 +24,7 @@ import javafx.collections.ObservableList;
 public class DocenteDAOImp implements DocenteDAO{
     @Override
     public boolean create(DocenteVO docente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO Docente VALUES (?,?,?)";
@@ -46,7 +46,7 @@ public class DocenteDAOImp implements DocenteDAO{
 
     @Override
     public ObservableList<DocenteVO> readAll() throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<DocenteVO> listaDocentes = null;
         try{
             listaDocentes = FXCollections.observableArrayList();
@@ -74,7 +74,7 @@ public class DocenteDAOImp implements DocenteDAO{
 
     @Override
     public DocenteVO read(String cedulaProf) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         DocenteVO docente = null;
         try{
             String consulta = "SELECT * FROM Docente WHERE cedulaProfesional = ?";
@@ -100,7 +100,7 @@ public class DocenteDAOImp implements DocenteDAO{
     
     @Override
     public DocenteVO readPorGrupo(String NRC) throws Exception {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         DocenteVO docente = null;
         try{
             String consulta = "SELECT * FROM Docente WHERE GrupoNRC = ?";
@@ -127,7 +127,7 @@ public class DocenteDAOImp implements DocenteDAO{
 
     @Override
     public boolean update(String cedulaProf, DocenteVO docente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE Docente SET "
@@ -154,7 +154,7 @@ public class DocenteDAOImp implements DocenteDAO{
 
     @Override
     public boolean delete(DocenteVO docente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Docente WHERE cedulaProfesional = ?";
@@ -174,7 +174,7 @@ public class DocenteDAOImp implements DocenteDAO{
 
     @Override
     public boolean delete(String cedulaProf) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Docente WHERE cedulaProfesional = ?";

@@ -25,7 +25,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
     
     @Override
     public boolean create(ProyectoVO proyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO Proyecto VALUES (?,?,?,?,?,?,?,?,?,?)";
@@ -54,7 +54,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
 
     @Override
     public ObservableList<ProyectoVO> readAll() throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<ProyectoVO> listaProyectos = null;
         try{
             listaProyectos = FXCollections.observableArrayList();
@@ -90,7 +90,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
     
     @Override
     public ObservableList<ProyectoVO> readAll(String estatus) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<ProyectoVO> listaProyectos = null;
         try{
             listaProyectos = FXCollections.observableArrayList();
@@ -127,7 +127,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
 
     @Override
     public ProyectoVO read(String nomProyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ProyectoVO proyecto = null;
         try{
             String consulta = "SELECT * FROM Proyecto WHERE nombreProyecto = ?";
@@ -160,7 +160,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
 
     @Override
     public boolean update(String nombreProyecto, ProyectoVO proyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE Proyecto SET "
@@ -201,7 +201,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
 
     @Override
     public boolean delete(ProyectoVO proyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Proyecto WHERE nombreProyecto = ?";
@@ -221,7 +221,7 @@ public class ProyectoDAOImp implements ProyectoDAO{
 
     @Override
     public boolean delete(String  nombreProyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Proyecto WHERE nombreProyecto = ?";

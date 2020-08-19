@@ -25,7 +25,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
 
     @Override
     public boolean create(ReporteEstudianteVO reporteEstudiante) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO ReporteEstudiante VALUES (?,?,?,?,?)";
@@ -49,7 +49,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
 
     @Override
     public ObservableList<ReporteEstudianteVO> readAll() throws SQLException {        
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         try{
             ObservableList<ReporteEstudianteVO> listaReportes = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM ReporteEstudiante";
@@ -78,7 +78,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     
     @Override
     public ObservableList<ReporteEstudianteVO> readAll(String matriculaEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         try{
             ObservableList<ReporteEstudianteVO> listaReportesEstudiante = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM ReporteEstudiante WHERE Expediente_Estudiante_matricula = ?";
@@ -107,7 +107,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     
     @Override
     public ReporteEstudianteVO readReporte(String tipoDeReporte, String matriculaEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         try{
             String consulta = "SELECT * FROM ReporteEstudiante WHERE tipoReporte = ? AND Expediente_Estudiante_matricula = ?";
             ReporteEstudianteVO reporteRequerido;
@@ -140,7 +140,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     
     @Override
     public boolean delete(ReporteEstudianteVO reporteEstudiante) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM ReporteEstudiante WHERE Expediente_Estudiante_matricula = ?";
@@ -160,7 +160,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     /*
     @Override
     public boolean update(String tipoDeReporte, ReporteEstudianteVO reporteEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE ReporteEstudiante SET "
@@ -186,7 +186,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     /*
     @Override
     public boolean delete(ReporteEstudianteVO reporteEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM ReporteEstudiante WHERE tipoReporte = ?";
@@ -206,7 +206,7 @@ public class ReporteEstudianteDAOImp implements ReporteEstudianteDAO{
     
     @Override
     public boolean delete(String tipoDeReporte) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM ReporteEstudiante WHERE tipoReporte = ?";

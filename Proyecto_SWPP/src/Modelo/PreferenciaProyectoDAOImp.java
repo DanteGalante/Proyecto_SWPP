@@ -25,7 +25,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public boolean create(PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO PreferenciaProyecto VALUES (?,?,?)";
@@ -47,7 +47,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public ObservableList<PreferenciaProyectoVO> readAll() throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = null;
         try{
             listaPreferenciaProyectos = FXCollections.observableArrayList();
@@ -76,7 +76,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public ObservableList<PreferenciaProyectoVO> readAll(String matriculaEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<PreferenciaProyectoVO> listaPreferenciaProyectos = null;
         try{
             listaPreferenciaProyectos = FXCollections.observableArrayList();
@@ -106,7 +106,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public PreferenciaProyectoVO read(String nombreProyecto, String matriculaEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         PreferenciaProyectoVO preferenciaProyecto = null;
         try{
             String consulta = "SELECT * FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
@@ -134,7 +134,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public boolean update(String nombreProyecto, String matriculaEstudiante, PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE PreferenciaProyecto SET "
@@ -161,7 +161,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public boolean delete(PreferenciaProyectoVO preferenciaProyecto) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
@@ -182,7 +182,7 @@ public class PreferenciaProyectoDAOImp implements PreferenciaProyectoDAO{
 
     @Override
     public boolean delete(String nombreProyecto, String matriculaEstudiante) throws SQLException{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM PreferenciaProyecto WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";

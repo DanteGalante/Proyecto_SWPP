@@ -25,7 +25,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 
     @Override
     public boolean create(DocumentoRequeridoVO documentoRequerido) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO DocumentoRequerido VALUES (?,?,?,?,?)";
@@ -50,7 +50,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 
     @Override
     public ObservableList<DocumentoRequeridoVO> readAll() throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         try{
             ObservableList<DocumentoRequeridoVO> listaDocumentos = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM DocumentoRequerido";
@@ -79,7 +79,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
     
     @Override
     public ObservableList<DocumentoRequeridoVO> readAll(String matriculaEstudiante) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         try{
             ObservableList<DocumentoRequeridoVO> listaDocumentosEstudiante = FXCollections.observableArrayList();
             String consulta = "SELECT * FROM DocumentoRequerido WHERE Expediente_Estudiante_matricula = ?";
@@ -108,7 +108,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 
     @Override
     public DocumentoRequeridoVO readDocumento(String tituloDocumento, String matriculaEstudiante) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         try{
             String consulta = "SELECT * FROM DocumentoRequerido WHERE titulo = ? AND Expediente_Estudiante_matricula = ?";
             DocumentoRequeridoVO documentoRequerido;
@@ -141,7 +141,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 
     @Override
     public boolean update(String tituloDocumento, String descripcionDocumento, DocumentoRequeridoVO documentoRequerido) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE DocumentoRequerido SET "
@@ -171,7 +171,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
     
     @Override
     public boolean delete(DocumentoRequeridoVO documentoRequerido) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM DocumentoRequerido WHERE Expediente_Estudiante_matricula = ?";
@@ -191,7 +191,7 @@ public class DocumentoRequeridoDAOImp implements DocumentoRequeridoDAO{
 
     @Override
     public boolean delete(String matriculaEstudiante, String tituloDocumento) throws SQLException {
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try {
             String borrar = "DELETE FROM DocumentoRequerido WHERE Expediente_Estudiante_matricula = ? AND titulo = ?";

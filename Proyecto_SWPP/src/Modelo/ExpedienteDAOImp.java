@@ -23,7 +23,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public boolean create(ExpedienteVO expediente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String insertar = "INSERT INTO Expediente VALUES (?,?,?,?,?,?)";
@@ -48,7 +48,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public ObservableList<ExpedienteVO> readAll() throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ObservableList<ExpedienteVO> listaExpedientes = null;
         try{
             listaExpedientes = FXCollections.observableArrayList();
@@ -79,7 +79,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public ExpedienteVO read(String nombreProyecto, String matriculaEstudiante) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         ExpedienteVO expediente = null;
         try{
             String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
@@ -109,7 +109,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
      @Override
     public ExpedienteVO readExpedienteMatricula(String matriculaEstudiante) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","0509");
+        ConexionBD conexBD = new ConexionBD();
         ExpedienteVO expediente = null;
         try{
             String consulta = "SELECT * FROM Expediente WHERE estudiante_matricula = ?";
@@ -138,7 +138,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public boolean update(String matriculaEstudiante, String nombreProyecto, ExpedienteVO expediente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String actualizacion = "UPDATE Expediente SET "
@@ -172,7 +172,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public boolean delete(ExpedienteVO expediente) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
@@ -193,7 +193,7 @@ public class ExpedienteDAOImp implements ExpedienteDAO{
 
     @Override
     public boolean delete(String matriculaEstudiante, String nombreProyecto) throws Exception{
-        ConexionBD conexBD = new ConexionBD("localhost","bd_swpp","root","JLDI02092102");
+        ConexionBD conexBD = new ConexionBD();
         boolean resultado = false;
         try{
             String borrar = "DELETE FROM Expediente WHERE estudiante_matricula = ? AND proyecto_nombreProyecto = ?";
