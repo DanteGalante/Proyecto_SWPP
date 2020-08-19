@@ -1,4 +1,7 @@
 /*
+Clave del programa: SWPP
+Autor: olver
+Fecha: 20/07/2020
 ------------------------
 Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
@@ -40,10 +43,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Clave del programa: SWPP<br>
- * Autor: olver <br>
- * Fecha: 20/07/2020 <br>
- * Descripción: Controlador de la pantalla "Asociar proyecto con estudiante"
+ * Controlador de la pantalla "Asociar proyecto con estudiante"
  */
 public class FXMLAsociarProyectoEstudianteController implements Initializable {
     @FXML
@@ -126,6 +126,10 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         tbEstudiantes.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<EstudianteVO>() {
             @Override
             public void changed(ObservableValue observable, EstudianteVO oldValue, EstudianteVO newValue) {
+                if(newValue==null){
+                    newValue = new EstudianteVO("","","","");
+                }
+                System.out.println(newValue.toString());
                 FXMLAsociarProyectoEstudianteController.this.mostrarPreferenciaEstudiante(newValue);
                 FXMLAsociarProyectoEstudianteController.this.seleccionarEstudiante();
             }
@@ -148,7 +152,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             listaEstudiantes = estudianteDAO.readAll("Aprobado");
         } catch (Exception ex) {
             System.out.println("Error al tratar de recuperar a los estudiantes");
-            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Lo sentimos en estos momentos no se puede establecer una conexión con la BD, inténtelo más tarde", Alert.AlertType.ERROR);
             ocultarVentanaActual();
             ex.printStackTrace();
         }
@@ -161,7 +165,7 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
             this.listaProyectos = proyectoDAO.readAll("En espera");
         }catch(Exception ex){
-            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            mostrarVentanaMensaje("ERROR: BASE DE DATOS","Lo sentimos en estos momentos no se puede establecer una conexión con la BD, inténtelo más tarde", Alert.AlertType.ERROR);
             ocultarVentanaActual();
         }
     }
@@ -190,10 +194,11 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
                 proyectosPreferidos = proyectosPreferidos + (i+1) + ": " + listaPreferencias.get(i).getNombreProyectoVinculado() + "\n";
             }
         }catch(NullPointerException ex){
+            this.mostrarVentanaMensaje(null, "Solo se mostrara la preferencia del ultimo seleccionado", Alert.AlertType.ERROR);
             //Si se selecciona más de un estudiante a la vez no puede mostrar los proyectos de todos a la vez y lanza la excepcion NullPointerException
         }catch(SQLException ex){
             ex.printStackTrace();
-            this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Error al tratar de conectar con la base de datos", Alert.AlertType.ERROR);
+            this.mostrarVentanaMensaje("ERROR: BASE DE DATOS","Lo sentimos en estos momentos no se puede establecer una conexión con la BD, inténtelo más tarde", Alert.AlertType.ERROR);
             ocultarVentanaActual();
         }catch(Exception ex){
             ex.printStackTrace();
@@ -220,6 +225,8 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
             ObservableList<EstudianteVO> selectedCells = selectionModel.getSelectedItems();
             
             this.estudiantesSeleccionadosPAsociar = selectedCells;
+        }else{
+            this.estudiantesSeleccionadosPAsociar = null;
         }
     }
     /**
@@ -232,8 +239,10 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
         ProyectoDAOImp proyectoDAO = new ProyectoDAOImp();
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
         
-        if(this.proyectoSeleccionadoPAsociar == null || this.estudiantesSeleccionadosPAsociar == null){
-            mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que no se ha seleccionado al menos 1 proyecto y un estudiante",Alert.AlertType.ERROR);
+        if(this.estudiantesSeleccionadosPAsociar == null){
+            mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que no se ha seleccionado al menos un estudiante",Alert.AlertType.ERROR);
+        }else if(this.proyectoSeleccionadoPAsociar == null){
+            mostrarVentanaMensaje(null,"No se puede realizar la asociación debido a que no se ha seleccionado al menos un proyecto",Alert.AlertType.ERROR);
         }else{
             if(verificarNumEstudiantesSolicitados()){
                 boolean opcion = mostrarVentanaConfirmacion("¿Esta seguro que desea asociar este proyecto a este(os) estudiantes?");
@@ -324,7 +333,11 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
                     this.proyectoSeleccionadoPAsociar.getMesFinalPeriodo() + " " +
                     this.proyectoSeleccionadoPAsociar.getAnioFinalPeriodo();
             
-            this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
+            this.proyectoSeleccionadoPAsociar.setPersonasRequeridas(proyectoSeleccionadoPAsociar.getPersonasRequeridas()-estudiantesSeleccionadosPAsociar.size());
+            
+            if(this.proyectoSeleccionadoPAsociar.getPersonasRequeridas() == 0){
+                this.proyectoSeleccionadoPAsociar.setEstatus("En ejecucion");
+            }
             
             for(int i=0; i<this.estudiantesSeleccionadosPAsociar.size(); i++ ){
                 try{
@@ -346,9 +359,13 @@ public class FXMLAsociarProyectoEstudianteController implements Initializable {
                 }
             }
             proyectoDAO.update(this.proyectoSeleccionadoPAsociar.getNombreProyecto(),this.proyectoSeleccionadoPAsociar);
-        } catch (Exception ex) {
+        }catch(Exception ex){
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        recuperarEstudiantes();
+        recuperarProyectos();
+        mostrarVentana();
     }
     /**
      * Oculta la ventana actual

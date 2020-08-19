@@ -105,17 +105,25 @@ public class FXMLEntregarReporteController implements Initializable {
         lbMatricula.setText(matriculaExportada);
         
         EstudianteDAOImp estudianteDAO = new EstudianteDAOImp();
-        nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
+        try {
+            nombreEstudiante = estudianteDAO.read(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
          /**
         * se establece el nombre del estudiante que ingreso su matricula para iniciar sesion en la etiqueta lbNombre
         **/             
         this.lbNombre.setText(nombreEstudiante.getNombre()); 
         
         ExpedienteDAOImp expedienteDAO = new ExpedienteDAOImp();
-        /**
-        * horasAcumEstudiante recibe un expdiente con la matricula que esta el parametro del metodo readExpdienteMatricula
-        **/
-        horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+        try {
+            /**
+             * horasAcumEstudiante recibe un expdiente con la matricula que esta el parametro del metodo readExpdienteMatricula
+             **/
+            horasAcumEstudiante = expedienteDAO.readExpedienteMatricula(lbMatricula.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /**
         * Guardamos las horas acumuladas del estudiante en la variable horasTotales
         **/
@@ -251,6 +259,8 @@ public class FXMLEntregarReporteController implements Initializable {
             } 
         } catch (SQLException | NumberFormatException ex) {
             Logger.getLogger(FXMLAsociarProyectoEstudianteController.class.getName()).log(Level.SEVERE, null, ex);    
+        } catch (Exception ex) {
+            Logger.getLogger(FXMLEntregarReporteController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

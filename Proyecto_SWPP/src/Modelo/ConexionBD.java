@@ -4,7 +4,7 @@ Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
 ------------------------
  */
-package Controlador;
+package Modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -45,6 +45,10 @@ public class FXMLInicioController implements Initializable {
     public void clicAsociarProyectoEstudiante(ActionEvent e){
         irVentanaAsociarProyectoEstudiante();
     }
+    @FXML
+    public void clicEntregarReporte(ActionEvent e){
+        irVentanaEntregarReporte();
+    }
     /**
      * Inicializa la ventana asociar proyecto con estudiante
      */
@@ -71,6 +75,19 @@ public class FXMLInicioController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
         }  
+    }
+    public void irVentanaEntregarReporte(){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/FXMLinicioMatricula.fxml"));
+            Parent root = (Parent) loader.load();
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle(null);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLInicioController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     /**
      * Oculta la ventana actual

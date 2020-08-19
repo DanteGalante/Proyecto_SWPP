@@ -116,9 +116,9 @@ public class EstudianteDAOImp_Test {
         }
     }
     
-    /*
+    
     @Test
-    public void testDelete(){
+    public void testDelete2(){
         try{
             boolean resultado = estudianteDAO.delete("S18012181");
             estudianteDAO.create(estudiante);
@@ -127,7 +127,7 @@ public class EstudianteDAOImp_Test {
             Logger.getLogger(EstudianteDAOImp_Test.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    */
+    
     @After
     public void despues(){
         try {

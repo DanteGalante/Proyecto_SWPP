@@ -7,7 +7,6 @@ UNIVERSIDAD VERACRUZANA
 
 package Modelo;
 
-import Controlador.ConexionBD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

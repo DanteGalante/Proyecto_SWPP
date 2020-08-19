@@ -36,6 +36,6 @@
             </ImageView>
          </children>
       </GridPane>
-      <Button layoutX="123.0" layoutY="271.0" mnemonicParsing="false" text="Entregar reporte" />
+      <Button layoutX="123.0" layoutY="271.0" mnemonicParsing="false" onAction="#clicEntregarReporte" text="Entregar reporte" />
    </children>
 </AnchorPane>
