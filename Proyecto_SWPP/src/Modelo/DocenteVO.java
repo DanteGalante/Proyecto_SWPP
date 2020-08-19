@@ -1,4 +1,7 @@
 /*
+Clave del programa: SWPP
+Autor: olver
+Fecha: 22/07/2020
 ------------------------
 Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
@@ -8,10 +11,7 @@ UNIVERSIDAD VERACRUZANA
 package Modelo;
 
 /**
- * Clave del programa: SWPP<br>
- * Autor: olver <br>
- * Fecha: 22/07/2020<br>
- * Descripción: Clase que representa a la tabla Docente de la base de datos<br>
+ * Clase que representa a la tabla Docente de la base de datos
  */
 public class DocenteVO {
     /**

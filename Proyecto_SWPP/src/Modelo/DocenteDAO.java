@@ -1,4 +1,7 @@
 /*
+Clave del programa: SWPP
+Autor: olver
+Fecha: 22/07/2020
 ------------------------
 Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
@@ -10,10 +13,10 @@ package Modelo;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: SWPP <br>
- * Autor: olver <br>
- * Fecha: 22/07/2020 <br>
- * Descripción: Interfaz que ofrece operaciones para una clase de acceso a la tabla Docente
+ * Interfaz que ofrece operaciones para una clase de acceso a la tabla Docente<br><br>
+ * 
+ * Tiene metodos para crear, borrar, modificar y leer, con ayuda de la clase ConexionBD, informacion de la tabla Docente en la base de datos
+ * @see Modelo.ConexionBD
  */
 public interface DocenteDAO{
     /**

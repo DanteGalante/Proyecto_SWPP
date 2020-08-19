@@ -1,4 +1,7 @@
 /*
+Clave del programa: SWPP
+Autor: olver
+Fecha: 07/20/2020
 ------------------------
 Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
@@ -11,13 +14,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- * Clave del programa: SWPP <br>
- * Autor: olver <br>
- * Fecha: 07/20/2020 <br>
- * Descripción: Clase que sirve para conectar la base de datos con el sistema
+ * Clase que sirve para conectar la base de datos con el sistema<br><br>
+ * 
+ * Esta clase se encarga de manejar la conexion de la base de datos mediante la librería mysql-connector 8.0.20 <br><br>
+ * ConexionBD permite conectarse a una base de datos, hacer consultas en ella y recibir una respuesta y hacer modificacaciones en las tablas
  */
 public class ConexionBD {
     /**
@@ -61,18 +63,6 @@ public class ConexionBD {
         }catch (SQLException e){
             e.printStackTrace();
         }
-    }
-    /**
-     * Retorna la conexion a la base de datos que proporciona el driver
-     * @return Objeto que representa una conexion entre una base de datos especifica y el sistema
-     */
-    public Connection conectar(){
-        try {
-            return getConn();
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-        return null;
     }
     /**
      * Crea una clase que representa una declaracion de SQL precompilada

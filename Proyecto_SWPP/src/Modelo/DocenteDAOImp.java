@@ -1,4 +1,7 @@
 /*
+Clave del programa: SWPP
+Autor: olver
+Fecha: 22/07/2020
 ------------------------
 Dan Javier Olvera Villeda
 UNIVERSIDAD VERACRUZANA
@@ -14,10 +17,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
- * Clave del programa: <br>
- * Autor: olver <br>
- * Fecha: 22/07/2020 <br>
- * Descripción: Implementación de la clase DocenteDAO, la cual da acceso a la información de los docentes contenidos en la base de datos<br>
+ * Implementación de la clase DocenteDAO, la cual da acceso a la información de los docentes contenidos en la base de datos<br><br>
+ * 
+ * Implementa los metodos de la interfaz DocenteDAO con ayuda de clases pertenecientes a el paquete java.sql
+ * y la clase ConexionBD
+ * @see java.sql.PreparedStatement
+ * @see java.sql.ResultSet
+ * @see java.sql.SQLException
+ * @see Modelo.ConexionBD
  */
 public class DocenteDAOImp implements DocenteDAO{
     @Override
