@@ -52,10 +52,6 @@ public class ConexionBD {
     private static String password = "JLDI02092102";
     /**
      * Constructor de la clase ConexionBD, donde se establece la conexion con la base de datos
-     * @param host Ubicacion de la base de datos
-     * @param db Nombre de la base de datos
-     * @param username Usuario que usara la base de datos
-     * @param password Contraseña del usuario
      */
     public ConexionBD(){
         String url = "jdbc:mysql://" + host + ":"+port+"/" + db + "?useTimezone=true&serverTimezone=UTC";

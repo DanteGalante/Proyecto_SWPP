@@ -43,7 +43,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
- * Controlador de la pantalla "Asociar proyecto con estudiante"
+ * Controlador de la pantalla "Asociar proyecto con estudiante". <br><br>
+ * 
+ * Se encarga de gestionar todas las acciones entre el usuario y el sistema. Muestra todos los valores relacionados con 
+ * la asociacion de proyecto con estudiantes (Estudiantes, proyecto,y la preferencia de proyectos del estudiante) y se 
+ * encarga de guardar la informacion pertinente en la base de datos. <br><br>
+ * 
+ * La clase FXMLAsociarProyectoEstudianteController tiene metodos para recuperar tanto estudiantes como proyectos de
+ * base de datos y mostrarlos en una tabla, mostrar los proyectos de la preferencia del ultimo estudiante seleccionado
+ * , crear y mostrar ventanas emergentes con algún mensaje y asociar el proyecto con uno o varios estudiantes y reflejarlo en la base
+ * de datos
+ * 
  */
 public class FXMLAsociarProyectoEstudianteController implements Initializable {
     @FXML

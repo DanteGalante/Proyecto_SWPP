@@ -1,4 +1,9 @@
 /*
+FXML Controller class
+Clave del programa: SWPP
+Autor: Morgado
+Fecha: 10/08/2020
+Actualizacion: 17/08/2020
 ------------------------
 Alan Adair Morgado Morales
 UNIVERSIDAD VERACRUZANA
@@ -36,12 +41,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * FXML Controller class
- * Clave del programa: SWPP<br>
- * Autor: Morgado <br>
- * Fecha: 10/08/2020 <br>
- * Actualizacion: 17/08/2020 <br>
- * Descripción: Clase que representa al controlador de la ventana FXMLEntregarReporte
+ * Clase que representa al controlador de la ventana FXMLEntregarReporte <br><br>
  **/
 public class FXMLEntregarReporteController implements Initializable {
     
